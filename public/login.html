@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<script>try{var t=localStorage.getItem("im.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Giriş · IM Growth Audit · istanbul.marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="icon" type="image/png" href="/brand/logo-symbol-on-light.png">
+<style>
+:root{--bg:#FFFFFF;--panel:#FFFFFF;--sunk:#F2F2F2;--ink:#07111F;--ink-2:#2F3947;--muted:#5E6673;--faint:#8A909A;--line:#ECEAE5;--line-2:#E1DED8;
+  --accent:#07111F;--ring:rgba(0,0,0,.08);--primary:#07111F;--primary-ink:#FFFFFF;--bad:#D8261B;--bad-soft:#FFEBEB;--warn:#AA4D00;--warn-soft:#FFF4D5;
+  /* Sol bölme her iki temada da koyu kalır */
+  --b-bg:#07111F;--b-panel:#0B1624;--b-line:#14223A;--b-line-2:#223249;--b-ink:#F5F3EF;--b-muted:#9AA3B0;--b-faint:#5E6A7C;--b-bar:#17263C;
+  --sans:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0B1624;--panel:#0B1624;--sunk:#132033;--ink:#F5F3EF;--ink-2:#C7C7C7;--muted:#A1A1A1;--faint:#7C7C7C;--line:#17243A;--line-2:#223249;
+  --accent:#F5F3EF;--ring:rgba(255,255,255,.1);--primary:#F5F3EF;--primary-ink:#07111F;--bad:#FF6166;--bad-soft:#2E0F0F;--warn:#FFB224;--warn-soft:#291D00;--b-bg:#07111F}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0B1624;--panel:#0B1624;--sunk:#132033;--ink:#F5F3EF;--ink-2:#C7C7C7;--muted:#A1A1A1;--faint:#7C7C7C;--line:#17243A;--line-2:#223249;
+  --accent:#F5F3EF;--ring:rgba(255,255,255,.1);--primary:#F5F3EF;--primary-ink:#07111F;--bad:#FF6166;--bad-soft:#2E0F0F;--warn:#FFB224;--warn-soft:#291D00;--b-bg:#07111F}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(460px,1fr);min-height:100%}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* ---------- Sol: marka ve ürün önizlemesi ---------- */
+.brand{background-color:var(--b-bg);background-image:linear-gradient(var(--b-line) 1px,transparent 1px),linear-gradient(90deg,var(--b-line) 1px,transparent 1px);background-size:48px 48px;background-position:-1px -1px;color:var(--b-ink);display:flex;flex-direction:column;padding:32px 48px;min-height:100%;overflow:hidden;border-right:1px solid var(--line)}
+.org{display:flex;align-items:center;gap:10px}
+.logo{width:28px;height:28px;border-radius:50%;background:#EDEDED;color:#000;display:grid;place-items:center;font-weight:600;font-size:11px;letter-spacing:.02em}
+.org b{font-weight:600;font-size:14px}
+.org span{color:var(--b-muted);font-size:13px;margin-left:2px}
+.stage{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:40px 0}
+.intro{max-width:480px;background:var(--b-bg);padding:4px 0}
+.intro h2{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.035em;margin:0 0 10px;text-wrap:balance}
+.intro p{margin:0;color:var(--b-muted);font-size:14.5px;line-height:1.55}
+/* Önizleme: gerçek veri içermez, iskelet çizgilerle arayüzü gösterir */
+.preview{border:1px solid var(--b-line-2);border-radius:12px;background:var(--b-panel);overflow:hidden;max-width:640px;width:100%}
+.pv-top{height:36px;border-bottom:1px solid var(--b-line);display:flex;align-items:center;gap:6px;padding:0 14px}
+.pv-top i{width:9px;height:9px;border-radius:50%;background:var(--b-line-2)}
+.pv-top i:first-child{background:#F04432}
+.pv-top span{margin-left:10px;font-size:11.5px;color:var(--b-muted)}
+.pv-body{display:grid;grid-template-columns:132px 1fr;min-height:270px}
+.pv-side{border-right:1px solid var(--b-line);padding:12px 10px;display:flex;flex-direction:column;gap:6px}
+.pv-nav{display:flex;align-items:center;gap:8px;height:24px;padding:0 8px;border-radius:6px;font-size:11.5px;color:var(--b-muted)}
+.pv-nav.on{background:#1A1A1A;color:var(--b-ink)}
+.pv-nav em{width:6px;height:6px;border-radius:50%;flex:none}
+.pv-sep{height:1px;background:var(--b-line);margin:6px 0}
+.pv-main{padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.pv-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--b-line);border-radius:10px}
+.pv-stats div{padding:9px 10px;border-right:1px solid var(--b-line)}
+.pv-stats div:last-child{border-right:0}
+.pv-stats small{display:block;font-size:10.5px;color:var(--b-muted)}
+.bar{display:block;height:7px;border-radius:4px;background:var(--b-bar)}
+.pv-stats .bar{height:12px;width:55%;margin-top:6px;background:#30343B}
+.pv-pipe{display:flex;gap:2px;height:6px;border-radius:3px;overflow:hidden}
+.pv-table{border:1px solid var(--b-line);border-radius:10px;overflow:hidden}
+.pv-th{background:#000!important;display:grid;grid-template-columns:34px 1.6fr 1fr .9fr;gap:10px;padding:0 12px;height:26px;align-items:center;background:#181A1D;border-bottom:1px solid var(--b-line);font-size:10.5px;color:var(--b-muted)}
+.pv-tr{display:grid;grid-template-columns:34px 1.6fr 1fr .9fr;gap:10px;padding:0 12px;height:34px;align-items:center;border-bottom:1px solid var(--b-line)}
+.pv-tr:last-child{border-bottom:0}
+.pv-tr .sc{height:7px;width:20px;border-radius:4px}
+.pv-tr .st{display:flex;align-items:center;gap:6px}
+.pv-tr .st em{width:6px;height:6px;border-radius:50%;flex:none}
+.caps{background:var(--b-bg);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;max-width:640px;border-top:1px solid var(--b-line)}
+.caps div{padding:14px 16px 0 0}
+.caps b{display:block;font-size:13px;font-weight:500}
+.caps span{display:block;color:var(--b-muted);font-size:12.5px;margin-top:2px;line-height:1.45}
+.b-foot{display:flex;justify-content:space-between;color:var(--b-faint);font-size:12px}
+
+/* ---------- Sağ: giriş ---------- */
+.auth{display:flex;flex-direction:column;padding:28px 40px;min-height:100%}
+.auth-top{display:flex;justify-content:space-between;align-items:center;min-height:32px}
+.auth-top .m-org{display:none;align-items:center;gap:10px}
+.auth-top .m-org .logo{background:var(--primary);color:var(--primary-ink)}
+.auth-top .m-org b{font-weight:600}
+.auth-mid{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 0}
+.form-wrap{width:min(380px,100%)}
+.form-wrap h1{font-size:32px;font-weight:600;letter-spacing:-.045em;margin:0;line-height:1.2}
+.form-wrap .sub{color:var(--muted);margin:6px 0 28px;font-size:14px}
+form{display:flex;flex-direction:column;gap:18px}
+.f{display:flex;flex-direction:column;gap:7px}
+.f .lr{display:flex;justify-content:space-between;align-items:baseline}
+.f label{font-size:13px;font-weight:500;color:var(--ink-2)}
+.f .aux{font-size:12.5px;color:var(--muted)}
+input[type=text],input[type=password],input:not([type]){height:44px;width:100%;border:1px solid var(--line-2);border-radius:6px;background:var(--panel);color:var(--ink);padding:0 12px;font:14px var(--sans);transition:border-color .12s}
+input::placeholder{color:var(--faint)}
+input:focus{border-color:var(--ink);outline:3px solid var(--ring);outline-offset:0}
+input[aria-invalid="true"]{border-color:var(--bad)}
+.pw{position:relative}
+.pw input{padding-right:76px}
+.pw button{position:absolute;right:6px;top:7px;height:30px;padding:0 11px;border:0;background:none;color:var(--muted);font:500 13px var(--sans);border-radius:7px;cursor:pointer}
+.pw button:hover{background:var(--sunk);color:var(--ink)}
+.capsw{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--warn)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.check{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-2);cursor:pointer;user-select:none}
+.check input{appearance:none;width:16px;height:16px;border:1px solid var(--faint);border-radius:4px;background:var(--panel);display:grid;place-items:center;margin:0;cursor:pointer}
+.check input:checked{background:var(--primary);border-color:var(--primary)}
+.check input:checked::after{content:"";width:9px;height:5px;border-left:2px solid var(--primary-ink);border-bottom:2px solid var(--primary-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{font-size:12.5px;color:var(--muted)}
+.submit{height:44px;border:0;border-radius:999px;background:var(--primary);color:var(--primary-ink);font:500 14.5px var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px}
+.submit:hover{opacity:.85}
+.submit:disabled{opacity:.6;cursor:wait}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:s .7s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.err{display:flex;gap:9px;align-items:flex-start;background:var(--bad-soft);color:var(--bad);font-size:13px;padding:11px 12px;border-radius:6px}
+.sec{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.sec div{display:flex;gap:9px;align-items:flex-start;color:var(--muted);font-size:12.5px;line-height:1.45}
+.sec svg{width:14px;height:14px;flex:none;margin-top:2px}
+.auth-foot{display:flex;justify-content:space-between;align-items:center;color:var(--faint);font-size:12.5px;gap:12px;flex-wrap:wrap}
+.auth-foot nav{display:flex;gap:14px}
+.theme{display:inline-flex;border:1px solid var(--line-2);border-radius:999px;padding:2px;gap:2px;background:var(--panel)}
+.theme button{width:30px;height:26px;border:0;background:none;border-radius:999px;display:grid;place-items:center;color:var(--muted);cursor:pointer}
+.theme button:hover{color:var(--ink)}
+.theme button[aria-pressed="true"]{background:var(--sunk);color:var(--ink)}
+.theme svg{width:14px;height:14px}
+@media (max-width:1080px){.caps{grid-template-columns:1fr 1fr}.caps div:nth-child(3){display:none}}
+@media (max-width:960px){
+  body{grid-template-columns:1fr}
+  .brand{display:none}
+  .auth{padding:20px 16px}
+  .auth-top .m-org{display:flex}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.m-org .lg-d{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .m-org .lg-l{display:none}:root:not([data-theme="light"]) .m-org .lg-d{display:inline}}
+:root[data-theme="dark"] .m-org .lg-l{display:none}:root[data-theme="dark"] .m-org .lg-d{display:inline}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"/></symbol>
+  <symbol id="i-sys" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.8 3 3.8v4c0 3 2.2 5.2 5 6.4 2.8-1.2 5-3.4 5-6.4v-4L8 1.8Z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.5 1.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5M8 11h.01"/></symbol>
+  <symbol id="i-up" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 13V3M4 7l4-4 4 4"/></symbol>
+</svg>
+
+<aside class="brand" aria-hidden="true">
+  <div class="org"><img src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing" style="height:20px;width:auto"><span>/ Growth Audit</span></div>
+  <div class="stage">
+    <div class="intro">
+      <h2>Satış ekibinin günlük çalışma alanı</h2>
+      <p>Keşfedilen firmalar, tespit edilen eksikler, hazır iletişim metinleri ve takip takvimi aynı yerde.</p>
+    </div>
+    <div class="preview">
+      <div class="pv-top"><i></i><i></i><i></i><span>Genel bakış</span></div>
+      <div class="pv-body">
+        <div class="pv-side">
+          <div class="pv-nav on"><span class="bar" style="width:10px;height:10px;border-radius:3px;background:#3A3F46"></span>Genel bakış</div>
+          <div class="pv-nav"><span class="bar" style="width:10px;height:10px;border-radius:3px"></span>Firmalar</div>
+          <div class="pv-nav"><span class="bar" style="width:10px;height:10px;border-radius:3px"></span>Takipler</div>
+          <div class="pv-nav"><span class="bar" style="width:10px;height:10px;border-radius:3px"></span>Keşif geçmişi</div>
+          <div class="pv-sep"></div>
+          <div class="pv-nav"><em style="background:#64748B"></em>Yeni</div>
+          <div class="pv-nav"><em style="background:#D9A13B"></em>İletişimde</div>
+          <div class="pv-nav"><em style="background:#F0833A"></em>Cevap verdi</div>
+          <div class="pv-nav"><em style="background:#5B9BF8"></em>Toplantı</div>
+          <div class="pv-nav"><em style="background:#3FB96B"></em>Müşteri</div>
+        </div>
+        <div class="pv-main">
+          <div class="pv-stats">
+            <div><small>Toplam firma</small><span class="bar"></span></div>
+            <div><small>Sıcak fırsat</small><span class="bar" style="width:35%"></span></div>
+            <div><small>Cevap oranı</small><span class="bar" style="width:45%"></span></div>
+            <div><small>Bugünkü takip</small><span class="bar" style="width:30%"></span></div>
+          </div>
+          <div class="pv-pipe"><i style="flex:6;background:#64748B"></i><i style="flex:3;background:#D9A13B"></i><i style="flex:2;background:#F0833A"></i><i style="flex:1.2;background:#5B9BF8"></i><i style="flex:.8;background:#3FB96B"></i></div>
+          <div class="pv-table">
+            <div class="pv-th"><span>Puan</span><span>Firma</span><span>Aksiyon</span><span>Durum</span></div>
+            <div class="pv-tr"><span class="sc" style="background:#F0833A"></span><span class="bar" style="width:78%"></span><span class="bar" style="width:62%"></span><span class="st"><em style="background:#D9A13B"></em><span class="bar" style="width:60%"></span></span></div>
+            <div class="pv-tr"><span class="sc" style="background:#F0833A"></span><span class="bar" style="width:64%"></span><span class="bar" style="width:50%"></span><span class="st"><em style="background:#64748B"></em><span class="bar" style="width:40%"></span></span></div>
+            <div class="pv-tr"><span class="sc" style="background:#D9A13B"></span><span class="bar" style="width:84%"></span><span class="bar" style="width:70%"></span><span class="st"><em style="background:#5B9BF8"></em><span class="bar" style="width:55%"></span></span></div>
+            <div class="pv-tr"><span class="sc" style="background:#D9A13B"></span><span class="bar" style="width:58%"></span><span class="bar" style="width:46%"></span><span class="st"><em style="background:#64748B"></em><span class="bar" style="width:40%"></span></span></div>
+            <div class="pv-tr"><span class="sc" style="background:#3A3F46"></span><span class="bar" style="width:70%"></span><span class="bar" style="width:58%"></span><span class="st"><em style="background:#3FB96B"></em><span class="bar" style="width:50%"></span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caps">
+      <div><b>Keşif</b><span>Her sabah yeni firmalar, doğrulanmış eksikleriyle eklenir.</span></div>
+      <div><b>İletişim</b><span>Firmaya özel mail dizisi, DM ve telefon akışı hazır gelir.</span></div>
+      <div><b>Takip</b><span>Sıradaki adımlar tarihli; her işlem geri alınabilir.</span></div>
+    </div>
+  </div>
+  <div class="b-foot"><span>Strategy. Technology. Growth.</span><span>© 2026 istanbul.marketing</span></div>
+</aside>
+
+<main class="auth">
+  <div class="auth-top">
+    <div class="m-org"><img class="lg-l" src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing" style="height:18px;width:auto"><img class="lg-d" src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing" style="height:18px;width:auto"></div>
+    <span></span>
+    <div class="theme" id="theme" role="group" aria-label="Tema">
+      <button data-theme-set="system" title="Sistem" aria-label="Sistem teması"><svg><use href="#i-sys"/></svg></button>
+      <button data-theme-set="light" title="Açık" aria-label="Açık tema"><svg><use href="#i-sun"/></svg></button>
+      <button data-theme-set="dark" title="Koyu" aria-label="Koyu tema"><svg><use href="#i-moon"/></svg></button>
+    </div>
+  </div>
+  <div class="auth-mid">
+    <div class="form-wrap">
+      <h1>Giriş yap</h1>
+      <p class="sub">istanbul.marketing ekibi için kurumsal büyüme merkezi.</p>
+      <form id="f" novalidate>
+        <div class="f"><label for="u">Kullanıcı adı</label><input id="u" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="kullanici.adi" required></div>
+        <div class="f">
+          <div class="lr"><label for="p">Şifre</label></div>
+          <div class="pw"><input id="p" name="password" type="password" autocomplete="current-password" placeholder="Şifrenizi girin" required><button type="button" id="toggle" aria-label="Şifreyi göster">Göster</button></div>
+          <div class="capsw" id="caps" hidden><svg width="14" height="14"><use href="#i-up"/></svg>Caps Lock açık</div>
+        </div>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="remember" checked>Beni hatırla</label>
+          <span class="hint" id="rememberHint">7 gün açık kalır</span>
+        </div>
+        <div class="err" id="err" role="alert" hidden><svg width="16" height="16" style="flex:none;margin-top:1px"><use href="#i-alert"/></svg><span id="errText"></span></div>
+        <button class="submit" id="b" type="submit">Giriş yap</button>
+      </form>
+      <div class="sec">
+        <div><svg><use href="#i-lock"/></svg>Bağlantı şifrelidir; şifreniz tarayıcıda saklanmaz.</div>
+        <div><svg><use href="#i-shield"/></svg>Yalnızca yetkili istanbul.marketing kullanıcıları içindir.</div>
+        <div><svg><use href="#i-clock"/></svg>Erişim sorunu için sistem yöneticinizle iletişime geçin.</div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-foot"><span>© 2026 istanbul.marketing</span><nav><a href="https://www.istanbul.marketing" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">istanbul.marketing</a><span>Türkçe</span></nav></div>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+function applyTheme(t){const r=document.documentElement;if(t==="light"||t==="dark")r.dataset.theme=t;else delete r.dataset.theme;
+  try{t==="system"?localStorage.removeItem("im.theme"):localStorage.setItem("im.theme",t)}catch{}
+  document.querySelectorAll("[data-theme-set]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.themeSet===t))}
+applyTheme(document.documentElement.dataset.theme||"system");
+$("theme").addEventListener("click",e=>{const b=e.target.closest("[data-theme-set]");if(b)applyTheme(b.dataset.themeSet)});
+try{const u=localStorage.getItem("im.user");if(u){$("u").value=u;$("p").focus()}else $("u").focus()}catch{$("u").focus()}
+$("toggle").onclick=()=>{const p=$("p"),show=p.type==="password";p.type=show?"text":"password";$("toggle").textContent=show?"Gizle":"Göster";p.focus()};
+$("p").addEventListener("keyup",e=>{if(e.getModifierState)$("caps").hidden=!e.getModifierState("CapsLock")});
+$("p").addEventListener("blur",()=>$("caps").hidden=true);
+$("remember").addEventListener("change",e=>$("rememberHint").textContent=e.target.checked?"7 gün açık kalır":"Tarayıcı kapanınca biter");
+["u","p"].forEach(id=>$(id).addEventListener("input",()=>{$(id).removeAttribute("aria-invalid");$("err").hidden=true}));
+const showErr=(m,field)=>{$("errText").textContent=m;$("err").hidden=false;if(field){$(field).setAttribute("aria-invalid","true");$(field).focus()}};
+$("f").addEventListener("submit",async e=>{
+  e.preventDefault();const b=$("b"),u=$("u").value.trim(),p=$("p").value,remember=$("remember").checked;
+  if(!u){showErr("Kullanıcı adını girin.","u");return}
+  if(!p){showErr("Şifrenizi girin.","p");return}
+  b.disabled=true;b.innerHTML='<span class="spin"></span>Doğrulanıyor';$("err").hidden=true;
+  try{
+    const r=await fetch("/api/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p,remember})});
+    if(r.ok){try{remember?localStorage.setItem("im.user",u):localStorage.removeItem("im.user")}catch{}b.innerHTML='<span class="spin"></span>Yönlendiriliyor';location.href="/";return}
+    showErr((await r.json().catch(()=>({}))).error||"Giriş yapılamadı.","p");$("p").select();
+  }catch{showErr("Sunucuya ulaşılamadı. Bağlantınızı kontrol edin.")}
+  b.disabled=false;b.textContent="Giriş yap";
+});
+</script>
+</body>
+</html>

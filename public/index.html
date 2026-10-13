@@ -1,0 +1,1471 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<script>try{var t=localStorage.getItem("im.theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f5f3ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+<title>IM Growth Audit · istanbul.marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f3ef;--surface:#fff;--surface-2:#faf9f6;--ink:#07111f;--muted:#5d6470;--subtle:#8a909a;
+  --line:#e6e2da;--line-2:#d8d3c9;--accent:#f04432;--accent-ink:#fff;
+  --good:#1f8a4c;--good-bg:#e7f4ec;--warn:#b26a00;--warn-bg:#fdf1dc;--bad:#c2341f;--bad-bg:#fde9e5;
+  
+  --r:14px;--gut:16px;
+}
+:root{color-scheme:light}
+:root[data-theme="dark"]{
+  --bg:#0b1220;--surface:#111a2b;--surface-2:#0f1726;--ink:#eef1f5;--muted:#a3abb8;--subtle:#7d8696;
+  --line:#1f2a3d;--line-2:#2a364b;--good:#4cc283;--good-bg:#11291e;--warn:#e6a23c;--warn-bg:#2b2112;--bad:#ff7a66;--bad-bg:#33171a;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0b1220;--surface:#111a2b;--surface-2:#0f1726;--ink:#eef1f5;--muted:#a3abb8;--subtle:#7d8696;
+  --line:#1f2a3d;--line-2:#2a364b;--good:#4cc283;--good-bg:#11291e;--warn:#e6a23c;--warn-bg:#2b2112;--bad:#ff7a66;--bad-bg:#33171a;
+  color-scheme:dark;
+}}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100dvh}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gut)}
+@media(min-width:768px){:root{--gut:28px}}
+
+/* header */
+header.top{position:relative;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:12px}
+.hd-r{align-items:center;gap:10px;justify-self:end}
+@media(min-width:900px){.hd-r.only-d{display:flex}}
+.hd-l{justify-self:start}
+.topnav{justify-self:center}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{height:20px;width:auto}
+.brand .logo-dark{display:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand .logo-light{display:none}:root:not([data-theme="light"]) .brand .logo-dark{display:block}}
+:root[data-theme="dark"] .brand .logo-light{display:none}:root[data-theme="dark"] .brand .logo-dark{display:block}
+.brand span{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap;padding-left:10px;border-left:1px solid var(--line-2)}
+.icon-btn{display:inline-grid;place-items:center;height:40px;min-width:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:13.5px;font-weight:600;cursor:pointer;gap:6px;grid-auto-flow:column}
+.icon-btn:hover{border-color:var(--line-2)}
+.icon-btn svg{width:18px;height:18px}
+#close,.menu-btn{background:none;border-color:transparent;padding:0;width:40px;color:var(--ink)}
+#close:hover,.menu-btn:hover{background:none;border-color:transparent;opacity:.65}
+#close svg,.menu-btn svg{width:22px;height:22px}
+
+/* page head + toolbar */
+.head{padding:28px 0 16px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.head h1{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.head p{margin-top:6px;color:var(--muted);font-size:14px}
+@media(min-width:768px){.head h1{font-size:32px}}
+.toolbar{position:static;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid transparent}
+.toolbar.stuck{border-bottom-color:var(--line)}
+.tb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.search{grid-column:1/-1;position:relative}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--subtle);pointer-events:none}
+.field{width:100%;height:44px;border-radius:11px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:15px;outline:none;transition:border-color .15s}
+.field:focus{border-color:var(--ink);outline:3px solid color-mix(in srgb,var(--ink) 14%,transparent);outline-offset:0}
+.search .field{padding-left:40px}
+select.field{appearance:none;-webkit-appearance:none;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a909a' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;text-overflow:ellipsis}
+select.field.on{border-color:var(--ink);font-weight:600}
+@media(min-width:900px){.tb{grid-template-columns:minmax(220px,1.6fr) repeat(4,minmax(0,1fr))}.search{grid-column:auto}}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;font-size:13.5px;color:var(--muted);min-height:24px}
+.meta b{color:var(--ink)}
+.link-btn{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:13.5px;padding:4px 0}
+
+/* list */
+.list{display:grid;gap:10px;padding:6px 0 48px}
+.row{display:grid;grid-template-columns:auto 1fr;gap:12px 14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;cursor:pointer;text-align:left;width:100%;transition:border-color .15s,transform .15s}
+.row:hover{border-color:var(--line-2)}
+.row:active{transform:scale(.995)}
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.score{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:16px;letter-spacing:-.02em;flex:none}
+.s-hi{background:var(--good-bg);color:var(--good)}.s-md{background:var(--warn-bg);color:var(--warn)}.s-lo{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.r-main{min-width:0}
+.r-name{font-weight:700;font-size:15.5px;letter-spacing:-.01em;line-height:1.3;overflow-wrap:anywhere}
+.r-sub{margin-top:3px;color:var(--muted);font-size:13.5px;overflow-wrap:anywhere}
+.r-cap{grid-column:2;margin-top:-4px;font-size:13px;color:var(--ink);opacity:.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.r-foot{grid-column:1/-1;padding-top:2px;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.web-yok{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.tag.web-zayif{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.web-iyi{background:var(--good-bg);color:var(--good);border-color:transparent}
+.ch{display:inline-flex;gap:4px;margin-left:auto}
+.ch i{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line);color:var(--subtle)}
+.ch i.on{color:var(--ink)}
+.ch svg{width:15px;height:15px}
+@media(min-width:900px){
+  .row{grid-template-columns:44px minmax(0,1.5fr) minmax(0,1.4fr) auto;align-items:center;padding:14px 18px}
+  .r-cap{grid-column:auto;margin-top:0;-webkit-line-clamp:2}
+  .r-foot{grid-column:auto;flex-wrap:nowrap}
+  .r-foot .tag.svc{display:none}
+}
+.empty{text-align:center;padding:64px 16px;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:16px;margin-bottom:6px}
+.skeleton{height:84px;border-radius:var(--r);background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:sh 1.2s infinite;border:1px solid var(--line)}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* detail sheet */
+.scrim{position:fixed;inset:0;background:rgba(7,17,31,.38);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;z-index:50;background:var(--bg);display:flex;flex-direction:column;inset:0;transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+.sheet.on{transform:none;visibility:visible}
+@media(min-width:900px){.sheet{inset:0 0 0 auto;width:560px;border-left:1px solid var(--line);transform:translateX(100%)}}
+.sh-top{display:flex;align-items:center;gap:10px;padding:calc(10px + env(safe-area-inset-top)) var(--gut) 10px;border-bottom:1px solid var(--line);background:var(--bg)}
+.sh-top .t{flex:1;min-width:0;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:20px var(--gut) calc(32px + env(safe-area-inset-bottom))}
+.d-head{display:flex;gap:14px;align-items:flex-start}
+.d-head h2{font-size:22px;font-weight:800;letter-spacing:-.025em;line-height:1.2;overflow-wrap:anywhere}
+.d-head p{color:var(--muted);font-size:14px;margin-top:4px}
+.d-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.flags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.flag{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 10px;border-radius:999px;border:1px solid transparent;font-weight:700;font-size:13.5px;letter-spacing:-.005em}
+.flag svg{flex:none}
+.flag.bad{background:var(--bad-bg);color:var(--bad)}
+.flag.ok{background:var(--good-bg);color:var(--good)}
+.flag.warn{background:var(--warn-bg);color:var(--warn)}
+.flag.unk{background:var(--surface-2);color:var(--muted);border-color:var(--line);font-weight:600}
+.acts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:68px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:12px;font-weight:600;text-align:center;padding:8px 4px;cursor:pointer}
+.act svg{width:20px;height:20px}
+.act.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.act[aria-disabled="true"]{opacity:.35;pointer-events:none}
+.sec{margin-top:26px}
+.sec h3{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);margin-bottom:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.kv{display:grid;grid-template-columns:110px 1fr;gap:10px 12px;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{overflow-wrap:anywhere;min-width:0}
+.kv a{text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
+.issues{display:grid;gap:10px;font-size:14px}
+.issues li{list-style:none;display:grid;grid-template-columns:8px 1fr;gap:10px;align-items:start}
+.issues li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:8px}
+.pitch{font-size:14.5px;line-height:1.55}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+@media(max-width:520px){.tabs{display:grid;grid-template-columns:1fr 1fr}.tabs button{flex:none}}
+.tabs button{flex:1 0 auto;white-space:nowrap;height:36px;padding:0 10px;letter-spacing:-.01em;border:0;border-radius:9px;background:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);outline:1px solid var(--line-2);outline-offset:-1px}
+.msg{margin-top:10px}
+.msg .subj{font-weight:700;font-size:14px;margin-bottom:8px;overflow-wrap:anywhere}
+.msg textarea.ed{min-height:240px;font-size:14px;line-height:1.6;font-family:inherit;padding:12px 14px;height:auto;resize:vertical;margin-bottom:6px}
+.msg input.field{margin-bottom:8px;font-weight:600}
+.msg .fu+.fu{margin-top:18px}
+.msg pre{white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.msg .fu+.fu{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.msg .day{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.msg-acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:13.5px;cursor:pointer}
+.btn.dark{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn svg{width:16px;height:16px}
+.note{font-size:12.5px;color:var(--subtle);margin-top:22px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;opacity:0;transition:.2s;z-index:60;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.hide-xs{}@media(max-width:420px){.hide-xs{display:none}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---- v3: menü, durum, mobil ---- */
+html{-webkit-tap-highlight-color:transparent}
+button,a,.row{touch-action:manipulation}
+.field{font-size:16px}
+.menu-btn{display:inline-grid}
+@media(min-width:900px){.menu-btn{display:none}}
+.hd-l{display:flex;align-items:center;gap:8px;min-width:0}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:10px calc(var(--gut)*-1) 0;padding:0 var(--gut) 2px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scroll-padding-left:var(--gut)}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;scroll-snap-align:start}
+.chip .n{font-weight:700;color:var(--subtle);font-size:12.5px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip[aria-pressed="true"] .n{color:inherit;opacity:.7}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--subtle)}
+.st-yeni{--c:#8a909a}.st-iletisim{--c:#e0a100}.st-cevap{--c:#f08a24}.st-toplanti{--c:#3b82f6}.st-musteri{--c:#1f8a4c}.st-red{--c:#b0b5bd}
+.dot{background:var(--c,var(--subtle))}
+.tag.stgt{background:color-mix(in srgb,var(--c) 14%,transparent);color:color-mix(in srgb,var(--c) 70%,var(--ink));border-color:transparent}
+.tag.wk{background:var(--surface-2)}
+.only-m{display:flex}.only-d{display:none}
+@media(min-width:900px){.only-m{display:none!important}.only-d{display:grid}}
+@media(max-width:899px){.toolbar{position:static;padding-bottom:4px}.tb{grid-template-columns:1fr auto}.head{padding-top:20px}}
+.fbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 14px;border-radius:11px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
+.fbtn svg{width:18px;height:18px}
+.fbtn .b[hidden]{display:none}
+.fbtn .b{min-width:20px;height:20px;border-radius:10px;background:var(--accent);color:#fff;font-size:11.5px;display:grid;place-items:center;padding:0 5px}
+/* drawer */
+.drawer{position:fixed;z-index:55;top:0;bottom:0;left:0;width:min(88vw,360px);background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(-102%);transition:transform .26s cubic-bezier(.2,.8,.2,1);visibility:hidden;padding-top:env(safe-area-inset-top)}
+.drawer.on{transform:none;visibility:visible}
+.scrim2{position:fixed;inset:0;background:rgba(7,17,31,.42);opacity:0;pointer-events:none;transition:opacity .2s;z-index:54}
+.scrim2.on{opacity:1;pointer-events:auto}
+.dr-h{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 var(--gut);border-bottom:1px solid var(--line)}
+.dr-b{flex:1;overflow-y:auto;padding:16px var(--gut);-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.dr-b h4{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);margin:18px 0 8px}
+.dr-b h4:first-child{margin-top:0}
+.dr-b .field{margin-bottom:8px}
+.dr-st{display:grid;gap:4px}
+.dr-st button{display:flex;align-items:center;gap:10px;height:46px;padding:0 12px;border-radius:11px;border:0;background:none;font-size:15px;font-weight:600;cursor:pointer;text-align:left;width:100%}
+.dr-st button .n{margin-left:auto;color:var(--subtle);font-size:13px}
+.dr-st button[aria-pressed="true"]{background:var(--surface);outline:1px solid var(--line-2);outline-offset:-1px}
+.dr-f{padding:12px var(--gut) calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:8px}
+.btn.block{width:100%;height:46px}
+/* durum bölümü */
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+@media(max-width:560px){.picks{grid-template-columns:1fr}}
+.pickwrap{position:relative;min-width:0}
+.pick{width:100%;display:flex;align-items:center;gap:10px;min-height:58px;padding:8px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:left;color:var(--ink)}
+.pick:hover{border-color:var(--line-2)}
+.pick[aria-expanded="true"]{border-color:var(--ink)}
+.pick .pt{flex:1;min-width:0;display:grid;gap:2px}
+.pick .k{font-size:12px;font-weight:600;color:var(--muted)}
+.pick .v{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pick .v .dot{display:inline-block}
+.pick .chev{flex:none;color:var(--muted);transition:transform .15s}
+.pick[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.pop{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:6px;display:grid;gap:2px}
+.pop .stg,.pop .wkb{width:100%;border:0;background:none;border-radius:10px;min-height:44px}
+.pop .stg:hover,.pop .wkb:hover{background:var(--surface-2)}
+.pop .stg[aria-pressed="true"]{background:color-mix(in srgb,var(--c) 14%,var(--surface))}
+.pop .wkb[aria-pressed="true"]{background:var(--good-bg)}
+.stg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:520px){.stg-grid{grid-template-columns:repeat(3,1fr)}}
+.stg{display:flex;align-items:center;gap:9px;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer;text-align:left}
+.stg[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface))}
+.wk-grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:420px){.wk-grid{grid-template-columns:1fr 1fr}}
+.wkb{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer;text-align:left}
+.wkb .ck{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line-2);display:grid;place-items:center;color:transparent;flex:none}
+.wkb .ck svg{width:14px;height:14px}
+.wkb[aria-pressed="true"]{border-color:var(--good);background:var(--good-bg)}
+.wkb[aria-pressed="true"] .ck{background:var(--good);border-color:var(--good);color:#fff}
+.hist{display:grid;gap:10px;font-size:13.5px}
+.hist li{list-style:none;display:grid;grid-template-columns:78px 1fr;gap:10px;color:var(--muted)}
+.hist li b{color:var(--ink);font-weight:600}
+textarea.field{height:auto;min-height:92px;padding:12px 14px;resize:vertical;line-height:1.5}
+.sv{font-size:12.5px;color:var(--subtle);margin-top:6px;min-height:18px}
+
+/* ---- Google Ads bölümü ---- */
+.topnav{display:none;gap:30px;align-self:stretch;padding:0}
+@media(min-width:900px){.topnav{display:inline-flex}}
+.topnav button,.topnav a{height:100%;padding:0 2px;margin-bottom:-1px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;transition:color .15s,border-color .15s;display:inline-flex;align-items:center}
+.topnav button:hover,.topnav a:hover{color:var(--ink)}
+.topnav button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.cnt{font-style:normal;display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:5px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--muted);vertical-align:1px;letter-spacing:0}
+.topnav button[aria-pressed="true"] .cnt{color:var(--ink)}
+.dr-st button[aria-pressed="true"] .dot{display:none}
+.head .btn{flex:none}
+.cl{display:grid;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;cursor:pointer;text-align:left;width:100%}
+.cl:hover{border-color:var(--line-2)}
+.cl .nm{font-weight:700;font-size:16px;letter-spacing:-.01em;overflow-wrap:anywhere}
+.cl .mt{color:var(--muted);font-size:13px;margin-top:2px}
+.cl .row2{display:flex;flex-wrap:wrap;gap:6px}
+.tag.ok{background:var(--good-bg);color:var(--good);border-color:transparent}
+.tag.wait{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.cl-act{display:flex;gap:8px;flex-wrap:wrap}
+.cl-act .btn{height:38px;font-size:13px}
+.lnk{display:flex;gap:8px;align-items:center;background:var(--surface-2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;font-size:12.5px;word-break:break-all;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+.qa{display:grid;gap:12px}
+.qa div{display:grid;gap:2px}
+.qa dt{font-size:12.5px;color:var(--muted)}
+.qa dd{font-size:14.5px;font-weight:500;white-space:pre-wrap;overflow-wrap:anywhere}
+.qa dd.na{color:var(--subtle);font-weight:400}
+.pe{display:grid;gap:10px}
+.card>.pe{gap:12px}
+.pe .row-c{display:grid;gap:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+.pe label.l{font-size:12.5px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
+.pe .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pe .field{margin:0}
+.pe textarea.field{min-height:72px}
+.cn{font-size:12px;color:var(--subtle);text-align:right;margin-top:3px}
+.cn.over{color:var(--bad);font-weight:700}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calc div{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.calc small{display:block;color:var(--muted);font-size:12px}
+.calc div b{display:block;font-size:19px;letter-spacing:-.02em;margin-top:2px}
+.calc .warn b{color:var(--warn)}
+.pe-bar{position:static;padding:0 0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-2px 0 6px}
+.pe-bar .sv2{font-size:13px;color:var(--subtle)}
+.pe-bar .sv2.err{color:var(--bad);font-weight:600}
+.pe-bar{padding:0 0 16px;margin:0 0 4px;border-bottom:1px solid var(--line)}
+.pe-bar .btn{height:38px;padding:0 16px;font-size:13.5px}
+.plan{gap:0;counter-reset:ps}
+.plan>.sec{margin-top:44px!important}
+.plan>.sec:first-child{margin-top:28px!important}
+.plan>.sec>h3{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:800;letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-bottom:6px;counter-increment:ps}
+.plan>.sec>h3::before{content:counter(ps);flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:12.5px;font-weight:700;letter-spacing:0}
+.plan>.sec>.mini{margin:0 0 14px 40px;line-height:1.5}
+.plan>.sec>h3+.card,.plan>.sec>h3+.row-c{margin-top:16px}
+.plan .card{padding:20px 22px;border-radius:16px}
+.plan .card>.pe{gap:20px}
+.plan .row-c{padding:18px 20px;gap:14px;border-radius:14px}
+.plan .g2,.plan .g3{gap:16px;align-items:end}
+.plan label.l{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.plan .mini{line-height:1.5}
+textarea.field{font-family:inherit;line-height:1.5;padding:11px 14px;height:auto}
+.plan .addb{height:44px;margin-top:4px}
+.addb{height:40px;border-radius:10px;border:1px dashed var(--line-2);background:none;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer;width:100%}
+.rm{height:34px;padding:0 10px;border-radius:9px;border:1px solid var(--line);background:var(--surface);font-size:12.5px;font-weight:600;color:var(--bad);cursor:pointer}
+.ckl{display:grid;gap:8px}
+.mini{font-size:13px;color:var(--muted)}
+.danger{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+.btn.bad{color:var(--bad)}
+select.field.sm{height:40px;font-size:14px}
+.modal{position:fixed;z-index:71;left:50%;top:50%;transform:translate(-50%,-46%) scale(.97);width:min(92vw,400px);background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;opacity:0;pointer-events:none;transition:.18s}
+.modal.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.modal.lf{width:min(94vw,600px);max-height:min(90dvh,820px);overflow-y:auto;padding:0}
+.lf .lf-h{padding:22px 24px 4px}
+.lf .lf-h p{margin-top:6px}
+.lf form{padding:12px 24px 0}
+.lf .lf-g{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.lf .lf-g .w{grid-column:1/-1}
+@media(max-width:560px){.lf .lf-g{grid-template-columns:1fr}}
+.lf label.l{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+.lf label.l small{font-weight:500;color:var(--muted)}
+.lf .field{margin:0}
+.lf textarea.field{height:auto;min-height:84px;padding:11px 14px;line-height:1.5;font-family:inherit;resize:vertical}
+.lf .svc{display:flex;flex-wrap:wrap;gap:8px}
+.lf .svc button{height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:13.5px;cursor:pointer;color:var(--ink)}
+.lf .svc button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lf .lf-err{color:var(--bad);font-size:13px;font-weight:600;min-height:18px;margin-top:12px}
+.lf .lf-f{position:sticky;bottom:0;display:flex;gap:8px;justify-content:flex-end;padding:14px 24px;margin-top:8px;background:var(--surface);border-top:1px solid var(--line)}
+.lf .lf-f .btn{height:44px;min-width:100px}
+.lf-hint{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.45}
+.modal h3{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.modal p{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.5}
+.modal input{margin-top:14px}
+.modal .mb{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.modal .mb .btn{height:44px;min-width:96px}
+
+
+/* ---- gönderim ---- */
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.mstat{display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;justify-content:space-between}
+.mstat b{font-size:20px;letter-spacing:-.02em}.mstat small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.mwarn{border-color:var(--warn);background:var(--warn-bg);color:var(--ink)}
+.mwarn ol{margin:8px 0 0 18px;display:grid;gap:4px;font-size:14px}
+.mwarn code{font-size:12.5px;background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:6px}
+.mtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0 10px}
+.mtools .field{height:40px;width:auto;min-width:130px}
+.mlist{display:grid;gap:8px}
+.mrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.mrow[data-on="true"]{border-color:var(--ink)}
+.mrow .ck2{width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line-2);display:grid;place-items:center;color:transparent;cursor:pointer;background:none;padding:0}
+.mrow[data-on="true"] .ck2{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.mrow .nm{font-weight:700;font-size:14.5px;overflow-wrap:anywhere}
+.mrow .mt{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.mrow .pv{height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--line);background:none;font-weight:600;font-size:13px;cursor:pointer;color:var(--ink)}
+.mbar{position:sticky;bottom:0;z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:14px;padding:12px 0 calc(12px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line)}
+.mprog{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin:12px 0}
+.mprog i{display:block;height:100%;background:var(--ink);width:0;transition:width .3s}
+.mres{display:grid;gap:6px;margin-top:12px;font-size:13.5px}
+.mres .ok{color:var(--good)}.mres .er{color:var(--bad)}
+.mlog{display:grid;gap:0}.mlog>div{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.mlog>div:last-child{border-bottom:0}.mlog time{color:var(--muted);white-space:nowrap}
+@media(max-width:560px){.mrow{grid-template-columns:auto 1fr}.mrow .pv{grid-column:1/-1}}
+
+
+/* ---- aranacaklar ---- */
+.crow{display:grid;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.crow+.crow{margin-top:10px}
+.crow .top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.crow .nm{font-weight:700;font-size:15.5px;overflow-wrap:anywhere}
+.crow .mt{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.crow .ph{font-size:18px;font-weight:800;letter-spacing:-.01em}
+.crow .acts2{display:flex;flex-wrap:wrap;gap:8px}
+.crow .acts2 .btn{height:40px;font-size:13.5px}
+.crow textarea.field{height:auto;min-height:56px;padding:9px 12px;font-family:inherit;line-height:1.45;font-size:14px}
+.cn2{width:28px;height:28px;flex:none;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font-size:12.5px;font-weight:700;color:var(--muted)}
+.act[aria-pressed="true"]{border-color:var(--ink)}
+
+
+.callh{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle);margin:22px 0 10px}
+.callh span{background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:1px 9px;font-size:12px;letter-spacing:0}
+.crow .foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--line)}
+.crow .foot .btn{height:38px;font-size:13.5px;gap:6px}
+.crow .foot .chev{transition:transform .15s}
+.crow .foot [aria-expanded="true"] .chev{transform:rotate(180deg)}
+.lnk{background:none;border:0;height:36px;padding:0 10px;border-radius:8px;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer}
+.lnk:hover{background:var(--surface-2);color:var(--ink)}.lnk.bad:hover{color:var(--bad)}
+.pop .opt{display:grid;gap:1px;width:100%;text-align:left;border:0;background:none;padding:9px 12px;border-radius:10px;cursor:pointer;color:var(--ink)}
+.pop .opt b{font-size:14px;font-weight:700}.pop .opt small{font-size:12.5px;color:var(--muted)}
+.pop .opt:hover{background:var(--surface-2)}
+.dayl{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted)}
+.dayl .field{height:40px;width:auto;font-size:14px;padding:0 10px}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;margin-top:16px}
+@media(max-width:760px){.cgrid{grid-template-columns:1fr}}
+.cgrid h4{font-size:13px;font-weight:800;margin-bottom:6px}
+.cst{width:100%;border-collapse:collapse;font-size:13.5px}
+.cst th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:4px 6px 6px 0;border-bottom:1px solid var(--line)}
+.cst td{padding:6px 6px 6px 0;border-bottom:1px solid var(--line)}.cst th:not(:first-child),.cst td:not(:first-child){text-align:right}
+
+/* ---- tema anahtarı ---- */
+.themeseg{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px}
+.themeseg button{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:32px;min-width:34px;padding:0 9px;border:0;border-radius:8px;background:none;color:var(--muted);font-weight:600;font-size:13.5px;cursor:pointer}
+.themeseg button svg{width:16px;height:16px}
+.themeseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);outline:1px solid var(--line-2);outline-offset:-1px}
+.themeseg.wide{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+.themeseg.wide button{height:42px}
+/* ---- geniş detay paneli ---- */
+@media(min-width:900px){
+  .sheet{width:min(980px,74vw)!important}
+  .sh-top,.sh-body{padding-left:36px;padding-right:36px}
+  .sh-body>*{max-width:860px;margin-left:auto;margin-right:auto}
+  .sheet .sh-top .t{font-size:16px}
+}
+.link-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.link-row .u{flex:1 1 280px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:var(--muted)}
+.link-row .btns{display:flex;gap:8px;flex-wrap:wrap}
+.link-row .btn{height:40px}
+.ans{display:grid;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ans-h{padding:12px 18px;background:var(--surface-2);border-bottom:1px solid var(--line);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--subtle)}
+.ans-g{display:grid;grid-template-columns:1fr}
+@media(min-width:700px){.ans-g{grid-template-columns:1fr 1fr}}
+.ans-i{padding:14px 18px;border-bottom:1px solid var(--line);min-width:0}
+@media(min-width:700px){.ans-i:nth-child(odd){border-right:1px solid var(--line)}.ans-i.full{grid-column:1/-1;border-right:0}}
+.ans-i dt{font-size:12.5px;color:var(--muted);line-height:1.35}
+.ans-i dd{margin-top:3px;font-size:15px;font-weight:500;white-space:pre-wrap;overflow-wrap:anywhere}
+.ans-i dd.na{color:var(--subtle);font-weight:400}
+.ans-sec+.ans-sec{border-top:0}
+.ans .ans-sec:last-child .ans-i:last-child{border-bottom:0}
+.pe .g3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(min-width:900px){.pe .g3{grid-template-columns:repeat(3,1fr)}.calc{grid-template-columns:repeat(4,1fr)}.ckl{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.pe .g2.wide3{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.6-4.7A8.5 8.5 0 1 1 7.8 19.5z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1.2-1.2-2-1-1 .8a4.5 4.5 0 0 1-2.3-2.3l.8-1-1-2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"/></symbol>
+  <symbol id="i-sys" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+</svg>
+
+<header class="top"><div class="wrap">
+  <div class="hd-l">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menüyü aç" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
+  <a class="brand" href="/" aria-label="IM Growth Audit">
+    <img class="logo-light" src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing">
+    <img class="logo-dark" src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing">
+    <span>Growth Audit</span>
+  </a>
+  </div>
+  <nav class="topnav only-d" id="topnav" aria-label="Bölümler"><button data-view="firmalar">Firmalar</button><a href="/crm">Müşteriler</a><button data-view="ads">Google Ads</button><button data-view="mail">Gönderim</button><button data-view="calls">Aranacaklar</button></nav>
+  <div class="hd-r only-d"><div class="themeseg" role="group" aria-label="Görünüm"><button data-theme-set="system" title="Sistem" aria-label="Sistem teması"><svg><use href="#i-sys"/></svg></button><button data-theme-set="light" title="Açık" aria-label="Açık tema"><svg><use href="#i-sun"/></svg></button><button data-theme-set="dark" title="Koyu" aria-label="Koyu tema"><svg><use href="#i-moon"/></svg></button></div>
+  <button class="icon-btn" id="logout" aria-label="Çıkış yap"><svg><use href="#i-out"/></svg><span class="hide-xs">Çıkış</span></button></div>
+</div></header>
+
+<main class="wrap">
+  <div id="viewFirms">
+  <div class="head"><div><h1>Bulunan firmalar</h1><p id="sub">Yükleniyor…</p></div><button class="btn dark" id="addLead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Firma ekle</button></div>
+  <div class="toolbar" id="toolbar">
+    <div class="tb">
+      <label class="search"><span class="sr">Ara</span><svg><use href="#i-search"/></svg><input class="field" id="q" type="search" placeholder="Firma, ilçe, sektör ara" autocomplete="off" enterkeyhint="search"></label>
+      <button class="fbtn only-m" id="openFilters" aria-label="Filtreler"><svg><use href="#i-filter"/></svg>Filtre<span class="b" id="fBadge" hidden></span></button>
+      <select class="field only-d" data-f="city" aria-label="Şehir"></select>
+      <select class="field only-d" data-f="sector" aria-label="Sektör"></select>
+      <select class="field only-d" data-f="service" aria-label="Hizmet"></select>
+      <select class="field only-d" data-f="work" aria-label="Yapılan işlem"></select>
+    </div>
+    <div class="chips" id="stageChips" role="group" aria-label="Durum"></div>
+    <div class="meta"><span id="count"></span><span style="display:flex;gap:14px;align-items:center"><select class="field only-d" data-f="sort" aria-label="Sıralama" style="width:auto;height:34px;font-size:13.5px"></select><button class="link-btn" id="clear" hidden>Filtreleri temizle</button></span></div>
+  </div>
+  <div class="list" id="list" aria-live="polite">
+    <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+  </div>
+  </div>
+  <div id="viewCalls" hidden>
+    <div class="head"><div><h1>Aranacaklar</h1><p id="callSub">Yükleniyor…</p></div></div>
+    <div class="mcard"><label class="l" for="callQ" style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">Listeye firma ekle</label><input class="field" id="callQ" type="search" placeholder="Firma adı, sektör ya da şehir yazın" autocomplete="off"><div class="mlist" id="callRes" style="margin-top:10px"></div></div>
+    <div id="callList" style="margin-top:16px"></div>
+    <div id="callStats" style="margin-top:22px"></div>
+  </div>
+  <div id="viewMail" hidden>
+    <div class="head"><div><h1>Gönderim</h1><p id="mailSub">Yükleniyor…</p></div></div>
+    <div id="mailBody"></div>
+  </div>
+  <div id="viewAds" hidden>
+    <div class="head"><div><h1>Google Ads</h1><p id="adsSub">Başlangıç formu ve kampanya planı</p></div><button class="btn dark" id="adsNew">+ Yeni müşteri</button></div>
+    <div class="list" id="adsList" aria-live="polite"></div>
+  </div>
+</main>
+
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <div class="sh-top">
+    <button class="icon-btn" id="close" aria-label="Kapat"><svg><use href="#i-back"/></svg></button>
+    <div class="t" id="dTop"></div>
+  </div>
+  <div class="sh-body" id="dBody"></div>
+</aside>
+<div class="scrim2" id="scrim2"></div>
+<aside class="drawer" id="drawer" aria-label="Menü" aria-hidden="true">
+  <div class="dr-h"><a class="brand" href="/"><img class="logo-light" src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing"><img class="logo-dark" src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing"></a><button class="icon-btn" id="drClose" aria-label="Menüyü kapat"><svg><use href="#i-x"/></svg></button></div>
+  <div class="dr-b">
+    <h4>Bölümler</h4><div class="dr-st" id="drNav"><button data-view="firmalar"><span>Firmalar</span></button><button data-view="ads"><span>Google Ads</span></button><button data-view="mail"><span>Gönderim</span></button><button data-view="calls"><span>Aranacaklar</span></button></div>
+    <h4>Görünüm</h4><div class="themeseg wide" role="group" aria-label="Görünüm"><button data-theme-set="system"><svg><use href="#i-sys"/></svg>Sistem</button><button data-theme-set="light"><svg><use href="#i-sun"/></svg>Açık</button><button data-theme-set="dark"><svg><use href="#i-moon"/></svg>Koyu</button></div>
+    <div id="drFirms">
+    <h4>Durum</h4><div class="dr-st" id="drStages"></div>
+    <h4>Filtreler</h4>
+    <select class="field" data-f="city" aria-label="Şehir"></select>
+    <select class="field" data-f="sector" aria-label="Sektör"></select>
+    <select class="field" data-f="service" aria-label="Hizmet"></select>
+    <select class="field" data-f="work" aria-label="Yapılan işlem"></select>
+    <select class="field" data-f="sort" aria-label="Sıralama"></select>
+    </div>
+  </div>
+  <div class="dr-f"><button class="btn dark block" id="drShow">Sonuçları göster</button><button class="btn block" id="drClear">Filtreleri temizle</button><button class="btn block" id="logoutM"><svg><use href="#i-out"/></svg>Çıkış yap</button></div>
+</aside>
+<div class="scrim2" id="scrim3" style="z-index:70"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><h3></h3><p></p><input class="field" type="text" hidden maxlength="120"><div class="mb"><button class="btn" data-cancel>Vazgeç</button><button class="btn dark" data-ok>Tamam</button></div></div>
+<div class="modal lf" id="lfModal" role="dialog" aria-modal="true" aria-labelledby="lfTitle"></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const nz = (s) => String(s ?? "").toLocaleLowerCase("tr").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ı/g, "i");
+const SUNUM = "https://customer.istanbul.marketing/sunum/";
+const SERVICES = ["Web sitesi", "Google Ads", "Sosyal medya", "Mobil uygulama", "Özel yazılım"];
+const ICO = { x: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>', ok: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>', w: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 6v8M12 18h.01"/></svg>', q: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9.5 9a2.6 2.6 0 1 1 3.6 2.4c-.8.4-1.1 1-1.1 1.8M12 18h.01"/></svg>' };
+// Web sitesi ve Google Ads durumu: yok → çarpı, var → onay, bilinmeyen → soru işareti
+const siteFlag = (l) => {
+  const s = l.websiteStatus || (l.manual && !l.website ? "yok" : "");
+  if (s === "yok") return ["bad", "x", "Web sitesi yok"];
+  if (s === "zayif") return ["warn", "w", "Web sitesi zayıf"];
+  if (s === "iyi" || l.website) return ["ok", "ok", "Web sitesi var"];
+  return ["unk", "q", "Web sitesi: bilinmiyor"];
+};
+const adsFlag = (l) => (l.ads === "yok" ? ["bad", "x", "Google Ads yok"] : l.ads === "var" ? ["ok", "ok", "Google Ads var"] : ["unk", "q", "Google Ads: bilinmiyor"]);
+const flagsHtml = (l) => `<div class="flags" aria-label="Web sitesi ve Google Ads durumu">${[siteFlag(l), adsFlag(l)].map(([c, i, t]) => `<span class="flag ${c}">${ICO[i]}${t}</span>`).join("")}</div>`;
+const WEB = { yok: ["Site yok", "web-yok"], zayif: ["Site zayıf", "web-zayif"], iyi: ["Site iyi", "web-iyi"] };
+const STAGES = [["yeni", "Yeni"], ["iletisim", "İletişimde"], ["cevap", "Cevap verdi"], ["toplanti", "Toplantı"], ["musteri", "Müşteri"], ["red", "İlgilenmiyor"]];
+const ST = Object.fromEntries(STAGES);
+const WORK = [["mail", "Mail atıldı"], ["dm", "Instagram DM atıldı"], ["wp", "WhatsApp'tan yazıldı"], ["arandi", "Arandı"], ["cevap", "Cevap bekleniyor"], ["teklif", "Teklif gönderildi"], ["toplanti", "Toplantı ayarlandı"]];
+const WK = { ...Object.fromEntries(WORK), bakilacak: "Bakılacak", bekle: "Beklemede", ilgisiz: "İlgilenmiyor" };
+const CONTACT_KEYS = ["mail", "dm", "wp", "arandi"];
+const S = { leads: [], q: "", city: "", sector: "", service: "", work: "", stage: "", sort: "score", open: null, tab: "mail" };
+
+const cityOf = (l) => (l.city || "").trim() || "İstanbul";
+const status = (l) => (ST[l.status] ? l.status : "yeni");
+const wl = (l) => (Array.isArray(l.works) ? l.works : l.work ? [l.work] : []).filter((k) => WK[k]);
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+const sectorOf = (l) => {
+  const s = String(l.sector || "Diğer").split(/\s[\/(]|,/)[0].trim();
+  return s ? s.charAt(0).toLocaleUpperCase("tr") + s.slice(1) : "Diğer";
+};
+const phones = (l) => (String(l.phone || "").match(/(\+?90[\s()-]*)?0?\s*\(?\d{3}\)?[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}/g) || []).map((p) => {
+  let d = p.replace(/\D/g, ""); if (d.startsWith("90")) d = d.slice(2); if (d.startsWith("0")) d = d.slice(1); return d;
+}).filter((d) => d.length === 10);
+const igUrl = (l) => { const v = String(l.instagram || "").trim(); if (!v) return ""; if (/^https?:/.test(v)) return v; return "https://instagram.com/" + v.replace(/^@/, "").replace(/^instagram\.com\//, ""); };
+const webUrl = (l) => { const v = String(l.website || "").trim(); if (!v) return ""; return /^https?:/.test(v) ? v : "https://" + v; };
+const sc = (l) => (l.score == null && l.manual ? 100 : l.score || 0);
+const scTxt = (l) => l.score ?? (l.manual ? "★" : "–");
+const scCls = (l) => (l.score == null && l.manual ? "s-md" : scoreCls(l.score || 0));
+const scoreCls = (n) => (n >= 80 ? "s-hi" : n >= 70 ? "s-md" : "s-lo");
+const fDate = (d) => { if (!d) return ""; const x = new Date(String(d).slice(0, 10) + "T12:00:00"); return isNaN(x) ? d : x.toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }); };
+const fShort = (d) => { const x = new Date(String(d).slice(0, 10) + "T12:00:00"); return isNaN(x) ? "" : x.toLocaleDateString("tr-TR", { day: "numeric", month: "short" }); };
+
+function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("on"), 1900); }
+
+/* ---------- veri ---------- */
+async function load() {
+  try {
+    const r = await fetch("/api/leads", { credentials: "same-origin", headers: { Accept: "application/json" } });
+    if (r.status === 401) { location.href = "/login"; return; }
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    S.leads = (d.leads || []).filter((l) => l && l.id && l.name);
+    fillFilters(); render(); updCallBadge(); routeFromHash();
+  } catch (e) {
+    $("list").innerHTML = `<div class="empty"><b>Firmalar yüklenemedi</b>Bağlantınızı kontrol edip sayfayı yenileyin.</div>`;
+    $("sub").textContent = "";
+  }
+}
+const logEntry = (l, label) => { const s = l.seq && typeof l.seq === "object" ? l.seq : { step: -1, log: [] }; return { ...s, log: [...(s.log || []), { date: today(), label }] }; };
+async function save(id, patch, msg) {
+  const l = S.leads.find((x) => x.id === id); if (!l) return;
+  const before = {}; Object.keys(patch).forEach((k) => { before[k] = l[k]; });
+  Object.assign(l, patch); refresh();
+  try {
+    const r = await fetch("/api/leads", { method: "PATCH", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, patch }) });
+    if (r.status === 401) { location.href = "/login"; return; }
+    if (!r.ok) throw new Error(r.status);
+    if (msg) toast(msg);
+  } catch (e) {
+    Object.assign(l, before); refresh(); toast("Kaydedilemedi. Tekrar deneyin.");
+  }
+}
+function setStage(k) {
+  S.pop = null;
+  const l = S.leads.find((x) => x.id === S.open); if (!l) return; if (status(l) === k) { refresh(); return; }
+  save(l.id, { status: k, statusAt: new Date().toISOString(), seq: logEntry(l, "Aşama: " + ST[k]) }, "Aşama: " + ST[k]);
+}
+function toggleWork(k) {
+  const l = S.leads.find((x) => x.id === S.open); if (!l) return;
+  const cur = wl(l), has = cur.includes(k);
+  const works = has ? cur.filter((x) => x !== k) : [...cur, k];
+  const label = (has ? "Geri alındı: " : "") + WK[k];
+  const patch = { works, work: works[works.length - 1] || "", workAt: new Date().toISOString(), seq: logEntry(l, label) };
+  if (!has && CONTACT_KEYS.includes(k) && status(l) === "yeni") { patch.status = "iletisim"; patch.statusAt = patch.workAt; }
+  save(l.id, patch, label);
+}
+function saveNote(v) {
+  const l = S.leads.find((x) => x.id === S.open); if (!l) return;
+  if ((l.notes || "") === v) return;
+  save(l.id, { notes: v }, "Not kaydedildi");
+}
+
+/* ---------- filtreler ---------- */
+function countBy(arr, fn) { const m = new Map(); arr.forEach((l) => [].concat(fn(l)).forEach((k) => k && m.set(k, (m.get(k) || 0) + 1))); return [...m.entries()]; }
+function fillSel(el, label, items, cur, plain) {
+  el.innerHTML = `<option value="">${esc(label)}</option>` + items.map(([v, n, t]) => `<option value="${esc(v)}"${v === cur ? " selected" : ""}>${esc(t || v)}${plain ? "" : ` (${n})`}</option>`).join("");
+  el.classList.toggle("on", !!cur);
+}
+function fillFilters() {
+  const L = S.leads;
+  const city = countBy(L, cityOf).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "tr"));
+  const sector = countBy(L, sectorOf).sort((a, b) => a[0].localeCompare(b[0], "tr"));
+  const service = countBy(L, (l) => (l.services || []).filter((s) => SERVICES.includes(s))).sort((a, b) => SERVICES.indexOf(a[0]) - SERVICES.indexOf(b[0]));
+  const work = [["_none", L.filter((l) => !wl(l).length).length, "Hiç işlem yapılmamış"], ...WORK.map(([k, t]) => [k, L.filter((l) => wl(l).includes(k)).length, t])];
+  document.querySelectorAll("[data-f]").forEach((el) => {
+    const f = el.dataset.f;
+    if (f === "city") fillSel(el, "Tüm şehirler", city, S.city);
+    if (f === "sector") fillSel(el, "Tüm sektörler", sector, S.sector);
+    if (f === "service") fillSel(el, "Tüm hizmetler", service, S.service);
+    if (f === "work") { el.innerHTML = `<option value="">Tüm işlemler</option>` + work.map(([k, n, t]) => `<option value="${k}"${k === S.work ? " selected" : ""}>${esc(t)} (${n})</option>`).join(""); el.classList.toggle("on", !!S.work); }
+    if (f === "sort") { el.innerHTML = [["score", "Sırala: Puan"], ["new", "Sırala: En yeni"], ["name", "Sırala: Ad (A–Z)"]].map(([k, t]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${t}</option>`).join(""); }
+  });
+  $("sub").textContent = `${L.length} firma · ${new Set(L.map(cityOf)).size} şehir`;
+}
+function filtered(skipStage) {
+  const q = nz(S.q);
+  const out = S.leads.filter((l) =>
+    (skipStage || !S.stage || status(l) === S.stage) &&
+    (!S.city || cityOf(l) === S.city) &&
+    (!S.sector || sectorOf(l) === S.sector) &&
+    (!S.service || (l.services || []).includes(S.service)) &&
+    (!S.work || (S.work === "_none" ? !wl(l).length : wl(l).includes(S.work))) &&
+    (!q || nz([l.name, l.sector, l.district, cityOf(l), l.capacity].join(" ")).includes(q)));
+  const by = { score: (a, b) => sc(b) - sc(a) || a.name.localeCompare(b.name, "tr"), new: (a, b) => String(b.foundAt || "").localeCompare(String(a.foundAt || "")) || (b.score || 0) - (a.score || 0), name: (a, b) => a.name.localeCompare(b.name, "tr") };
+  return out.sort(by[S.sort]);
+}
+const activeCount = () => [S.city, S.sector, S.service, S.work].filter(Boolean).length;
+
+/* ---------- liste ---------- */
+function row(l) {
+  const w = WEB[l.websiteStatus], st = status(l), works = wl(l);
+  const ph = phones(l).length, em = !!l.email, ig = !!l.instagram;
+  return `<button class="row" data-id="${esc(l.id)}">
+    <span class="score ${scCls(l)}" aria-label="${l.manual && l.score == null ? "Elle eklendi" : "Puan " + (l.score ?? "-")}">${scTxt(l)}</span>
+    <span class="r-main"><span class="r-name">${esc(l.name)}</span><span class="r-sub" style="display:block">${esc(sectorOf(l))} · ${esc([l.district, cityOf(l)].filter(Boolean).join(", "))}</span></span>
+    <span class="r-cap">${esc(l.capacity || "")}</span>
+    <span class="r-foot">
+      <span class="tag stgt st-${st}"><i class="dot"></i>${esc(ST[st])}</span>
+      ${works.slice(0, 2).map((k) => `<span class="tag wk">${esc(WK[k])}</span>`).join("")}${works.length > 2 ? `<span class="tag wk">+${works.length - 2}</span>` : ""}
+      ${l.callList ? `<span class="tag" style="background:var(--warn-bg);color:var(--warn);border-color:transparent">Aranacak</span>` : ""}${l.manual ? `<span class="tag">Elle eklendi</span>` : ""}${l.ads === "yok" ? `<span class="tag web-yok">Ads yok</span>` : ""}${w ? `<span class="tag ${w[1]}">${w[0]}</span>` : ""}
+      <span class="ch" aria-label="İletişim kanalları">
+        <i class="${ph ? "on" : ""}"><svg><use href="#i-phone"/></svg></i><i class="${em ? "on" : ""}"><svg><use href="#i-mail"/></svg></i><i class="${ig ? "on" : ""}"><svg><use href="#i-ig"/></svg></i>
+      </span>
+    </span>
+  </button>`;
+}
+function render() {
+  const rows = filtered();
+  const af = activeCount() + (S.q ? 1 : 0) + (S.stage ? 1 : 0);
+  $("count").innerHTML = af ? `<b>${rows.length}</b> / ${S.leads.length} firma` : `<b>${rows.length}</b> firma`;
+  $("clear").hidden = !af;
+  const base = filtered(true), cnt = (k) => base.filter((l) => status(l) === k).length;
+  $("stageChips").innerHTML = `<button class="chip" data-stage="" aria-pressed="${!S.stage}">Tümü <span class="n">${base.length}</span></button>` + STAGES.map(([k, t]) => `<button class="chip" data-stage="${k}" aria-pressed="${S.stage === k}"><i class="dot st-${k}"></i>${t} <span class="n">${cnt(k)}</span></button>`).join("");
+  $("drStages").innerHTML = `<button data-stage="" aria-pressed="${!S.stage}">Tümü <span class="n">${base.length}</span></button>` + STAGES.map(([k, t]) => `<button data-stage="${k}" aria-pressed="${S.stage === k}"><i class="dot st-${k}"></i>${t} <span class="n">${cnt(k)}</span></button>`).join("");
+  const b = $("fBadge"); b.hidden = !activeCount(); b.textContent = activeCount();
+  $("drShow").textContent = `${rows.length} firmayı göster`;
+  document.querySelectorAll("[data-f]").forEach((el) => { const f = el.dataset.f; if (f !== "sort") el.classList.toggle("on", !!S[f]); });
+  $("list").innerHTML = rows.length ? rows.map(row).join("") : `<div class="empty"><b>Sonuç yok</b>Filtreleri değiştirip tekrar deneyin.</div>`;
+}
+function refresh() {
+  render(); updCallBadge(); if (S.view === "calls") renderCalls();
+  if (S.open) { const l = S.leads.find((x) => x.id === S.open); if (l) { const b = $("dBody"), y = b.scrollTop; b.innerHTML = detail(l); b.scrollTop = y; } }
+}
+
+/* ---------- detay ---------- */
+function act(href, icon, label, opts = {}) {
+  const dis = !href;
+  return `<a class="act${opts.primary ? " primary" : ""}" ${dis ? 'aria-disabled="true"' : `href="${esc(href)}"`}${opts.ext && !dis ? ' target="_blank" rel="noopener"' : ""}><svg><use href="#${icon}"/></svg>${label}</a>`;
+}
+function msgHtml(l) {
+  const o = l.outreach || {};
+  const fus = Array.isArray(o.followups) ? o.followups : [];
+  const tabs = [["mail", "İlk e-posta", !!o.body], ["fu", `Takipler${fus.length ? " (" + fus.length + ")" : ""}`, fus.length > 0], ["dm", "Instagram DM", !!o.dm], ["call", "Telefon", !!o.call]].filter((t) => t[2]);
+  if (!tabs.length) return "";
+  if (!tabs.some((t) => t[0] === S.tab)) S.tab = tabs[0][0];
+  const ed = S.editMsg === l.id;
+  const inp = (k, v) => `<input class="field" data-ed="${k}" maxlength="300" value="${esc(v || "")}" aria-label="Konu">`;
+  const area = (k, v, rows) => `<textarea class="field ed" data-ed="${k}" rows="${rows || 14}">${esc(v || "")}</textarea>`;
+  let body = "", copy = "", extra = "";
+  if (S.tab === "mail") {
+    body = ed ? `${inp("subject", o.subject)}${area("body", o.body)}` : `<div class="subj">${esc(o.subject || "")}</div><pre>${esc(o.body)}</pre>`; copy = o.body;
+    if (l.email && !ed) extra = `<a class="btn" href="mailto:${esc(l.email)}?subject=${encodeURIComponent(o.subject || "")}&body=${encodeURIComponent(o.body || "")}"><svg><use href="#i-mail"/></svg>E-posta uygulamasında aç</a>`;
+  } else if (S.tab === "fu") {
+    body = fus.map((f, i) => ed
+      ? `<div class="fu"><div class="day">${esc(f.day)}. gün</div>${inp("fs" + i, f.subject)}${area("fb" + i, f.body, 10)}</div>`
+      : `<div class="fu"><div class="day">${esc(f.day)}. gün</div><div class="subj">${esc(f.subject || "")}</div><pre>${esc(f.body || "")}</pre></div>`).join("");
+    copy = fus.map((f) => `${f.day}. gün — ${f.subject || ""}\n\n${f.body || ""}`).join("\n\n———\n\n");
+  } else if (S.tab === "dm") { body = ed ? area("dm", o.dm) : `<pre>${esc(o.dm)}</pre>`; copy = o.dm; }
+  else { body = ed ? area("call", o.call) : `<pre>${esc(o.call)}</pre>`; copy = o.call; }
+  const acts = ed
+    ? `<button class="btn dark" data-msgsave>Kaydet</button><button class="btn" data-msgcancel>Vazgeç</button>`
+    : `<button class="btn dark" data-copy><svg><use href="#i-copy"/></svg>Kopyala</button>${extra}<button class="btn" data-msgedit>Düzenle</button>${l.manual ? `<button class="btn" data-msgreset>Şablona sıfırla</button>` : ""}`;
+  return `<div class="sec"><h3>Hazır metinler${o.edited ? ` <span class="tag" style="text-transform:none;letter-spacing:0;margin-left:6px">Düzenlendi</span>` : ""}</h3>
+    <div class="tabs" role="tablist">${tabs.map(([k, t]) => `<button role="tab" data-tab="${k}" aria-selected="${S.tab === k}">${t}</button>`).join("")}</div>
+    <div class="card msg">${body}<div class="msg-acts">${acts}</div></div>
+    <textarea id="copySrc" hidden>${esc(copy)}</textarea></div>`;
+}
+function statusHtml(l) {
+  const st = status(l), works = wl(l);
+  const log = (l.seq && Array.isArray(l.seq.log) ? l.seq.log : []).slice(-6).reverse();
+  const CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+  const wsum = works.length ? works.slice(0, 2).map((k) => WK[k]).join(", ") + (works.length > 2 ? ` +${works.length - 2}` : "") : "Henüz yok";
+  const pick = (id, label, val, menu) => `<div class="pickwrap"><button class="pick" data-pop="${id}" aria-haspopup="true" aria-expanded="${S.pop === id}"><span class="pt"><span class="k">${label}</span><span class="v">${val}</span></span>${CHEV}</button>${S.pop === id ? `<div class="pop" role="menu">${menu}</div>` : ""}</div>`;
+  return `<div class="picks">
+      ${pick("stage", "Aşama", `<span class="st-${st}"><i class="dot"></i></span>${esc(ST[st])}`, STAGES.map(([k, t]) => `<button class="stg st-${k}" role="menuitemradio" data-stg="${k}" aria-pressed="${st === k}"><i class="dot"></i>${t}</button>`).join(""))}
+      ${pick("work", "Yapılanlar", esc(wsum), WORK.map(([k, t]) => `<button class="wkb" role="menuitemcheckbox" data-wk="${k}" aria-pressed="${works.includes(k)}"><span>${t}</span><span class="ck"><svg><use href="#i-check"/></svg></span></button>`).join(""))}
+    </div>
+    ${log.length ? `<ul class="hist card" style="margin-top:12px;padding:14px 16px">${log.map((x) => `<li><span>${esc(fShort(x.date))}</span><b>${esc(x.label)}</b></li>`).join("")}</ul>` : ""}
+    <div class="sec"><h3>Not</h3><textarea class="field" id="noteBox" placeholder="Görüşme notu, geri arama tarihi…" maxlength="2000">${esc(l.notes || "")}</textarea><div class="msg-acts" style="margin-top:8px"><button class="btn dark" data-savenote>Notu kaydet</button><span class="sv" id="noteSv" style="margin:0;align-self:center"></span></div></div>`;
+}
+function detail(l) {
+  const ph = phones(l), mob = ph.find((d) => d.startsWith("5"));
+  const w = WEB[l.websiteStatus];
+  const loc = [l.district, cityOf(l)].filter(Boolean).join(", ");
+  const maps = l.mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(l.name + " " + loc)}`;
+  const issues = (l.issues || []).filter(Boolean);
+  return `
+    <div class="d-head"><span class="score ${scCls(l)}">${scTxt(l)}</span>
+      <div style="min-width:0"><h2 id="dTitle">${esc(l.name)}</h2><p>${esc(l.sector || "")}</p><p>${esc(loc)}</p></div></div>
+    ${flagsHtml(l)}
+    <div class="d-tags">${(l.services || []).map((s) => `<span class="tag svc">${esc(s)}</span>`).join("")}</div>
+    <div class="acts">
+      ${act(ph[0] ? "tel:+90" + ph[0] : "", "i-phone", "Ara", { primary: true })}
+      ${act(mob ? "https://wa.me/90" + mob : "", "i-wa", "WhatsApp", { ext: 1 })}
+      ${act(l.email ? "mailto:" + l.email : "", "i-mail", "E-posta")}
+      ${act(igUrl(l), "i-ig", "Instagram", { ext: 1 })}
+      ${act(webUrl(l), "i-web", "Web sitesi", { ext: 1 })}
+      ${act(SUNUM + l.id, "i-doc", "Sunum", { ext: 1 })}
+      ${act(maps, "i-map", "Harita", { ext: 1 })}
+      <button class="act" data-copylink><svg><use href="#i-copy"/></svg>Sunum linki</button>
+      <button class="act" data-calltoggle aria-pressed="${!!l.callList}"><svg><use href="#i-phone"/></svg>${l.callList ? "Aranacaklarda ✓" : "Aranacaklara ekle"}</button>
+    </div>
+    <div class="sec"><h3>İletişim</h3><div class="card"><dl class="kv">
+      ${l.phone ? `<dt>Telefon</dt><dd>${esc(l.phone)}</dd>` : ""}
+      ${l.email ? `<dt>E-posta</dt><dd><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></dd>` : ""}
+      ${l.instagram ? `<dt>Instagram</dt><dd><a href="${esc(igUrl(l))}" target="_blank" rel="noopener">${esc(l.instagram)}</a></dd>` : ""}
+      ${l.website ? `<dt>Web sitesi</dt><dd><a href="${esc(webUrl(l))}" target="_blank" rel="noopener">${esc(l.website.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a></dd>` : ""}
+      ${l.rating ? `<dt>Değerlendirme</dt><dd>${esc(l.rating)} ★${l.reviews ? ` · ${esc(l.reviews)} yorum` : ""}</dd>` : ""}
+      <dt>Konum</dt><dd>${esc(loc)}</dd>
+    </dl></div></div>
+    ${statusHtml(l)}
+    ${l.capacity ? `<div class="sec"><h3>Neden uygun</h3><div class="card" style="font-size:14.5px">${esc(l.capacity)}</div></div>` : ""}
+    ${issues.length ? `<div class="sec"><h3>Tespitler</h3><div class="card"><ul class="issues">${issues.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>` : ""}
+    ${l.pitch ? `<div class="sec"><h3>Açılış cümlesi</h3><div class="card pitch">${esc(l.pitch)}</div></div>` : ""}
+    ${msgHtml(l)}
+    ${l.manual ? `<div class="danger"><button class="btn" data-editlead>Bilgileri düzenle</button> <button class="btn bad" data-dellead>Firmayı sil</button></div>` : ""}
+    <p class="note">${l.foundAt ? `Bulunma tarihi: ${esc(fDate(l.foundAt))}` : ""}</p>`;
+}
+
+let lastFocus = null;
+function openLead(id, push = true) {
+  const l = S.leads.find((x) => x.id === id); if (!l) return;
+  closeDrawer(true);
+  if (S.open !== id) { S.tab = "mail"; S.editMsg = null; S.pop = null; }
+  S.open = id; lastFocus = document.activeElement;
+  $("dTop").textContent = l.name;
+  $("dBody").innerHTML = detail(l); $("dBody").scrollTop = 0;
+  $("sheet").classList.add("on"); $("scrim").classList.add("on");
+  document.body.style.overflow = "hidden";
+  if (push && location.hash !== "#" + id) history.pushState({ id }, "", "#" + id);
+  setTimeout(() => $("close").focus({ preventScroll: true }), 50);
+}
+function closeLead(fromPop = false) {
+  if (!S.open && !S.client) return;
+  if (S.client && typeof savePlan === "function") savePlan();
+  S.open = null; S.client = null;
+  $("sheet").classList.remove("on"); $("scrim").classList.remove("on");
+  document.body.style.overflow = "";
+  if (!fromPop && location.hash) history.back();
+  if (lastFocus) lastFocus.focus({ preventScroll: true });
+}
+function routeFromHash() { route(); }
+
+/* ---------- menü ---------- */
+function openDrawer() { $("drawer").classList.add("on"); $("scrim2").classList.add("on"); $("drawer").setAttribute("aria-hidden", "false"); $("menuBtn").setAttribute("aria-expanded", "true"); document.body.style.overflow = "hidden"; }
+function closeDrawer(silent) {
+  if (!$("drawer").classList.contains("on")) return;
+  $("drawer").classList.remove("on"); $("scrim2").classList.remove("on"); $("drawer").setAttribute("aria-hidden", "true"); $("menuBtn").setAttribute("aria-expanded", "false");
+  if (!silent && !S.open) document.body.style.overflow = "";
+}
+
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); }
+  catch { const a = document.createElement("textarea"); a.value = t; a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); document.execCommand("copy"); a.remove(); }
+  toast("Kopyalandı");
+}
+async function logout() { try { await fetch("/api/logout", { method: "POST" }); } catch {} location.href = "/login"; }
+function clearAll() { Object.assign(S, { q: "", city: "", sector: "", service: "", work: "", stage: "" }); $("q").value = ""; fillFilters(); render(); }
+
+/* ---------- olaylar ---------- */
+$("addLead").addEventListener("click", () => leadForm());
+$("list").addEventListener("click", (e) => { const r = e.target.closest(".row"); if (r) openLead(r.dataset.id); });
+$("dBody").addEventListener("click", (e) => {
+  const pp = e.target.closest("[data-pop]");
+  if (pp) { S.pop = S.pop === pp.dataset.pop ? null : pp.dataset.pop; refresh(); return; }
+  if (S.pop && !e.target.closest(".pop")) { S.pop = null; refresh(); }
+  const tb = e.target.closest("[data-tab]");
+  if (tb) { if (S.editMsg) { toast("Önce kaydedin ya da vazgeçin"); return; } S.tab = tb.dataset.tab; refresh(); return; }
+  if (e.target.closest("[data-msgedit]")) { S.editMsg = S.open; refresh(); return; }
+  if (e.target.closest("[data-msgcancel]")) { S.editMsg = null; refresh(); return; }
+  if (e.target.closest("[data-msgsave]")) { saveMsg(); return; }
+  if (e.target.closest("[data-msgreset]")) { resetMsg(); return; }
+  const sg = e.target.closest("[data-stg]"); if (sg) { setStage(sg.dataset.stg); return; }
+  const wk = e.target.closest("[data-wk]"); if (wk) { toggleWork(wk.dataset.wk); return; }
+  if (e.target.closest("[data-savenote]")) { saveNote($("noteBox").value.trim()); return; }
+  if (e.target.closest("[data-copy]")) { copyText($("copySrc").value); return; }
+  if (e.target.closest("[data-copylink]")) { copyText(SUNUM + S.open); }
+  if (e.target.closest("[data-calltoggle]")) { const l = S.leads.find((x) => x.id === S.open); if (l) callSet(l.id, !l.callList); }
+  if (e.target.closest("[data-editlead]")) { const l = S.leads.find((x) => x.id === S.open); if (l) leadForm(l); }
+  if (e.target.closest("[data-dellead]")) { delLead(); }
+});
+$("dBody").addEventListener("focusout", (e) => { if (e.target.id === "noteBox") saveNote(e.target.value.trim()); });
+$("dBody").addEventListener("input", (e) => { if (e.target.id === "noteBox") $("noteSv").textContent = "Kaydedilmedi"; });
+function stageClick(e) { const b = e.target.closest("[data-stage]"); if (!b) return; S.stage = b.dataset.stage; render(); }
+$("stageChips").addEventListener("click", stageClick);
+$("drStages").addEventListener("click", stageClick);
+document.addEventListener("input", (e) => { if (e.target.id === "callQ") renderCallRes(); });
+document.addEventListener("focusout", (e) => {
+  const id = e.target.dataset && e.target.dataset.callnote; if (!id) return;
+  const l = S.leads.find((x) => x.id === id); const v = e.target.value.trim();
+  if (l && (l.callNote || "") !== v) { l.callNote = v; fetch("/api/leads", { method: "PATCH", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, patch: { callNote: v } }) }).then((r) => { if (!r.ok) toast("Not kaydedilemedi"); else toast("Not kaydedildi"); }).catch(() => toast("Not kaydedilemedi")); }
+});
+document.addEventListener("change", (e) => {
+  if (e.target.dataset && e.target.dataset.callday) { save(e.target.dataset.callday, { callDay: e.target.value || "" }, e.target.value ? "Arama günü kaydedildi" : "Arama günü kaldırıldı"); return; }
+  if (e.target.dataset && "mcity" in e.target.dataset) { S.mail.city = e.target.value; S.mail.sel.clear(); renderMail(); return; }
+  if (e.target.dataset && "mmin" in e.target.dataset) { S.mail.min = Number(e.target.value); S.mail.sel.clear(); renderMail(); return; }
+  const f = e.target.dataset && e.target.dataset.f; if (!f) return; S[f] = e.target.value; fillFilters(); render(); });
+$("menuBtn").addEventListener("click", openDrawer);
+$("openFilters").addEventListener("click", openDrawer);
+$("drClose").addEventListener("click", () => closeDrawer());
+$("scrim2").addEventListener("click", () => closeDrawer());
+$("drShow").addEventListener("click", () => { closeDrawer(); window.scrollTo({ top: 0 }); });
+$("drClear").addEventListener("click", clearAll);
+$("clear").addEventListener("click", clearAll);
+$("logout").addEventListener("click", logout);
+$("logoutM").addEventListener("click", logout);
+$("close").addEventListener("click", () => closeLead());
+$("scrim").addEventListener("click", () => closeLead());
+window.addEventListener("popstate", () => route());
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { if (S.callPop) { S.callPop = null; renderCalls(); } else if (S.pop) { S.pop = null; refresh(); } else if ($("drawer").classList.contains("on")) closeDrawer(); else if (S.open || S.client) closeLead(); }
+  if (e.key === "/" && !S.open && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $("q").focus(); }
+});
+let qT; $("q").addEventListener("input", (e) => { clearTimeout(qT); qT = setTimeout(() => { S.q = e.target.value.trim(); render(); }, 120); });
+/* ================= Google Ads: müşteriler, form, kampanya planı ================= */
+const FORM_BASE = ["localhost", "127.0.0.1"].includes(location.hostname) ? location.origin : "https://customer.istanbul.marketing";
+const formUrl = (c) => `${FORM_BASE}/form?k=${c.token}`;
+const waShare = (c) => "https://wa.me/?text=" + encodeURIComponent(`Merhaba, Google Ads çalışmamıza başlamadan önce kısa bir bilgi formu hazırladık (yaklaşık 15 dakika). Doldurmanız yeterli:\n${formUrl(c)}`);
+const PSTATUS = { taslak: "Taslak", onaylandi: "Onaylandı", yayinda: "Yayında" };
+const NEG_START = "ücretsiz, bedava, nedir, nasıl yapılır, kendin yap, pdf, ders, iş ilanı, eleman, staj, maaş, şikayet";
+const CHK_TRACK = ["Telefon araması dönüşümü (reklamdan ve siteden)", "WhatsApp tıklaması dönüşümü", "Form gönderimi dönüşümü", "Google Analytics ile Google Ads bağlantısı", "Test araması ve test mesajı yapıldı, panelde göründü", "Telefon ve WhatsApp numaraları sitede tıklanabilir ve doğru"];
+const CHK_LAUNCH = ["Sözleşme imzalandı; kapsam ve ücret yazılı", "Hesap müşteri adına, biz yönetici olarak davetliyiz", "Ödeme kartını müşteri kendisi girdi", "Hedef, bölge ve saatler müşteriyle onaylandı", "Telefona ve mesajlara kimin bakacağı belli", "Açılış sayfası mobilde hızlı açılıyor, https geçerli, çağrı düğmesi görünür", "Negatif kelimeler eklendi", "Reklam metinleri müşteri tarafından onaylandı", "Bütçe ve günlük tavan müşteriyle onaylandı", "Müşteri 'yayına al' onayı verdi"];
+const MATCH = ["Tam eşleme", "İfade eşleme", "Karışık"];
+const HL_MAX = 30, DS_MAX = 90;
+Object.assign(S, { view: "firmalar", clients: [], schema: [], adsLoaded: false, client: null, ctab: "form" });
+
+const num = (v) => { let s = String(v ?? "").replace(/[^\d.,-]/g, ""); if (!s) return NaN; if (s.includes(",")) s = s.replace(/\./g, "").replace(",", "."); else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, ""); return parseFloat(s); };
+const tl = (n) => (isFinite(n) ? Math.round(n).toLocaleString("tr-TR") + " ₺" : "–");
+const cl = (id) => S.clients.find((c) => c.id === id);
+
+
+
+
+/* ---- aranacaklar ---- */
+const CR = { ulasilamadi: "Ulaşılamadı", sekreter: "Sekreter yönlendirdi", tekrar: "Tekrar ara", ilgili: "İlgilendi", toplanti: "Toplantı ayarlandı", ilgisiz: "İlgilenmiyor" };
+const CR_HINT = { ulasilamadi: "Listede kalır", sekreter: "Listede kalır", tekrar: "Yarına planlanır", ilgili: "Aşama: Cevap verdi · listeden çıkar", toplanti: "Aşama: Toplantı · listeden çıkar", ilgisiz: "Aşama: İlgilenmiyor · listeden çıkar" };
+const CR_REACHED = (k) => k !== "ulasilamadi";
+const callLeads = () => S.leads.filter((l) => l.callList).sort((a, b) => String(a.callAt || "").localeCompare(String(b.callAt || "")));
+const dayLabel = (d) => { if (!d) return ""; const n = Math.round((new Date(d + "T00:00:00Z") - new Date(today() + "T00:00:00Z")) / 86400000); return n === 0 ? "Bugün" : n === -1 ? "Dün" : n < 0 ? `${-n} gün gecikti` : n === 1 ? "Yarın" : fShort(d); };
+function callGroups() {
+  const t0 = today(), due = [], none = [], later = [];
+  for (const l of callLeads()) { if (!l.callDay) none.push(l); else if (l.callDay <= t0) due.push(l); else later.push(l); }
+  due.sort((a, b) => a.callDay.localeCompare(b.callDay)); later.sort((a, b) => a.callDay.localeCompare(b.callDay));
+  return { due, none, later };
+}
+function updCallBadge() {
+  const n = callLeads().length;
+  document.querySelectorAll('[data-view="calls"]').forEach((b) => { const s = b.querySelector("span"); (s || b).innerHTML = "Aranacaklar" + (n ? ` <i class="cnt">${n}</i>` : ""); });
+}
+async function callSet(id, on, msg) {
+  const patch = on ? { callList: true, callAt: new Date().toISOString() } : { callList: false };
+  await save(id, patch, msg || (on ? "Aranacaklara eklendi" : "Aranacaklardan çıkarıldı"));
+}
+async function callResult(id, key) {
+  S.callPop = null;
+  const l = S.leads.find((x) => x.id === id); if (!l) return;
+  if (key === "ilgisiz") { const ok = await dialog({ title: "İlgilenmiyor olarak işaretlensin mi?", text: `"${l.name}" aşaması "İlgilenmiyor" olur, aranacaklar listesinden çıkar ve bu firmaya mail gönderilmez. Aşamayı daha sonra firma ekranından değiştirebilirsiniz.`, ok: "İşaretle", danger: true }); if (!ok) { renderCalls(); return; } }
+  const now = new Date().toISOString(), t0 = today();
+  const works = [...new Set([...wl(l), "arandi", ...(key === "toplanti" ? ["toplanti"] : [])])];
+  const patch = { callLog: [...(l.callLog || []), { at: now, r: key, n: String(l.callNote || "").slice(0, 200) }], works, work: key === "toplanti" ? "toplanti" : "arandi", workAt: now, seq: logEntry(l, "Arama: " + CR[key]) };
+  if (status(l) === "yeni") { patch.status = "iletisim"; patch.statusAt = now; }
+  if (key === "toplanti") { patch.status = "toplanti"; patch.statusAt = now; }
+  if (key === "ilgili") { patch.status = "cevap"; patch.statusAt = now; }
+  if (key === "ilgisiz") { patch.status = "red"; patch.statusAt = now; }
+  if (["toplanti", "ilgili", "ilgisiz"].includes(key)) { patch.callList = false; patch.callDay = ""; patch.callDoneAt = now; }
+  if (key === "tekrar" && (!l.callDay || l.callDay <= t0)) { const d = new Date(); d.setDate(d.getDate() + 1); patch.callDay = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
+  await save(id, patch, "Kaydedildi: " + CR[key]);
+}
+function callCard(l, i) {
+  const ph = phones(l), mob = ph.find((d) => d.startsWith("5")), tel = ph[0], log = l.callLog || [], last = log[log.length - 1];
+  const lastTxt = last ? `Son: ${CR[last.r] || ""} · ${new Date(last.at).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · ${log.length} deneme` : "";
+  return `<div class="crow" data-cid2="${esc(l.id)}">
+    <div class="top"><div style="min-width:0;display:flex;gap:12px;align-items:flex-start"><span class="cn2">${i}</span><div style="min-width:0"><div class="nm">${esc(l.name)}</div><div class="mt">${esc(sectorOf(l))} · ${esc(cityOf(l))}${l.score != null ? ` · puan ${l.score}` : ""}</div>${lastTxt ? `<div class="mt" style="margin-top:2px">${esc(lastTxt)}</div>` : ""}</div></div>${l.callDay ? `<span class="tag" style="flex:none;${l.callDay <= today() ? "background:var(--warn-bg);color:var(--warn);border-color:transparent" : ""}">${esc(dayLabel(l.callDay))}</span>` : ""}</div>
+    <div class="ph">${l.phone ? `<a href="${tel ? "tel:+90" + tel : "#"}" style="color:inherit;text-decoration:none">${esc(l.phone)}</a>` : '<span class="mt">Telefon numarası yok</span>'}</div>
+    <textarea class="field" data-callnote="${esc(l.id)}" rows="2" maxlength="600" placeholder="Not (örn. sekreter yönlendirdi, perşembe tekrar ara)">${esc(l.callNote || "")}</textarea>
+    <div class="acts2">
+      ${tel ? `<a class="btn dark" href="tel:+90${tel}"><svg width="16" height="16"><use href="#i-phone"/></svg>Ara</a>` : ""}
+      ${mob ? `<a class="btn" href="https://wa.me/90${mob}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg>WhatsApp</a>` : ""}
+      <label class="dayl"><span>Arama günü</span><input type="date" class="field" data-callday="${esc(l.id)}" value="${esc(l.callDay || "")}"></label>
+    </div>
+    <div class="foot">
+      <div class="pickwrap" style="flex:none"><button class="btn" data-callpop="${esc(l.id)}" aria-haspopup="true" aria-expanded="${S.callPop === l.id}">Arama sonucu<svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>${S.callPop === l.id ? `<div class="pop" role="menu" style="left:0;right:auto;min-width:270px">${Object.entries(CR).map(([k, t]) => `<button class="opt" role="menuitem" data-callres="${esc(l.id)}:${k}"><b>${t}</b><small>${esc(CR_HINT[k])}</small></button>`).join("")}</div>` : ""}</div>
+      <div><button class="lnk" data-callopen="${esc(l.id)}">Firmayı aç</button><button class="lnk bad" data-calloff="${esc(l.id)}">Listeden çıkar</button></div>
+    </div</div></div>`;
+}
+function renderCalls() {
+  const G = callGroups(), n = G.due.length + G.none.length + G.later.length; let i = 0;
+  $("callSub").textContent = n ? `${n} firma aranacak${G.due.length ? ` · ${G.due.length} tanesinin günü geldi` : ""}` : "Aranacak firma yok";
+  const sec = (title, arr) => arr.length ? `<h3 class="callh">${title} <span>${arr.length}</span></h3>${arr.map((l) => callCard(l, ++i)).join("")}` : "";
+  $("callList").innerHTML = n ? sec("Bugün ve gecikenler", G.due) + sec("Günü belirlenmemiş", G.none) + sec("İleri tarihli", G.later)
+    : `<div class="empty"><b>Aranacak firma yok</b>Yukarıdan arayıp ekleyin ya da firma ekranındaki "Aranacaklara ekle" düğmesini kullanın.</div>`;
+  renderCallRes(); renderCallStats();
+}
+function renderCallStats() {
+  const rows = S.leads.flatMap((l) => (l.callLog || []).map((e) => ({ ...e, l }))), el = $("callStats");
+  if (!rows.length) { el.innerHTML = `<div class="mcard"><b>Arama istatistiği</b><p class="mini" style="margin-top:6px">Arama sonucu girdikçe burada hangi sektörün, hangi saatte daha çok dönüş yaptığı görünür.</p></div>`; return; }
+  const good = (r) => r === "ilgili" || r === "toplanti", pct = (a, b) => (b ? Math.round((a / b) * 100) + "%" : "—");
+  const agg = (keyf) => { const m = new Map(); rows.forEach((e) => { const k = keyf(e); if (k == null) return; const o = m.get(k) || { n: 0, ok: 0, good: 0 }; o.n++; if (CR_REACHED(e.r)) o.ok++; if (good(e.r)) o.good++; m.set(k, o); }); return m; };
+  const tbl = (head, m, order) => `<table class="cst"><thead><tr><th>${head}</th><th>Arama</th><th>Ulaşılan</th><th>İlgi / toplantı</th></tr></thead><tbody>${order.filter((k) => m.has(k)).map((k) => { const o = m.get(k); return `<tr><td>${esc(k)}</td><td>${o.n}</td><td>${pct(o.ok, o.n)}</td><td>${o.good}</td></tr>`; }).join("")}</tbody></table>`;
+  const hour = (e) => { const h = new Date(e.at).getHours(); return h < 9 ? "09:00 öncesi" : h < 11 ? "09–11" : h < 13 ? "11–13" : h < 15 ? "13–15" : h < 17 ? "15–17" : "17 sonrası"; };
+  const dayn = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
+  const total = rows.length, reached = rows.filter((e) => CR_REACHED(e.r)).length, goodN = rows.filter((e) => good(e.r)).length;
+  const bySector = agg((e) => sectorOf(e.l)); const secOrder = [...bySector.keys()].sort((a, b) => bySector.get(b).n - bySector.get(a).n).slice(0, 8);
+  const byRes = agg((e) => CR[e.r] || e.r);
+  el.innerHTML = `<div class="mcard"><b style="font-size:16px">Arama istatistiği</b>
+    <div class="mstat" style="margin-top:12px"><div><small>Toplam arama</small><b>${total}</b></div><div><small>Ulaşılan</small><b>${pct(reached, total)}</b></div><div><small>İlgilendi / toplantı</small><b>${goodN}</b></div></div>
+    <div class="cgrid"><div><h4>Sonuçlara göre</h4>${tbl("Sonuç", byRes, Object.values(CR))}</div><div><h4>Saat dilimine göre</h4>${tbl("Saat", agg(hour), ["09:00 öncesi", "09–11", "11–13", "13–15", "15–17", "17 sonrası"])}</div><div><h4>Güne göre</h4>${tbl("Gün", agg((e) => dayn[new Date(e.at).getDay()]), ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"])}</div><div><h4>Sektöre göre</h4>${tbl("Sektör", bySector, secOrder)}</div></div>
+    ${total < 30 ? '<p class="mini" style="margin-top:12px">Yorum yapmak için henüz az veri var; 30+ aramadan sonra eğilimler daha güvenilir olur.</p>' : ""}</div>`;
+}
+function renderCallRes() {
+  const q = nz(($("callQ").value || "").trim()); const el = $("callRes");
+  if (!q) { el.innerHTML = ""; return; }
+  const res = S.leads.filter((l) => !l.callList && nz([l.name, l.sector, l.district, cityOf(l)].join(" ")).includes(q)).sort((a, b) => sc(b) - sc(a)).slice(0, 8);
+  el.innerHTML = res.length ? res.map((l) => `<div class="mrow" style="grid-template-columns:1fr auto"><div style="min-width:0"><div class="nm">${esc(l.name)}</div><div class="mt">${esc(sectorOf(l))} · ${esc(cityOf(l))}${l.phone ? ` · ${esc(l.phone)}` : " · telefon yok"}</div></div><button class="pv" data-calladd="${esc(l.id)}">Ekle</button></div>`).join("") : `<p class="mini">Eşleşen firma yok (zaten listede olabilir).</p>`;
+}
+
+/* ---- toplu gönderim ---- */
+const MSTEP = ["İlk mail", "1. takip", "2. takip", "Kapanış"], MDUE = [0, 3, 7, 14], MSTOP = ["red", "musteri", "cevap", "toplanti"];
+const MEMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const todayStr = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Istanbul" });
+const dayDiff = (a, b) => Math.round((new Date(b + "T00:00:00Z") - new Date(a + "T00:00:00Z")) / 86400000);
+S.mail = { cfg: null, sentToday: 0, sends: [], tab: "first", sel: new Set(), city: "", min: 0, running: false, stop: false, results: [], prog: null };
+
+async function loadMail() {
+  if (!S.leads.length) { $("mailBody").innerHTML = '<div class="skeleton"></div>'; return setTimeout(() => S.view === "mail" && loadMail(), 800); }
+  try {
+    const r = await fetch("/api/send", { credentials: "same-origin" });
+    if (r.status === 401) { location.href = "/login"; return; }
+    const d = await r.json(); S.mail.cfg = d; S.mail.sentToday = d.sentToday || 0; S.mail.sends = d.sends || [];
+  } catch { S.mail.cfg = null; }
+  renderMail();
+}
+function mailQueue() {
+  const t = todayStr(), first = [], fu = [], later = [];
+  for (const l of S.leads) {
+    if (!l.email || !MEMAIL.test(l.email) || l.optOut || MSTOP.includes(l.status)) continue;
+    const seq = l.seq && !l.seq.__none ? l.seq : {}, next = (seq.step ?? -1) + 1, o = l.outreach || {};
+    if (next > 3) continue;
+    const msg = next === 0 ? o.body : (o.followups || [])[next - 1]?.body; if (!msg) continue;
+    if (next === 0) { if (l.status === "yeni") first.push({ l, step: 0 }); continue; }
+    if (l.status !== "iletisim" || !seq.sentAt) continue;
+    const waited = dayDiff(seq.sentAt, t);
+    if (waited >= MDUE[next]) fu.push({ l, step: next, waited }); else later.push({ l, step: next, in: MDUE[next] - waited });
+  }
+  const by = (a, b) => (b.l.score || 0) - (a.l.score || 0) || a.l.name.localeCompare(b.l.name, "tr");
+  first.sort(by); fu.sort(by);
+  return { first, fu, later };
+}
+function renderMail() {
+  const M = S.mail, c = M.cfg || {}, q = mailQueue(), left = Math.max(0, (c.limit || 0) - M.sentToday);
+  const list = (M.tab === "first" ? q.first : q.fu).filter((x) => (!M.city || cityOf(x.l) === M.city) && (x.l.score || 0) >= M.min);
+  const cities = [...new Set((M.tab === "first" ? q.first : q.fu).map((x) => cityOf(x.l)))].sort((a, b) => a.localeCompare(b, "tr"));
+  const sel = [...M.sel].filter((id) => list.some((x) => x.l.id === id));
+  $("mailSub").textContent = c.configured ? `Bugün ${M.sentToday} / ${c.limit} mail gönderildi` : "Mail hesabı bağlı değil";
+  if (M.running) return renderMailRun();
+  const status = !M.cfg ? `<div class="mcard mwarn">Gönderim durumu alınamadı. Sayfayı yenileyin.</div>`
+    : !c.configured ? `<div class="mcard mwarn"><b>Mail hesabı henüz bağlı değil</b><ol><li>Vercel → proje → Settings → Environment Variables</li><li>Şunları ekleyin: <code>SMTP_HOST</code> <code>SMTP_PORT</code> <code>SMTP_USER</code> <code>SMTP_PASS</code> <code>SMTP_FROM</code> <code>SMTP_FROM_NAME</code></li><li>İsteğe bağlı: <code>SEND_DAILY_LIMIT</code> (varsayılan 25)</li><li>Yeniden yayınlayın. Şifreyi kimseyle paylaşmayın.</li></ol></div>`
+    : `<div class="mcard"><div class="mstat"><div><small>Gönderen</small><b style="font-size:16px">${esc(c.fromName || "")} &lt;${esc(c.from || "")}&gt;</b></div><div><small>Bugün kalan hak</small><b>${left} / ${c.limit}</b></div><div><small>Zamanı gelen</small><b>${q.first.length + q.fu.length}</b></div><button class="btn" data-mtest>Test maili gönder</button></div>${c.dryRun ? '<p class="mini" style="margin-top:10px"><b>Kuru çalışma kipi:</b> gerçek mail gönderilmez.</p>' : ""}</div>`;
+  const tabs = `<div class="tabs" role="tablist" style="margin-top:16px"><button role="tab" data-mtab="first" aria-selected="${M.tab === "first"}">İlk mail (${q.first.length})</button><button role="tab" data-mtab="fu" aria-selected="${M.tab === "fu"}">Takipler (${q.fu.length})</button><button role="tab" data-mtab="log" aria-selected="${M.tab === "log"}">Geçmiş</button></div>`;
+  let body = "";
+  if (M.tab === "log") {
+    body = M.sends.length ? `<div class="mcard mlog" style="margin-top:12px">${M.sends.slice(0, 80).map((s) => `<div><time>${esc(new Date(s.at).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))}</time><span><b>${esc(s.name)}</b> · ${esc(MSTEP[s.step] || "")}<br><span class="mt" style="color:var(--muted)">${esc(s.to)} — ${esc(s.subject)}</span></span></div>`).join("")}</div>` : `<div class="empty"><b>Henüz gönderim yok</b>Gönderilen mailler burada listelenir.</div>`;
+  } else {
+    const tools = `<div class="mtools"><select class="field" data-mcity aria-label="Şehir"><option value="">Tüm şehirler</option>${cities.map((x) => `<option ${M.city === x ? "selected" : ""}>${esc(x)}</option>`).join("")}</select><select class="field" data-mmin aria-label="Asgari puan">${[[0, "Her puan"], [70, "Puan 70+"], [80, "Puan 80+"]].map(([v, t]) => `<option value="${v}" ${M.min === v ? "selected" : ""}>${t}</option>`).join("")}</select><button class="btn" data-mall ${c.configured ? "" : "disabled"}>İlk ${Math.min(left, list.length)} firmayı seç</button><button class="btn" data-mnone>Seçimi temizle</button></div>`;
+    const rows = list.length ? list.map(({ l, step, waited }) => `<div class="mrow" data-on="${M.sel.has(l.id)}" data-mid="${esc(l.id)}"><button class="ck2" data-msel="${esc(l.id)}" aria-label="Seç" aria-pressed="${M.sel.has(l.id)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></button><div style="min-width:0"><div class="nm">${esc(l.name)} <span class="tag" style="margin-left:4px">${esc(MSTEP[step])}${waited != null ? ` · ${waited}. gün` : ""}</span></div><div class="mt">${esc(sectorOf(l))} · ${esc(cityOf(l))} · ${esc(l.email)} · puan ${l.score ?? "—"}</div></div><button class="pv" data-mprev="${esc(l.id)}:${step}">Önizle</button></div>`).join("")
+      : `<div class="empty"><b>${M.tab === "first" ? "Gönderilecek ilk mail yok" : "Zamanı gelen takip yok"}</b>${M.tab === "fu" && q.later.length ? `${q.later.length} firmanın takibi henüz zamanı gelmedi.` : "Filtreleri değiştirmeyi deneyin."}</div>`;
+    body = tools + `<div class="mlist">${rows}</div>` + `<div class="mbar"><div><b>${sel.length}</b> firma seçili<br><span class="mt" style="color:var(--muted);font-size:12.5px">Kalan günlük hak: ${left}</span></div><button class="btn dark" data-msend ${sel.length && c.configured ? "" : "disabled"}>Seçilenlere gönder</button></div>`;
+  }
+  $("mailBody").innerHTML = status + tabs + body;
+}
+function renderMailRun() {
+  const M = S.mail, p = M.prog || { done: 0, total: 0, cur: "" };
+  $("mailBody").innerHTML = `<div class="mcard"><b>Gönderiliyor… ${p.done} / ${p.total}</b><div class="mprog"><i style="width:${p.total ? Math.round((p.done / p.total) * 100) : 0}%"></i></div><p class="mini" id="mailCur">${esc(p.cur)}</p><p class="mini">Mailler arasında kısa bekleme var. Bu sayfayı kapatmayın.</p><div class="msg-acts"><button class="btn bad" data-mstop>Durdur</button></div><div class="mres">${M.results.map((r) => `<div class="${r.ok ? "ok" : "er"}">${r.ok ? "✓" : "✕"} ${esc(r.name)} — ${esc(r.msg)}</div>`).join("")}</div></div>`;
+}
+const mSleep = (ms) => new Promise((r) => setTimeout(r, ms));
+async function mailSend() {
+  const M = S.mail, c = M.cfg, q = mailQueue(), all = [...q.first, ...q.fu];
+  const items = [...M.sel].map((id) => all.find((x) => x.l.id === id)).filter(Boolean);
+  const left = Math.max(0, c.limit - M.sentToday);
+  if (!items.length) return toast("Seçili firma yok");
+  if (items.length > left) return toast(`Günlük hak ${left}; seçimi azaltın`);
+  const a = items.filter((x) => x.step === 0).length, b = items.length - a;
+  const ok = await dialog({ title: `${items.length} firmaya mail gönderilsin mi?`, text: `İlk mail: ${a}, takip: ${b}. Gönderilen mailler geri alınamaz. ${c.dryRun ? "(Kuru çalışma: gerçekte gönderilmez.) " : "Mailler arasında 20–45 saniye beklenir; sayfayı kapatmayın. "}`, ok: "Gönder" });
+  if (!ok) return;
+  Object.assign(M, { running: true, stop: false, results: [], prog: { done: 0, total: items.length, cur: "" } });
+  window.onbeforeunload = () => "Gönderim sürüyor";
+  renderMail(); let fails = 0;
+  for (const it of items) {
+    if (M.stop) break;
+    M.prog.cur = `${it.l.name} (${MSTEP[it.step]})`; renderMailRun();
+    try {
+      const r = await fetch("/api/send", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: it.l.id, step: it.step }) });
+      const j = await r.json().catch(() => ({}));
+      if (r.status === 401) { location.href = "/login"; return; }
+      if (!r.ok) { M.results.push({ name: it.l.name, ok: false, msg: j.error || r.status }); fails++; if (r.status === 429) { M.stop = true; M.results.push({ name: "—", ok: false, msg: "Günlük limit doldu, gönderim durduruldu." }); } }
+      else { fails = 0; M.results.push({ name: it.l.name, ok: true, msg: "gönderildi" }); const i = S.leads.findIndex((x) => x.id === it.l.id); if (i >= 0) S.leads[i] = { ...S.leads[i], ...j.lead }; M.sentToday = j.sentToday ?? M.sentToday + 1; M.sel.delete(it.l.id); }
+    } catch (e) { M.results.push({ name: it.l.name, ok: false, msg: "Bağlantı hatası" }); fails++; }
+    M.prog.done++; renderMailRun();
+    if (fails >= 3) { M.stop = true; M.results.push({ name: "—", ok: false, msg: "Üst üste 3 hata, gönderim durduruldu." }); }
+    if (!M.stop && M.prog.done < items.length) await mSleep(c.dryRun ? 300 : 20000 + Math.random() * 25000);
+  }
+  window.onbeforeunload = null; M.running = false;
+  const okn = M.results.filter((r) => r.ok).length;
+  toast(`${okn} mail gönderildi${M.results.length - okn ? `, ${M.results.length - okn} hata` : ""}`);
+  await loadMail(); render();
+}
+async function mailTest() {
+  const ok = await dialog({ title: "Test maili gönderilsin mi?", text: "Mail yalnızca gönderen adresin kendisine gider; hiçbir firmaya gitmez.", ok: "Gönder" });
+  if (!ok) return;
+  try { const r = await fetch("/api/send", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ test: true }) }); const j = await r.json().catch(() => ({})); toast(r.ok ? "Test maili gönderildi" : (j.error || "Gönderilemedi")); } catch { toast("Bağlantı hatası"); }
+}
+function mailPreview(id, step) {
+  const l = S.leads.find((x) => x.id === id); if (!l) return; const o = l.outreach || {}, m = step === 0 ? { subject: o.subject, body: o.body } : (o.followups || [])[step - 1] || {};
+  const el = $("lfModal"); el.innerHTML = `<div class="lf-h"><h3 id="lfTitle">${esc(l.name)} · ${esc(MSTEP[step])}</h3><p>Alıcı: ${esc(l.email)}. Metni değiştirmek için firma ekranından “Hazır metinler → Düzenle”yi kullanın.</p></div><form style="padding:12px 24px 0"><div class="subj" style="font-weight:700;margin-bottom:8px">${esc(m.subject || "")}</div><pre style="white-space:pre-wrap;font:inherit;font-size:14px;line-height:1.6;overflow-wrap:anywhere">${esc(m.body || "")}</pre><div class="lf-f"><button type="button" class="btn" data-cancel>Kapat</button><button type="button" class="btn dark" data-mopen="${esc(l.id)}">Firmayı aç</button></div></form>`;
+  const close = () => { el.classList.remove("on"); $("scrim3").classList.remove("on"); $("scrim3").onclick = null; };
+  el.classList.add("on"); $("scrim3").classList.add("on"); el.scrollTop = 0; $("scrim3").onclick = close;
+  el.onclick = (e) => { if (e.target.closest("[data-cancel]")) close(); const o2 = e.target.closest("[data-mopen]"); if (o2) { close(); setView("firmalar"); openLead(o2.dataset.mopen); } };
+}
+
+/* ---- hazır metinleri düzenleme ---- */
+async function saveMsg() {
+  const l = S.leads.find((x) => x.id === S.open); if (!l) return;
+  const v = {}; document.querySelectorAll("#dBody [data-ed]").forEach((el) => { v[el.dataset.ed] = el.value; });
+  const o = { ...(l.outreach || {}) };
+  if ("subject" in v) { o.subject = v.subject.trim(); o.body = v.body.replace(/\s+$/, ""); }
+  if ("dm" in v) o.dm = v.dm.replace(/\s+$/, "");
+  if ("call" in v) o.call = v.call.replace(/\s+$/, "");
+  if (Array.isArray(o.followups)) o.followups = o.followups.map((f, i) => ("fs" + i in v ? { ...f, subject: v["fs" + i].trim(), body: v["fb" + i].replace(/\s+$/, "") } : f));
+  o.edited = true;
+  try { await lapi("PATCH", { id: l.id, patch: { outreach: o } }); l.outreach = o; S.editMsg = null; refresh(); toast("Metin kaydedildi"); }
+  catch (e) { toast("Kaydedilemedi: " + e.message); }
+}
+async function resetMsg() {
+  const l = S.leads.find((x) => x.id === S.open); if (!l || !l.manual) return;
+  const ok = await dialog({ title: "Şablona sıfırlansın mı?", text: "Metinler firma bilgilerinden yeniden hazırlanır; yaptığınız düzenlemeler silinir.", ok: "Sıfırla", danger: true });
+  if (!ok) return;
+  try { const r = await lapi("POST", { regen: l.id }); Object.assign(l, r.lead); S.editMsg = null; refresh(); toast("Metinler yeniden hazırlandı"); }
+  catch (e) { toast("Yapılamadı: " + e.message); }
+}
+
+/* ---- elle firma ekleme / düzenleme ---- */
+const LSVC = ["Web sitesi", "Google Ads", "Sosyal medya", "Mobil uygulama", "Özel yazılım"];
+async function lapi(method, body, qs = "") {
+  const r = await fetch("/api/leads" + qs, { method, credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 401) { location.href = "/login"; throw new Error("401"); }
+  const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.status); return j;
+}
+function leadForm(edit) {
+  const m = $("lfModal"), v = edit || {}, sel = new Set(v.services || []);
+  const sectors = [...new Set(S.leads.map(sectorOf))].sort((a, b) => a.localeCompare(b, "tr"));
+  const cities = [...new Set(["İstanbul", "Gaziantep", "Adana", "Kahramanmaraş", "Şanlıurfa", "İzmir", "Ankara", ...S.leads.map(cityOf)])];
+  const inp = (id, label, o = {}) => `<div class="${o.w ? "w" : ""}"><label class="l" for="lf-${id}">${label}</label><input class="field" id="lf-${id}" ${o.list ? `list="${o.list}"` : ""} ${o.type ? `type="${o.type}"` : 'type="text"'} ${o.im ? `inputmode="${o.im}"` : ""} maxlength="${o.max || 120}" autocomplete="off" value="${esc(v[id] || "")}" placeholder="${esc(o.ph || "")}"></div>`;
+  m.innerHTML = `<div class="lf-h"><h3 id="lfTitle">${edit ? "Firma bilgilerini düzenle" : "Firma ekle"}</h3><p>${edit ? "Değişiklikler kaydedilince listeye yansır." : "İnternette bilgisi olmayan ama tanıdığınız firmaları buradan ekleyin. Yalnızca firma adı zorunlu, gerisini sonradan da tamamlayabilirsiniz."}</p></div>
+  <form id="lfForm" novalidate><div class="lf-g">
+    ${inp("name", "Firma adı <span style=\"color:var(--accent)\">*</span>", { w: 1, ph: "Örn. Yılmaz Mobilya" })}
+    ${inp("sector", "Sektör / iş kolu", { list: "lf-sec", ph: "Örn. Mobilya mağazası" })}
+    ${inp("phone", "Telefon", { type: "tel", im: "tel", max: 40, ph: "Örn. 0532 000 00 00" })}
+    ${inp("city", "Şehir", { list: "lf-city", max: 60, ph: "Örn. Gaziantep" })}
+    ${inp("district", "İlçe", { max: 60, ph: "Örn. Şehitkamil" })}
+    ${inp("email", "E-posta", { type: "email", im: "email", ph: "Örn. info@firma.com" })}
+    ${inp("instagram", "Instagram", { max: 80, ph: "Örn. @firmaadi" })}
+    ${inp("website", "Web sitesi", { w: 1, max: 200, ph: "Yoksa boş bırakın" })}
+    <div class="w"><label class="l" for="lf-ads">Google Ads reklamı veriyor mu?</label><select class="field" id="lf-ads"><option value="">Bilmiyorum</option><option value="yok" ${v.ads === "yok" ? "selected" : ""}>Hayır, reklam vermiyor</option><option value="var" ${v.ads === "var" ? "selected" : ""}>Evet, reklam veriyor</option></select><div class="lf-hint">Firma adını Google'da arayınca en üstte reklamı çıkıyorsa "Evet" seçin. Web sitesi alanı boşsa firma "Web sitesi yok" olarak işaretlenir.</div></div>
+    <div class="w"><span class="l" style="display:block;font-size:13px;font-weight:700;margin-bottom:7px">Hangi hizmetleri sunabiliriz? <small style="font-weight:500;color:var(--muted)">(isteğe bağlı)</small></span><div class="svc" id="lf-svc">${LSVC.map((s) => `<button type="button" aria-pressed="${sel.has(s)}" data-s="${esc(s)}">${esc(s)}</button>`).join("")}</div></div>
+    <div class="w"><label class="l" for="lf-capacity">Notlar <small>(tanışıklık, neden uygun, ne konuşuldu)</small></label><textarea class="field" id="lf-capacity" maxlength="600" placeholder="Örn. Ahmet Bey'i tanıyorum, 3 şubesi var, sitesi yok. Geçen ay telefonda konuştuk.">${esc(v.capacity || "")}</textarea></div>
+  </div><div class="lf-err" id="lfErr" role="alert"></div>
+  <datalist id="lf-sec">${sectors.map((s) => `<option value="${esc(s)}">`).join("")}</datalist><datalist id="lf-city">${cities.map((s) => `<option value="${esc(s)}">`).join("")}</datalist>
+  <div class="lf-f"><button type="button" class="btn" data-cancel>Vazgeç</button><button type="submit" class="btn dark" id="lfOk">${edit ? "Kaydet" : "Firmayı ekle"}</button></div></form>`;
+  const close = () => { m.classList.remove("on"); $("scrim3").classList.remove("on"); $("scrim3").onclick = null; };
+  m.classList.add("on"); $("scrim3").classList.add("on"); m.scrollTop = 0;
+  setTimeout(() => $("lf-name").focus({ preventScroll: true }), 60);
+  $("scrim3").onclick = close;
+  m.onkeydown = (e) => { if (e.key === "Escape") close(); };
+  m.onclick = (e) => {
+    if (e.target.closest("[data-cancel]")) close();
+    const b = e.target.closest("#lf-svc button"); if (b) b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+  };
+  $("lfForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const g = (id) => $("lf-" + id).value.trim();
+    const data = { name: g("name"), sector: g("sector"), phone: g("phone"), city: g("city"), district: g("district"), email: g("email"), instagram: g("instagram"), website: g("website"), ads: g("ads"), capacity: g("capacity"), services: [...m.querySelectorAll("#lf-svc button[aria-pressed=true]")].map((b) => b.dataset.s) };
+    data.websiteStatus = data.website ? (edit && edit.websiteStatus && edit.websiteStatus !== "yok" ? edit.websiteStatus : "") : "yok";
+    if (!data.name) { $("lfErr").textContent = "Firma adı gerekli."; $("lf-name").focus(); return; }
+    const ok = $("lfOk"); ok.disabled = true; $("lfErr").textContent = "";
+    try {
+      let lead;
+      if (edit) { const r = await lapi("PATCH", { id: edit.id, patch: data }); lead = r.lead; const i = S.leads.findIndex((x) => x.id === edit.id); S.leads[i] = { ...S.leads[i], ...lead }; }
+      else { const r = await lapi("POST", { manual: data }); lead = r.lead; S.leads.unshift(lead); }
+      close(); fillFilters(); render();
+      if (edit) { $("dBody").innerHTML = detail(S.leads.find((x) => x.id === edit.id)); $("dTop").textContent = data.name; toast("Kaydedildi"); }
+      else { toast("Firma eklendi"); openLead(lead.id); }
+    } catch (err) { $("lfErr").textContent = "Kaydedilemedi: " + err.message; ok.disabled = false; }
+  };
+}
+async function delLead() {
+  const l = S.leads.find((x) => x.id === S.open); if (!l || !l.manual) return;
+  const okk = await dialog({ title: "Firma silinsin mi?", text: `"${l.name}" kalıcı olarak silinir. Bu işlem geri alınamaz.`, ok: "Sil", danger: true });
+  if (!okk) return;
+  try { await lapi("DELETE", null, "?id=" + encodeURIComponent(l.id)); S.leads = S.leads.filter((x) => x.id !== l.id); closeLead(); fillFilters(); render(); toast("Firma silindi"); }
+  catch (e) { toast("Silinemedi: " + e.message); }
+}
+
+/* ---- modal ---- */
+function dialog({ title, text, input, ok = "Tamam", danger }) {
+  return new Promise((resolve) => {
+    const m = $("modal"); m.querySelector("h3").textContent = title;
+    m.querySelector("p").textContent = text || ""; m.querySelector("p").hidden = !text;
+    const inp = m.querySelector("input"); inp.hidden = !input; inp.value = ""; inp.placeholder = input || "";
+    const okb = m.querySelector("[data-ok]"); okb.textContent = ok; okb.classList.toggle("bad", !!danger); okb.classList.toggle("dark", !danger);
+    const done = (v) => { m.classList.remove("on"); $("scrim3").classList.remove("on"); m.onclick = null; resolve(v); };
+    m.classList.add("on"); $("scrim3").classList.add("on");
+    if (input) setTimeout(() => inp.focus(), 60);
+    m.onclick = (e) => { if (e.target.closest("[data-ok]")) done(input ? inp.value.trim() || null : true); else if (e.target.closest("[data-cancel]")) done(null); };
+    inp.onkeydown = (e) => { if (e.key === "Enter") { e.preventDefault(); done(inp.value.trim() || null); } if (e.key === "Escape") done(null); };
+    $("scrim3").onclick = () => done(null);
+  });
+}
+
+/* ---- veri ---- */
+async function loadAds(force) {
+  if (S.adsLoaded && !force) { renderAds(); return; }
+  $("adsList").innerHTML = '<div class="skeleton"></div><div class="skeleton"></div>';
+  try {
+    const r = await fetch("/api/ads", { credentials: "same-origin" });
+    if (r.status === 401) { location.href = "/login"; return; }
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json(); S.clients = d.clients || []; S.schema = d.schema || []; S.adsLoaded = true;
+    renderAds();
+    const h = decodeURIComponent(location.hash.slice(1)); if (h.startsWith("ads/") && cl(h.slice(4))) openClient(h.slice(4), false);
+  } catch { $("adsList").innerHTML = `<div class="empty"><b>Müşteriler yüklenemedi</b>Bağlantınızı kontrol edip yeniden deneyin.</div>`; }
+}
+async function api(method, body, qs = "") {
+  const r = await fetch("/api/ads" + qs, { method, credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 401) { location.href = "/login"; throw new Error("401"); }
+  const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || r.status); return j;
+}
+
+/* ---- liste ---- */
+function renderAds() {
+  const L = S.clients;
+  $("adsSub").textContent = L.length ? `${L.length} müşteri · ${L.filter((c) => c.formStatus === "gonderildi").length} form dolduruldu` : "Başlangıç formu ve kampanya planı";
+  $("adsList").innerHTML = L.length ? L.map(clientCard).join("") : `<div class="empty"><b>Henüz müşteri yok</b>"Yeni müşteri" ile bir müşteri ekleyin; ona özel form bağlantısı oluşur. Müşteri formu doldurunca yanıtlar burada görünür ve kampanya planını hazırlarsınız.</div>`;
+}
+function clientCard(c) {
+  const f = c.formStatus === "gonderildi";
+  return `<div class="cl" role="button" tabindex="0" data-cid="${esc(c.id)}">
+    <div><div class="nm">${esc(c.name)}</div><div class="mt">Eklendi: ${esc(fDate(c.createdAt))}</div></div>
+    <div class="row2"><span class="tag ${f ? "ok" : "wait"}">Form: ${f ? "Dolduruldu · " + esc(fShort(c.formAt)) : "Bekliyor"}</span><span class="tag ${c.planStatus === "taslak" ? "" : "ok"}">Plan: ${esc(PSTATUS[c.planStatus] || "Taslak")}</span></div>
+    <div class="cl-act"><button class="btn" data-copyform="${esc(c.id)}"><svg><use href="#i-copy"/></svg>Form linki</button><a class="btn" href="${esc(waShare(c))}" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp'tan gönder</a></div>
+  </div>`;
+}
+
+/* ---- detay ---- */
+function openClient(id, push = true) {
+  const c = cl(id); if (!c) return;
+  closeDrawer(true);
+  if (S.client !== id) S.ctab = c.formStatus === "gonderildi" ? "plan" : "form";
+  S.client = id; S.open = null; lastFocus = document.activeElement;
+  $("dTop").textContent = c.name;
+  $("dBody").innerHTML = clientDetail(c); $("dBody").scrollTop = 0;
+  $("sheet").classList.add("on"); $("scrim").classList.add("on");
+  document.body.style.overflow = "hidden";
+  if (push && location.hash !== "#ads/" + id) history.pushState({ ads: id }, "", "#ads/" + id);
+  setTimeout(() => $("close").focus({ preventScroll: true }), 50);
+}
+function clientDetail(c) {
+  const f = c.formStatus === "gonderildi";
+  return `<div class="d-head"><div style="min-width:0"><h2 id="dTitle">${esc(c.name)}</h2><p>Eklendi: ${esc(fDate(c.createdAt))}</p></div></div>
+    <div class="d-tags"><span class="tag ${f ? "ok" : "wait"}">Form: ${f ? "Dolduruldu" : "Bekliyor"}</span><span class="tag">Plan: ${esc(PSTATUS[c.planStatus] || "Taslak")}</span></div>
+    <div class="tabs" style="margin-top:18px" role="tablist"><button role="tab" data-ctab="form" aria-selected="${S.ctab === "form"}">Başlangıç formu</button><button role="tab" data-ctab="plan" aria-selected="${S.ctab === "plan"}">Kampanya planı</button></div>
+    ${S.ctab === "form" ? formTab(c) : planTab(c)}`;
+}
+function formTab(c) {
+  const f = c.formStatus === "gonderildi", a = c.form || {};
+  const link = `<div class="sec" style="margin-top:22px"><div class="link-row"><div class="u" title="${esc(formUrl(c))}">${esc(formUrl(c))}</div><div class="btns"><button class="btn dark" data-copyform="${esc(c.id)}"><svg><use href="#i-copy"/></svg>Kopyala</button><a class="btn" href="${esc(waShare(c))}" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a><a class="btn" href="${esc(formUrl(c))}" target="_blank" rel="noopener">Önizle</a></div></div>
+    <p class="mini" style="margin-top:10px">Bağlantı yalnızca bu müşteriye özeldir. Müşteri gönderdikten sonra da bilgilerini güncelleyebilir.</p></div>`;
+  if (!f) return link + `<div class="sec"><div class="card mini" style="padding:18px">Müşteri formu henüz doldurmadı. Doldurunca yanıtlar burada görünür.</div></div>` + deleteBlock(c);
+  const sections = S.schema.map((s) => `<div class="ans-sec"><div class="ans-h">${esc(s.title)}</div><dl class="ans-g">${s.fields.map((x) => { const v = a[x.id]; const t = x.type === "check" ? (v ? "Onaylandı" : "") : v; const full = x.type === "textarea" || String(t || "").length > 60; return `<div class="ans-i${full ? " full" : ""}"><dt>${esc(x.type === "check" ? "Bilgilerin doğruluğu ve kullanım onayı" : x.label)}</dt><dd class="${t ? "" : "na"}">${esc(t || "—")}</dd></div>`; }).join("")}</dl></div>`).join("");
+  return link + `<div class="sec" style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><h3 style="margin:0">Yanıtlar · ${esc(fDate(c.formAt))}</h3><button class="btn dark" data-import>Plana aktar</button></div><p class="mini" style="margin:0 0 14px">“Plana aktar”, hedef, bölge, saat ve negatif kelime bilgilerini plandaki boş alanlara kopyalar; dolu alanlara dokunmaz.</p><div class="ans">${sections}</div>` + deleteBlock(c);
+}
+const deleteBlock = (c) => `<div class="danger"><button class="btn bad" data-delclient="${esc(c.id)}">Müşteriyi sil</button></div>`;
+
+/* ---- plan ---- */
+function planDefaults(c) {
+  const p = c.plan || (c.plan = {});
+  const A = (k, n, mk) => { if (!Array.isArray(p[k]) || !p[k].length) p[k] = Array.from({ length: n }, mk); };
+  A("campaigns", 1, () => ({ name: "", service: "", daily: "", region: "", strategy: "" }));
+  A("groups", 3, () => ({ name: "", keywords: "", match: "İfade eşleme", note: "" }));
+  A("headlines", 5, () => ""); A("descriptions", 2, () => "");
+  if (!p.negatives) p.negatives = NEG_START;
+  p.checks = p.checks || {}; p.checks.track = Array.from({ length: 6 }, (_, i) => !!(p.checks.track || [])[i]); p.checks.launch = Array.from({ length: 10 }, (_, i) => !!(p.checks.launch || [])[i]);
+  ["avgRevenue", "avgProfit", "maxCpa", "targetCustomers", "closeRate", "budgetOverride", "assumptions", "network", "location", "schedule", "device", "extensions", "notes", "approvedBy", "approvedAt"].forEach((k) => { if (p[k] == null) p[k] = ""; });
+  return p;
+}
+function calcPlan(p) {
+  const prof = num(p.avgProfit), cpa = num(p.maxCpa), tgt = num(p.targetCustomers), cr = num(p.closeRate), ov = num(p.budgetOverride);
+  const budget = isFinite(cpa) && isFinite(tgt) ? cpa * tgt : NaN;
+  const final = isFinite(ov) ? ov : budget;
+  return { budget, final, ov: isFinite(ov), daily: isFinite(final) ? final / 30.4 : NaN, leads: isFinite(tgt) && cr > 0 ? Math.ceil(tgt / (cr / 100)) : NaN, leadCpa: isFinite(cpa) && cr > 0 ? (cpa * cr) / 100 : NaN, share: isFinite(cpa) && prof > 0 ? (cpa / prof) * 100 : NaN };
+}
+function calcHtml(p) {
+  const k = calcPlan(p), warn = isFinite(k.share) && k.share > 40;
+  return `<div><small>${k.ov ? "Aylık bütçe (elle girilen)" : "Önerilen aylık bütçe"}</small><b>${tl(k.final)}</b></div><div><small>Günlük bütçe</small><b>${tl(k.daily)}</b></div><div><small>Gereken müşteri adayı / ay</small><b>${isFinite(k.leads) ? k.leads : "–"}</b></div><div class="${warn ? "warn" : ""}"><small>Aday başına hedef maliyet</small><b>${tl(k.leadCpa)}</b></div>${isFinite(k.share) ? `<p class="mini" style="grid-column:1/-1">Müşteri başına maliyet, müşteriden kalan kârın <b>%${Math.round(k.share)}</b>'i.${warn ? " Kaba kural %30–40; üstü zorlayıcı olabilir." : ""}</p>` : ""}`;
+}
+const pin = (label, path, o = {}) => `<div><label class="l">${esc(label)}</label>${o.area ? `<textarea class="field" data-p="${path}" rows="${o.rows || 2}" placeholder="${esc(o.ph || "")}">${esc(PL()[path] ?? "")}</textarea>` : `<input class="field" data-p="${path}" ${o.type ? `type="${o.type}"` : ""} ${o.im ? `inputmode="${o.im}"` : ""} placeholder="${esc(o.ph || "")}" value="${esc(PL()[path] ?? "")}">`}</div>`;
+const PL = () => cl(S.client).plan;
+function planTab(c) {
+  const p = planDefaults(c);
+  const cnt = (v, max) => `<div class="cn ${String(v).length > max ? "over" : ""}">${String(v).length}/${max}</div>`;
+  return `
+  <div class="pe-bar"><span class="sv2" id="planSv">Değişiklikler otomatik kaydedilir</span><div style="display:flex;gap:8px"><button class="btn" data-copyplan>Planı kopyala</button></div></div>
+  <div class="pe plan">
+  <div class="sec" style="margin-top:6px"><h3>Hedef ve bütçe</h3><div class="card"><div class="pe">
+    <div class="g3">${pin("Müşteriden ort. kazanç (TL)", "avgRevenue", { im: "decimal" })}${pin("Müşteriden kalan ort. kâr (TL)", "avgProfit", { im: "decimal" })}${pin("Müşteri başına kabul edilebilir maliyet (TL)", "maxCpa", { im: "decimal" })}${pin("Aylık hedef yeni müşteri", "targetCustomers", { im: "numeric" })}${pin("Müşteri adayı → müşteri oranı (%)", "closeRate", { im: "decimal", ph: "Örn. 25" })}${pin("Bütçeyi elle belirle (TL)", "budgetOverride", { im: "decimal", ph: "Boşsa hesaplanan" })}</div>
+    <div class="calc" id="calcBox">${calcHtml(p)}</div>
+    <p class="mini">Aylık bütçe ≈ hedef müşteri × müşteri başına kabul edilebilir maliyet. Aday sayısı ve aday başına maliyet, adayların kaçının müşteri olduğuna göre değişir; oran bilinmiyorsa ilk ayın verisiyle güncellenir.</p>
+    ${pin("Varsayımlar ve riskler", "assumptions", { area: 1, rows: 3 })}
+  </div></div></div>
+
+  <div class="sec"><h3>Kampanya yapısı</h3><p class="mini" style="margin-bottom:8px">Her hizmet kendi kampanyasında ve bütçesinde olsun; neyin işe yaradığı ayrı görünür.</p>
+    ${p.campaigns.map((x, i) => `<div class="row-c" style="margin-bottom:10px"><div class="g2"><div><label class="l">Kampanya adı</label><input class="field" data-a="campaigns" data-i="${i}" data-k="name" value="${esc(x.name)}" placeholder="Arama – [Hizmet]"></div><div><label class="l">Hizmet</label><input class="field" data-a="campaigns" data-i="${i}" data-k="service" value="${esc(x.service)}"></div></div>
+      <div class="g2"><div><label class="l">Günlük bütçe (TL)</label><input class="field" inputmode="decimal" data-a="campaigns" data-i="${i}" data-k="daily" value="${esc(x.daily)}"></div><div><label class="l">Bölge</label><input class="field" data-a="campaigns" data-i="${i}" data-k="region" value="${esc(x.region)}"></div></div>
+      <div><label class="l">Teklif stratejisi ve not</label><textarea class="field" rows="2" data-a="campaigns" data-i="${i}" data-k="strategy" placeholder="Başlangıç: tıklamayı en üst düzeye çıkar (tavan teklifle). Yeterli dönüşümden sonra dönüşüm odaklı stratejiye geç.">${esc(x.strategy)}</textarea></div>
+      <div style="text-align:right"><button class="rm" data-rm="campaigns:${i}">Sil</button></div></div>`).join("")}
+    <button class="addb" data-add="campaigns">+ Kampanya ekle</button></div>
+
+  <div class="sec"><h3>Kampanya ayarları</h3><div class="card"><div class="pe">
+    ${pin("Ağlar", "network", { area: 1, ph: "Başlangıçta yalnızca Google Arama. Arama ortakları ve Görüntülü reklam ağı kapalı." })}
+    ${pin("Konum ayarı", "location", { area: 1, ph: "Hedef bölgeler; 'Konumda bulunan' seçeneğini değerlendirin." })}
+    ${pin("Reklam zamanlaması", "schedule", { area: 1, ph: "Telefona bakılan saatler." })}
+    ${pin("Cihaz", "device", { area: 1, ph: "Telefon ağırlıklıysa mobil teklifini artır; site mobilde zayıfsa önce siteyi düzelt." })}
+  </div></div></div>
+
+  <div class="sec"><h3>Anahtar kelimeler</h3><p class="mini" style="margin-bottom:8px">Satın almaya yakın aramalarla başlayın: "[hizmet] [ilçe]", "[hizmet] fiyat", "[hizmet] yakınımda". Her satıra bir kelime yazın.</p>
+    ${p.groups.map((g, i) => `<div class="row-c" style="margin-bottom:10px"><div class="g2"><div><label class="l">Reklam grubu</label><input class="field" data-a="groups" data-i="${i}" data-k="name" value="${esc(g.name)}" placeholder="[Hizmet] + [ilçe]"></div><div><label class="l">Eşleme</label><select class="field" data-a="groups" data-i="${i}" data-k="match">${MATCH.map((m) => `<option ${m === g.match ? "selected" : ""}>${m}</option>`).join("")}</select></div></div>
+      <div><label class="l">Kelimeler</label><textarea class="field" rows="3" data-a="groups" data-i="${i}" data-k="keywords">${esc(g.keywords)}</textarea></div>
+      <div><label class="l">Not</label><input class="field" data-a="groups" data-i="${i}" data-k="note" value="${esc(g.note)}" placeholder="Niyet, tahmini maliyet"></div>
+      <div style="text-align:right"><button class="rm" data-rm="groups:${i}">Sil</button></div></div>`).join("")}
+    <button class="addb" data-add="groups">+ Reklam grubu ekle</button></div>
+
+  <div class="sec"><h3>Negatif kelimeler</h3><div class="card"><div class="pe"><textarea class="field" rows="4" data-p="negatives">${esc(p.negatives)}</textarea><p class="mini">Başlangıç listesidir; sektöre göre düzenleyin. İlk haftalarda "Arama terimleri" raporuyla beslenir.</p></div></div></div>
+
+  <div class="sec"><h3>Reklam metinleri</h3><p class="mini" style="margin-bottom:8px">Duyarlı arama reklamı: en fazla 15 başlık (her biri en çok ${HL_MAX} karakter) ve 4 açıklama (her biri en çok ${DS_MAX} karakter). Kalıplar: anahtar kelime + bölge, somut fayda, doğrulanabilir güven maddesi, çağrı. Garanti ve kanıtsız "en iyi" iddiası yazmayın.</p>
+    <div class="card"><div class="pe">${p.headlines.map((h, i) => `<div><label class="l">Başlık ${i + 1}</label><input class="field" data-l="headlines" data-i="${i}" data-max="${HL_MAX}" value="${esc(h)}">${cnt(h, HL_MAX)}</div>`).join("")}${p.headlines.length < 15 ? `<button class="addb" data-add="headlines">+ Başlık ekle</button>` : ""}</div></div>
+    <div class="card" style="margin-top:10px"><div class="pe">${p.descriptions.map((h, i) => `<div><label class="l">Açıklama ${i + 1}</label><textarea class="field" rows="2" data-l="descriptions" data-i="${i}" data-max="${DS_MAX}">${esc(h)}</textarea>${cnt(h, DS_MAX)}</div>`).join("")}${p.descriptions.length < 4 ? `<button class="addb" data-add="descriptions">+ Açıklama ekle</button>` : ""}</div></div>
+    <div class="card" style="margin-top:10px"><div class="pe">${pin("Reklam varlıkları (arama, site bağlantıları, öne çıkan metinler, konum)", "extensions", { area: 1, rows: 3, ph: "Telefon varlığı yalnızca telefona bakılan saatlerde; 4 site bağlantısı ilgili hizmet sayfalarına." })}</div></div></div>
+
+  <div class="sec"><h3>Takip ve ölçüm (yayından önce)</h3><div class="card"><div class="ckl">${CHK_TRACK.map((t, i) => `<button class="wkb" data-chk="track" data-i="${i}" aria-pressed="${p.checks.track[i]}"><span>${esc(t)}</span><span class="ck"><svg><use href="#i-check"/></svg></span></button>`).join("")}</div></div></div>
+  <div class="sec"><h3>Yayın öncesi kontrol</h3><div class="card"><div class="ckl">${CHK_LAUNCH.map((t, i) => `<button class="wkb" data-chk="launch" data-i="${i}" aria-pressed="${p.checks.launch[i]}"><span>${esc(t)}</span><span class="ck"><svg><use href="#i-check"/></svg></span></button>`).join("")}</div><p class="mini" style="margin-top:10px">Kampanyayı yayına almak gerçek harcama başlatır; yalnızca müşterinin açık onayından sonra yapılır.</p></div></div>
+
+  <div class="sec"><h3>İlk 30 gün</h3><div class="card"><dl class="qa">
+    <div><dt>Hafta 1</dt><dd>Her gün arama terimlerine bak, alakasızları negatife ekle. Takip kayıt alıyor mu kontrol et. Büyük değişiklik yapma (öğrenme dönemi).</dd></div>
+    <div><dt>Hafta 2</dt><dd>Haftada 2–3 kez negatif temizliği. Gelen adayların kalitesini müşteriyle konuş. Zayıf başlıkları değiştir.</dd></div>
+    <div><dt>Hafta 3</dt><dd>Kelime ve grup bazında maliyete bak: çok harcayıp aday getirmeyeni kıs, getireni artır. Cihaz, saat ve bölge kırılımlarını incele.</dd></div>
+    <div><dt>Hafta 4</dt><dd>Aylık raporu hazırla (harcama, aday sayısı, aday başına maliyet, gerçek müşteriye dönüşen). Bütçe ve hedefi gerçek veriyle güncelle; 2–3 deneme planla.</dd></div></dl></div></div>
+
+  <div class="sec"><h3>Notlar</h3><div class="card"><div class="pe">${pin("Notlar", "notes", { area: 1, rows: 4 })}</div></div></div>
+
+  <div class="sec"><h3>Onay ve durum</h3><div class="card"><div class="pe">
+    <div class="g2">${pin("Planı onaylayan (müşteri)", "approvedBy")}${pin("Onay tarihi", "approvedAt", { type: "date" })}</div>
+    <div><label class="l">Plan durumu</label><select class="field sm" data-pstatus>${Object.entries(PSTATUS).map(([k, t]) => `<option value="${k}" ${c.planStatus === k ? "selected" : ""}>${t}</option>`).join("")}</select></div>
+  </div></div></div>
+  </div>`;
+}
+
+/* ---- plan kaydı ---- */
+let planT = null, planDirty = false;
+function touch() { planDirty = true; setPlanSv("Kaydediliyor…"); clearTimeout(planT); planT = setTimeout(savePlan, 700); }
+function setPlanSv(t, err) { const el = $("planSv"); if (el) { el.textContent = t; el.classList.toggle("err", !!err); } }
+async function savePlan() {
+  if (!planDirty || !S.client) return;
+  const c = cl(S.client); if (!c) return; planDirty = false; clearTimeout(planT);
+  try { await api("PATCH", { id: c.id, patch: { plan: c.plan } }); setPlanSv("Kaydedildi · " + new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })); }
+  catch { planDirty = true; setPlanSv("Kaydedilemedi. Tekrar denemek için bir alanı değiştirin.", true); }
+}
+function rerenderClient() { const b = $("dBody"), y = b.scrollTop, c = cl(S.client); b.innerHTML = clientDetail(c); b.scrollTop = y; }
+function planText(c) {
+  const p = c.plan, k = calcPlan(p), L = [];
+  L.push(`GOOGLE ADS KAMPANYA PLANI — ${c.name}`, "");
+  L.push("HEDEF VE BÜTÇE", `Müşteri başına kabul edilebilir maliyet: ${tl(num(p.maxCpa))}`, `Aylık hedef müşteri: ${p.targetCustomers || "–"}`, `Aylık bütçe: ${tl(k.final)} · Günlük: ${tl(k.daily)}`, `Gereken aday/ay: ${isFinite(k.leads) ? k.leads : "–"} · Aday başına hedef maliyet: ${tl(k.leadCpa)}`, "");
+  L.push("KAMPANYALAR", ...p.campaigns.filter((x) => x.name).map((x) => `- ${x.name} | ${x.service} | ${x.daily} TL/gün | ${x.region} | ${x.strategy}`), "");
+  L.push("ANAHTAR KELİMELER", ...p.groups.filter((g) => g.name || g.keywords).map((g) => `[${g.name}] (${g.match})\n${g.keywords}`), "");
+  L.push("NEGATİF KELİMELER", p.negatives, "");
+  L.push("BAŞLIKLAR", ...p.headlines.filter(Boolean).map((h, i) => `${i + 1}. ${h}`), "", "AÇIKLAMALAR", ...p.descriptions.filter(Boolean).map((h, i) => `${i + 1}. ${h}`), "");
+  if (p.notes) L.push("NOTLAR", p.notes);
+  return L.join("\n");
+}
+function importToPlan() {
+  const c = cl(S.client), a = c.form || {}, p = planDefaults(c); let n = 0;
+  const set = (k, v) => { if (v && !String(p[k] || "").trim()) { p[k] = v; n++; } };
+  set("avgRevenue", a.ortKazanc); set("targetCustomers", a.hedefMusteri); set("maxCpa", a.maxMaliyet);
+  set("location", [a.bolgeler, a.disBolgeler ? "Hariç: " + a.disBolgeler : ""].filter(Boolean).join("\n"));
+  set("schedule", [a.saatler, a.aramaSaat ? "Aramalara bakılan saatler: " + a.aramaSaat : ""].filter(Boolean).join("\n"));
+  if (a.bolgeler && p.campaigns[0] && !p.campaigns[0].region) { p.campaigns[0].region = a.bolgeler.split("\n")[0].slice(0, 200); n++; }
+  const extra = [a.yapmadiklariniz, a.istenmeyenKelime].filter(Boolean).join(", ");
+  if (extra && !p.negatives.includes(extra)) { p.negatives = (p.negatives ? p.negatives + ", " : "") + extra.replace(/\n/g, ", "); n++; }
+  if (a.aylikButce) { const t = `Müşterinin belirttiği aylık bütçe: ${a.aylikButce} TL`; if (!p.notes.includes(t)) { p.notes = (p.notes ? p.notes + "\n" : "") + t; n++; } }
+  S.ctab = "plan"; rerenderClient(); touch(); toast(n ? `${n} alan plana aktarıldı` : "Aktarılacak boş alan yok");
+}
+
+/* ---- görünüm ve yönlendirme ---- */
+function setView(v, writeHash = true) {
+  S.view = v;
+  $("viewFirms").hidden = v !== "firmalar"; $("viewAds").hidden = v !== "ads"; $("viewMail").hidden = v !== "mail"; $("viewCalls").hidden = v !== "calls";
+  document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.view === v));
+  $("drFirms").hidden = v !== "firmalar"; $("drShow").hidden = v !== "firmalar"; $("drClear").hidden = v !== "firmalar";
+  if (writeHash) history.replaceState(null, "", v === "ads" ? "#ads" : v === "mail" ? "#mail" : v === "calls" ? "#calls" : location.pathname);
+  if (v === "ads") loadAds(); else if (v === "mail") { window.scrollTo({ top: 0 }); loadMail(); } else if (v === "calls") { window.scrollTo({ top: 0 }); renderCalls(); } else window.scrollTo({ top: 0 });
+}
+function route() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  if (h === "mail") { setView("mail", false); return; }
+  if (h === "calls") { setView("calls", false); return; }
+  if (h === "ads" || h.startsWith("ads/")) {
+    setView("ads", false);
+    const id = h.slice(4);
+    if (id) { if (S.adsLoaded && cl(id)) openClient(id, false); } else if (S.client || S.open) closeLead(true);
+  } else {
+    setView("firmalar", false);
+    if (h && S.leads.some((l) => l.id === h)) openLead(h, false); else if (S.client || S.open) closeLead(true);
+  }
+}
+
+/* ---- olaylar ---- */
+document.addEventListener("click", async (e) => {
+  if (e.target.closest("#viewCalls")) {
+    const g = (s) => e.target.closest(s);
+    if (g("[data-calladd]")) { callSet(g("[data-calladd]").dataset.calladd, true); $("callQ").value = ""; return; }
+    if (g("[data-callpop]")) { const id = g("[data-callpop]").dataset.callpop; S.callPop = S.callPop === id ? null : id; renderCalls(); return; }
+    if (g("[data-calloff]")) { const id = g("[data-calloff]").dataset.calloff, l = S.leads.find((x) => x.id === id); const ok = await dialog({ title: "Listeden çıkarılsın mı?", text: `"${l ? l.name : "Firma"}" aranacaklar listesinden çıkarılır. Firma kaydı silinmez, firmalar listesinde durur.`, ok: "Çıkar", danger: true }); if (ok) callSet(id, false); return; }
+    if (S.callPop && !g(".pop")) { S.callPop = null; renderCalls(); }
+    if (g("[data-callres]")) { const [id, k] = g("[data-callres]").dataset.callres.split(":"); callResult(id, k); return; }
+    if (g("[data-callopen]")) { const id = g("[data-callopen]").dataset.callopen; setView("firmalar"); openLead(id); return; }
+  }
+  if (e.target.closest("#viewMail")) {
+    const M = S.mail, g = (s) => e.target.closest(s);
+    if (g("[data-mtab]")) { M.tab = g("[data-mtab]").dataset.mtab; M.sel.clear(); renderMail(); return; }
+    if (g("[data-msel]")) { const id = g("[data-msel]").dataset.msel; const left = Math.max(0, (M.cfg?.limit || 0) - M.sentToday); if (M.sel.has(id)) M.sel.delete(id); else if (M.sel.size >= left) toast(`Bugün en fazla ${left} mail gönderilebilir`); else M.sel.add(id); renderMail(); return; }
+    if (g("[data-mall]")) { const q = mailQueue(), list = (M.tab === "first" ? q.first : q.fu).filter((x) => (!M.city || cityOf(x.l) === M.city) && (x.l.score || 0) >= M.min), left = Math.max(0, (M.cfg?.limit || 0) - M.sentToday); M.sel = new Set(list.slice(0, left).map((x) => x.l.id)); renderMail(); return; }
+    if (g("[data-mnone]")) { M.sel.clear(); renderMail(); return; }
+    if (g("[data-mprev]")) { const [id, st] = g("[data-mprev]").dataset.mprev.split(":"); mailPreview(id, Number(st)); return; }
+    if (g("[data-msend]")) { mailSend(); return; }
+    if (g("[data-mstop]")) { M.stop = true; toast("Durduruluyor…"); return; }
+    if (g("[data-mtest]")) { mailTest(); return; }
+  }
+  const nav = e.target.closest("[data-view]"); if (nav) { closeDrawer(); if (S.client || S.open) closeLead(true); setView(nav.dataset.view); return; }
+  const cp = e.target.closest("[data-copyform]"); if (cp) { e.stopPropagation(); const c = cl(cp.dataset.copyform); if (c) copyText(formUrl(c)); return; }
+  if (e.target.closest("#adsNew")) {
+    const name = await dialog({ title: "Yeni müşteri", text: "Müşterinin firma adını yazın. Ona özel bir form bağlantısı oluşturulur.", input: "Firma adı", ok: "Oluştur" });
+    if (!name) return;
+    try { const r = await api("POST", { name }); S.clients.unshift(r.client); renderAds(); openClient(r.client.id); toast("Müşteri eklendi. Form bağlantısını gönderebilirsiniz."); }
+    catch (err) { toast("Eklenemedi: " + err.message); }
+    return;
+  }
+  const card = e.target.closest(".cl"); if (card && !e.target.closest("a,button")) { openClient(card.dataset.cid); return; }
+  if (!S.client) return;
+  const c = cl(S.client); if (!c) return;
+  const tab = e.target.closest("[data-ctab]"); if (tab) { S.ctab = tab.dataset.ctab; rerenderClient(); return; }
+  if (e.target.closest("[data-import]")) { importToPlan(); return; }
+  if (e.target.closest("[data-copyplan]")) { copyText(planText(c)); return; }
+  const add = e.target.closest("[data-add]");
+  if (add) { const k = add.dataset.add, p = planDefaults(c); if (k === "campaigns" && p.campaigns.length < 12) p.campaigns.push({ name: "", service: "", daily: "", region: "", strategy: "" }); if (k === "groups" && p.groups.length < 30) p.groups.push({ name: "", keywords: "", match: "İfade eşleme", note: "" }); if (k === "headlines" && p.headlines.length < 15) p.headlines.push(""); if (k === "descriptions" && p.descriptions.length < 4) p.descriptions.push(""); rerenderClient(); touch(); return; }
+  const rm = e.target.closest("[data-rm]"); if (rm) { const [k, i] = rm.dataset.rm.split(":"); const arr = c.plan[k]; if (arr.length > 1) arr.splice(+i, 1); else if (typeof arr[0] === "object") Object.keys(arr[0]).forEach((x) => (arr[0][x] = x === "match" ? "İfade eşleme" : "")); rerenderClient(); touch(); return; }
+  const ck = e.target.closest("[data-chk]"); if (ck) { const k = ck.dataset.chk, i = +ck.dataset.i; c.plan.checks[k][i] = !c.plan.checks[k][i]; ck.setAttribute("aria-pressed", c.plan.checks[k][i]); touch(); return; }
+  const del = e.target.closest("[data-delclient]");
+  if (del) {
+    if (!(await dialog({ title: "Müşteriyi sil", text: `${c.name} ve tüm form yanıtları ile kampanya planı kalıcı olarak silinecek.`, ok: "Sil", danger: true }))) return;
+    try { await api("DELETE", null, "?id=" + encodeURIComponent(c.id)); S.clients = S.clients.filter((x) => x.id !== c.id); closeLead(); renderAds(); toast("Müşteri silindi"); } catch (err) { toast("Silinemedi: " + err.message); }
+  }
+}, true);
+document.addEventListener("input", (e) => {
+  if (!S.client) return; const t = e.target, c = cl(S.client); if (!c || !t.closest("#dBody")) return;
+  const p = planDefaults(c);
+  if (t.dataset.p) { p[t.dataset.p] = t.value; if (["avgRevenue", "avgProfit", "maxCpa", "targetCustomers", "closeRate", "budgetOverride"].includes(t.dataset.p)) $("calcBox").innerHTML = calcHtml(p); touch(); return; }
+  if (t.dataset.a) { p[t.dataset.a][+t.dataset.i][t.dataset.k] = t.value; touch(); return; }
+  if (t.dataset.l) { p[t.dataset.l][+t.dataset.i] = t.value; const cn = t.parentElement.querySelector(".cn"), mx = +t.dataset.max; if (cn) { cn.textContent = `${t.value.length}/${mx}`; cn.classList.toggle("over", t.value.length > mx); } touch(); }
+});
+document.addEventListener("change", async (e) => {
+  if (!S.client) return; const t = e.target, c = cl(S.client); if (!c) return;
+  if (t.dataset.pstatus !== undefined) { const prev = c.planStatus; c.planStatus = t.value; try { await api("PATCH", { id: c.id, patch: { planStatus: t.value } }); renderAds(); toast("Plan durumu: " + PSTATUS[t.value]); } catch { c.planStatus = prev; t.value = prev; toast("Kaydedilemedi"); } }
+});
+window.addEventListener("pagehide", () => { if (planDirty && S.client) { const c = cl(S.client); try { fetch("/api/ads", { method: "PATCH", keepalive: true, credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: c.id, patch: { plan: c.plan } }) }); } catch {} } });
+
+/* ---- tema ---- */
+function applyTheme(t) {
+  const r = document.documentElement;
+  if (t === "light" || t === "dark") r.dataset.theme = t; else delete r.dataset.theme;
+  try { t === "system" ? localStorage.removeItem("im.theme") : localStorage.setItem("im.theme", t); } catch {}
+  document.querySelectorAll("[data-theme-set]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.themeSet === t));
+  const dark = t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+  document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.remove());
+  const m = document.createElement("meta"); m.name = "theme-color"; m.content = dark ? "#0b1220" : "#f5f3ef"; document.head.appendChild(m);
+}
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-theme-set]"); if (b) applyTheme(b.dataset.themeSet); });
+applyTheme(document.documentElement.dataset.theme || "system");
+
+route();
+load();
+</script>
+</body>
+</html>
