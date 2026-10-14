@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./crm.module.css";
 import AdminHeader from "../yonetim/AdminHeader";
 import PaymentLinks from "./PaymentLinks";
+import ProfileCard, { ProfileEditor } from "./ProfileCard";
 
 type Row = Record<string, any> & { id: string; customerId?: string };
 type Data = { customers: Row[]; contracts: Row[]; payments: Row[]; activities: Row[]; tasks: Row[]; summary: Record<string, number> };
@@ -27,6 +28,7 @@ export default function CrmPage() {
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState("");
   const [payLink, setPayLink] = useState<Row | null>(null);
+  const [editing, setEditing] = useState(false);
 
   const load = async () => { try { setData(await api("/api/crm")); } catch (e: any) { setError(e.message); } finally { setBusy(false); } };
   useEffect(() => { load(); }, []);
@@ -41,6 +43,11 @@ export default function CrmPage() {
     if (body.services) body.services = String(body.services).split(",").map((x) => x.trim()).filter(Boolean);
     if (modal !== "customer") body.customerId = customer?.id;
     try { await api(`/api/crm/${modal === "customer" ? "customers" : modal + "s"}`, { method: "POST", body: JSON.stringify(body) }); setModal(""); await load(); }
+    catch (e: any) { setError(e.message); }
+  }
+
+  async function saveProfile(patch: any) {
+    try { await api(`/api/crm/customers/${customer?.id}`, { method: "PATCH", body: JSON.stringify(patch) }); setEditing(false); await load(); }
     catch (e: any) { setError(e.message); }
   }
 
@@ -73,6 +80,7 @@ export default function CrmPage() {
           {!customer ? <div className={styles.blank}><b>İlk müşterinizi ekleyin</b><p>Sözleşme, ödeme ve iş takibini buradan yönetin.</p><button className={styles.primary} onClick={() => setModal("customer")}>Müşteri ekle</button></div> : <>
             <div className={styles.customerHead}><div className={styles.avatar}>{customer.name.slice(0, 2).toLocaleUpperCase("tr")}</div><div><h2>{customer.name}</h2><p>{[customer.contactName, customer.phone, customer.email].filter(Boolean).join(" · ") || "İletişim bilgisi eklenmemiş"}</p></div><Status value={customer.status}/></div>
             <div className={styles.actions}><button onClick={() => setModal("contract")}>Sözleşme ekle</button><button onClick={() => setModal("payment")}>Ödeme ekle</button><button onClick={() => setModal("task")}>Görev ekle</button><button onClick={() => setModal("activity")}>Not ekle</button></div>
+            <ProfileCard customer={customer} payments={related("payments")} onEdit={() => setEditing(true)} />
             <div className={styles.grid}>
               <Panel title="Sözleşmeler" count={related("contracts").length}>{related("contracts").length ? related("contracts").map((x) => <RecordRow key={x.id} title={x.title} meta={`${money(x.value, x.currency)} · ${labels[x.billing] || x.billing}`} status={x.status} onStatus={(s) => update("contracts", x.id, s)} options={["draft","sent","signed","active","completed","cancelled"]}/>) : <Empty text="Sözleşme kaydı yok"/>}</Panel>
               <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={x.dueDate ? `Vade: ${x.dueDate}` : "Vade belirtilmedi"} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]} action={x.status === "planned" || x.status === "invoiced" ? <button onClick={() => setPayLink(x)}>Ödeme linki</button> : undefined}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
@@ -83,6 +91,7 @@ export default function CrmPage() {
         </section>
       </div>
     </section>
+    {editing && customer && <ProfileEditor key={customer.id} customer={customer} onClose={() => setEditing(false)} onSave={saveProfile} />}
     {modal && <Modal type={modal} customer={customer} onClose={() => setModal("")} onSubmit={submit}/>} 
     {payLink && <PaymentLinks payment={{ id: payLink.id, amount: payLink.amount, currency: payLink.currency, status: payLink.status }} customerName={customer?.name || ""} onClose={() => { setPayLink(null); load(); }} />}
   </main>;

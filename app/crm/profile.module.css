@@ -1,0 +1,30 @@
+.card{border:1px solid #e5e7eb;border-radius:12px;margin-bottom:14px;overflow:hidden}
+.card>header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e5e7eb}
+.card h3{margin:0;font-size:14px}
+.card>header button{border:1px solid #e5e7eb;background:#fff;padding:7px 11px;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer}
+.body{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.sec{padding:16px;border-right:1px solid #e5e7eb}.sec:last-child{border:0}
+.sec h4{margin:0 0 12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#667080}
+.row{display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:baseline;font-size:13px;padding:5px 0}
+.row span{color:#667080;font-size:12px}.row b{font-weight:600;overflow-wrap:anywhere}.row a{color:inherit}
+.row button{border:0;background:none;color:#667080;font-size:11px;font-weight:700;cursor:pointer}
+.none{color:#98a1b0;font-size:12px}
+.hot{background:#fff6e5;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:12px}
+.hot b{display:block;font-size:15px;margin-top:2px}
+.edit{max-height:calc(100vh - 40px);display:flex;flex-direction:column;width:min(760px,100%)}
+.edit .scroll{overflow:auto;padding:6px 22px 14px}
+.edit h4{margin:20px 0 10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#667080}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g label,.list label{display:grid;gap:5px;font-size:12px;font-weight:700}
+.g input,.g select,.g textarea,.list input{border:1px solid #e5e7eb;border-radius:8px;padding:9px;font:inherit;font-size:13px;width:100%;box-sizing:border-box}
+.g .w{grid-column:1/-1}
+.list{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:repeat(4,1fr) 32px;gap:8px;align-items:end}
+.item.c3{grid-template-columns:repeat(4,1fr) 32px}
+.item button,.add{border:1px solid #e5e7eb;background:#fff;border-radius:8px;padding:8px;font-weight:700;cursor:pointer}
+.add{justify-self:start;font-size:12px}
+.foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid #e5e7eb}
+.foot button{border:1px solid #e5e7eb;background:#fff;padding:9px 14px;border-radius:8px;font-weight:700;cursor:pointer}
+.foot .pri{border:0;background:#07111f;color:#fff}
+.warn{font-size:11px;color:#8a6100;margin:0 0 4px}
+@media(max-width:900px){.body{grid-template-columns:1fr}.sec{border-right:0;border-bottom:1px solid #e5e7eb}.item{grid-template-columns:1fr 1fr}.g{grid-template-columns:1fr}}
