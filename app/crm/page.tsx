@@ -2,6 +2,8 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./crm.module.css";
+import AdminHeader from "../yonetim/AdminHeader";
+import PaymentLinks from "./PaymentLinks";
 
 type Row = Record<string, any> & { id: string; customerId?: string };
 type Data = { customers: Row[]; contracts: Row[]; payments: Row[]; activities: Row[]; tasks: Row[]; summary: Record<string, number> };
@@ -24,6 +26,7 @@ export default function CrmPage() {
   const [modal, setModal] = useState<"customer" | "contract" | "payment" | "task" | "activity" | "">("");
   const [busy, setBusy] = useState(true);
   const [error, setError] = useState("");
+  const [payLink, setPayLink] = useState<Row | null>(null);
 
   const load = async () => { try { setData(await api("/api/crm")); } catch (e: any) { setError(e.message); } finally { setBusy(false); } };
   useEffect(() => { load(); }, []);
@@ -47,11 +50,7 @@ export default function CrmPage() {
   }
 
   return <main className={styles.shell}>
-    <header className={styles.header}>
-      <a className={styles.brand} href="/"><img src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing"/><span>Growth Audit</span></a>
-      <nav><a href="/">Müşteri adayları</a><a className={styles.active} href="/crm">Müşteriler</a></nav>
-      <button className={styles.primary} onClick={() => setModal("customer")}>+ Müşteri ekle</button>
-    </header>
+    <AdminHeader active="musteriler" action={<button className={styles.primary} onClick={() => setModal("customer")}>+ Müşteri ekle</button>} />
 
     <section className={styles.content}>
       <div className={styles.title}><div><span>CRM</span><h1>Müşteri yönetimi</h1><p>Sözleşme, tahsilat ve yapılan işleri tek yerde takip edin.</p></div></div>
@@ -76,7 +75,7 @@ export default function CrmPage() {
             <div className={styles.actions}><button onClick={() => setModal("contract")}>Sözleşme ekle</button><button onClick={() => setModal("payment")}>Ödeme ekle</button><button onClick={() => setModal("task")}>Görev ekle</button><button onClick={() => setModal("activity")}>Not ekle</button></div>
             <div className={styles.grid}>
               <Panel title="Sözleşmeler" count={related("contracts").length}>{related("contracts").length ? related("contracts").map((x) => <RecordRow key={x.id} title={x.title} meta={`${money(x.value, x.currency)} · ${labels[x.billing] || x.billing}`} status={x.status} onStatus={(s) => update("contracts", x.id, s)} options={["draft","sent","signed","active","completed","cancelled"]}/>) : <Empty text="Sözleşme kaydı yok"/>}</Panel>
-              <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={x.dueDate ? `Vade: ${x.dueDate}` : "Vade belirtilmedi"} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
+              <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={x.dueDate ? `Vade: ${x.dueDate}` : "Vade belirtilmedi"} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]} action={x.status === "planned" || x.status === "invoiced" ? <button onClick={() => setPayLink(x)}>Ödeme linki</button> : undefined}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
               <Panel title="Görevler" count={related("tasks").filter((x) => x.status !== "done").length}>{related("tasks").length ? related("tasks").map((x) => <RecordRow key={x.id} title={x.title} meta={[x.assignee, x.dueDate].filter(Boolean).join(" · ") || "Tarih belirtilmedi"} status={x.status} onStatus={(s) => update("tasks", x.id, s)} options={["todo","doing","done"]}/>) : <Empty text="Görev kaydı yok"/>}</Panel>
               <Panel title="Geçmiş" count={related("activities").length}>{related("activities").length ? related("activities").slice(0, 10).map((x) => <div className={styles.timeline} key={x.id}><i/><div><b>{x.summary}</b><small>{new Date(x.at).toLocaleString("tr-TR")}</small></div></div>) : <Empty text="Henüz aktivite yok"/>}</Panel>
             </div>
@@ -85,6 +84,7 @@ export default function CrmPage() {
       </div>
     </section>
     {modal && <Modal type={modal} customer={customer} onClose={() => setModal("")} onSubmit={submit}/>} 
+    {payLink && <PaymentLinks payment={{ id: payLink.id, amount: payLink.amount, currency: payLink.currency, status: payLink.status }} customerName={customer?.name || ""} onClose={() => { setPayLink(null); load(); }} />}
   </main>;
 }
 
@@ -92,7 +92,7 @@ function Metric({ label, value, note }: { label: string; value: string; note: st
 function Status({ value }: { value: string }) { return <em className={`${styles.status} ${styles[value] || ""}`}>{labels[value] || value}</em>; }
 function Panel({ title, count, children }: { title: string; count: number; children: React.ReactNode }) { return <article className={styles.panel}><header><h3>{title}</h3><span>{count}</span></header><div>{children}</div></article>; }
 function Empty({ text }: { text: string }) { return <p className={styles.empty}>{text}</p>; }
-function RecordRow({ title, meta, status, options, onStatus }: { title: string; meta: string; status: string; options: string[]; onStatus: (s: string) => void }) { return <div className={styles.record}><div><b>{title}</b><small>{meta}</small></div><select value={status} onChange={(e) => onStatus(e.target.value)}>{options.map((x) => <option value={x} key={x}>{labels[x] || x}</option>)}</select></div>; }
+function RecordRow({ title, meta, status, options, onStatus, action }: { title: string; meta: string; status: string; options: string[]; onStatus: (s: string) => void; action?: React.ReactNode }) { return <div className={styles.record}><div><b>{title}</b><small>{meta}</small></div>{action && <span className={styles.recordAction}>{action}</span>}<select value={status} onChange={(e) => onStatus(e.target.value)}>{options.map((x) => <option value={x} key={x}>{labels[x] || x}</option>)}</select></div>; }
 
 function Modal({ type, customer, onClose, onSubmit }: { type: string; customer?: Row; onClose: () => void; onSubmit: (e: FormEvent<HTMLFormElement>) => void }) {
   const titles: Record<string,string> = { customer: "Yeni müşteri", contract: "Sözleşme ekle", payment: "Ödeme kaydı", task: "Görev ekle", activity: "Not ekle" };

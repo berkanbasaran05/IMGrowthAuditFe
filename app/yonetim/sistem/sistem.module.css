@@ -1,0 +1,18 @@
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-top:24px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:18px;display:grid;gap:10px;align-content:start}
+.card h3{margin:0;font-size:15px}.card h4{margin:6px 0 0;font-size:13px}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:13.5px}
+.card dt{color:#667080}.card dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.flags{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:13.5px}
+.flags li{display:flex;gap:10px;align-items:center}
+.on,.off{font-size:11.5px;font-weight:800;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.on{background:#e5f6ed;color:#087443}.off{background:#f5f6f8;color:#667080}
+.bad,.warn{margin:0;padding:10px 12px 10px 28px;border-radius:10px;font-size:13px;display:grid;gap:4px}
+.bad{background:#fff0ee;color:#b42318}.warn{background:#fff8e6;color:#805500}
+.ok{margin:0;color:#087443;font-size:13.5px}
+.muted{margin:0;color:#667080;font-size:12.5px}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th,.table td{text-align:left;padding:7px 6px;border-bottom:1px solid #e5e7eb}
+.table th{color:#667080;font-weight:600}
+.table td:last-child,.table th:last-child{text-align:right}
+.confirm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}

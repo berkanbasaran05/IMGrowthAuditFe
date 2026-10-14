@@ -51,6 +51,7 @@ header.top{position:relative;z-index:20;background:color-mix(in srgb,var(--bg) 8
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .brand .logo-light{display:none}:root:not([data-theme="light"]) .brand .logo-dark{display:block}}
 :root[data-theme="dark"] .brand .logo-light{display:none}:root[data-theme="dark"] .brand .logo-dark{display:block}
 .brand span{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap;padding-left:10px;border-left:1px solid var(--line-2)}
+@media(max-width:1180px){.top .brand span{display:none}}
 .icon-btn{display:inline-grid;place-items:center;height:40px;min-width:40px;padding:0 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:13.5px;font-weight:600;cursor:pointer;gap:6px;grid-auto-flow:column}
 .icon-btn:hover{border-color:var(--line-2)}
 .icon-btn svg{width:18px;height:18px}
@@ -70,13 +71,36 @@ header.top{position:relative;z-index:20;background:color-mix(in srgb,var(--bg) 8
 .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--subtle);pointer-events:none}
 .field{width:100%;height:44px;border-radius:11px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-size:15px;outline:none;transition:border-color .15s}
 .field:focus{border-color:var(--ink);outline:3px solid color-mix(in srgb,var(--ink) 14%,transparent);outline-offset:0}
-.search .field{padding-left:40px}
+.search .field{padding-left:40px;padding-right:122px}
+.radar-go{position:absolute;right:4px;top:4px;height:36px;border:0;border-radius:8px;background:var(--ink);color:var(--bg);padding:0 13px;font-size:12.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px}
+.radar-go:hover{opacity:.88}.radar-go:disabled{opacity:.55;cursor:wait}
+.radar-go svg{position:static;transform:none;width:15px;height:15px;color:inherit}
 select.field{appearance:none;-webkit-appearance:none;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a909a' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;text-overflow:ellipsis}
 select.field.on{border-color:var(--ink);font-weight:600}
-@media(min-width:900px){.tb{grid-template-columns:minmax(220px,1.6fr) repeat(4,minmax(0,1fr))}.search{grid-column:auto}}
+@media(min-width:900px){.tb{grid-template-columns:minmax(200px,1.5fr) repeat(6,minmax(0,1fr))}.search{grid-column:auto}}
 .meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px;font-size:13.5px;color:var(--muted);min-height:24px}
 .meta b{color:var(--ink)}
 .link-btn{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;font-size:13.5px;padding:4px 0}
+.radar-filter{position:relative;width:100%;height:44px;border-radius:11px;border:1px solid var(--line);background:var(--surface);padding:0 38px 0 14px;text-align:left;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radar-filter::after{content:"";position:absolute;right:14px;top:50%;width:7px;height:7px;border-right:2px solid var(--subtle);border-bottom:2px solid var(--subtle);transform:translateY(-65%) rotate(45deg)}
+.radar-filter:hover{border-color:var(--line-2)}
+.radar-filter.on{border-color:var(--ink);background:color-mix(in srgb,var(--surface) 92%,var(--ink));color:var(--ink)}
+.radar-filter small{margin-left:5px;color:var(--subtle);font-weight:600}
+.radar-pop{position:fixed;z-index:80;width:min(340px,calc(100vw - 24px));max-height:min(520px,70vh);display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 20px 55px rgba(7,17,31,.18);padding:8px}
+.radar-search{position:relative;padding:2px 2px 8px}
+.radar-search input{height:40px;padding-left:36px;background:var(--surface-2)}
+.radar-search svg{position:absolute;left:14px;top:14px;width:16px;height:16px;color:var(--subtle)}
+.radar-options{overflow:auto;overscroll-behavior:contain;display:grid;gap:2px;padding-right:2px}
+.radar-option{width:100%;min-height:42px;border:0;border-radius:10px;background:transparent;padding:8px 10px;display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:9px;text-align:left;cursor:pointer;font-size:13.5px}
+.radar-option:hover,.radar-option[aria-selected="true"]{background:var(--surface-2)}
+.radar-option .check{width:20px;height:20px;border:1.5px solid var(--line-2);border-radius:6px;display:grid;place-items:center;color:transparent}
+.radar-option[aria-selected="true"] .check{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.radar-option .num{font-size:12px;color:var(--subtle);font-variant-numeric:tabular-nums}
+.radar-option[disabled]{opacity:.5;cursor:not-allowed}
+.radar-empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px}
+.active-filters{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.active-filter{height:30px;display:inline-flex;align-items:center;gap:7px;padding:0 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12px;font-weight:700;cursor:pointer}
+.active-filter svg{width:12px;height:12px;color:var(--muted)}
 
 /* list */
 .list{display:grid;gap:10px;padding:6px 0 48px}
@@ -206,6 +230,7 @@ button,a,.row{touch-action:manipulation}
 .dr-b .field{margin-bottom:8px}
 .dr-st{display:grid;gap:4px}
 .dr-st button{display:flex;align-items:center;gap:10px;height:46px;padding:0 12px;border-radius:11px;border:0;background:none;font-size:15px;font-weight:600;cursor:pointer;text-align:left;width:100%}
+.dr-st .drlink{display:flex;align-items:center;height:46px;padding:0 12px;border-radius:11px;font-size:15px;font-weight:600;color:var(--muted)}
 .dr-st button .n{margin-left:auto;color:var(--subtle);font-size:13px}
 .dr-st button[aria-pressed="true"]{background:var(--surface);outline:1px solid var(--line-2);outline-offset:-1px}
 .dr-f{padding:12px var(--gut) calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);display:grid;gap:8px}
@@ -399,6 +424,113 @@ select.field.sm{height:40px;font-size:14px}
 .cst th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:4px 6px 6px 0;border-bottom:1px solid var(--line)}
 .cst td{padding:6px 6px 6px 0;border-bottom:1px solid var(--line)}.cst th:not(:first-child),.cst td:not(:first-child){text-align:right}
 
+.ctg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:700px){.ctg{grid-template-columns:1fr}}
+.ctg label.l{display:block;font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.who{font-size:13.5px;margin-top:4px;color:var(--ink)}.who a{color:inherit}
+.who.none{color:var(--subtle);font-size:13px}
+
+/* ---- Growth Audit ---- */
+.dtabs{margin-top:18px}
+.dtabs .gs-pill{margin-left:6px;font-size:11.5px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.tag.gs{font-variant-numeric:tabular-nums}
+.gs-strong{--gc:var(--good)}.gs-fair{--gc:var(--ink)}.gs-weak{--gc:var(--warn)}.gs-critical{--gc:var(--bad)}.gs-unknown{--gc:var(--subtle)}
+.tag.gs.gs-strong{background:var(--good-bg);color:var(--good);border-color:transparent}
+.tag.gs.gs-weak{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.tag.gs.gs-critical{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.ga-hero{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:560px){.ga-hero{grid-template-columns:1fr}}
+.ga-gauge{position:relative;width:100%;max-width:200px;margin:0 auto}
+.ga-gauge svg{display:block;width:100%;height:auto}
+.ga-gauge .v{position:absolute;left:0;right:0;bottom:6px;text-align:center}
+.ga-gauge .v b{display:block;font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.ga-gauge .v span{font-size:12px;color:var(--muted)}
+.ga-meta{display:grid;gap:8px;font-size:13.5px}
+.ga-meta .row2{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:7px}
+.ga-meta .row2:last-child{border-bottom:0;padding-bottom:0}
+.ga-meta .row2 span{color:var(--muted)}
+.ga-meta .row2 b{font-variant-numeric:tabular-nums;text-align:right}
+.ga-cats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px);gap:18px;align-items:center}
+@media(max-width:620px){.ga-cats{grid-template-columns:1fr}}
+.ga-bar{display:grid;gap:5px;padding:7px 0}
+.ga-bar .h{display:flex;justify-content:space-between;gap:10px;font-size:13.5px}
+.ga-bar .h b{font-variant-numeric:tabular-nums}
+.ga-bar .t{height:7px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.ga-bar .t i{display:block;height:100%;background:var(--gc);border-radius:99px}
+.ga-bar small{font-size:11.5px;color:var(--subtle)}
+.ga-radar svg{display:block;width:100%;height:auto;max-width:240px;margin:0 auto;overflow:visible}
+.ga-radar text{font-size:9.5px;fill:var(--muted);font-family:inherit}
+.ga-opp{display:grid;gap:10px}
+.ga-opp .o{display:grid;gap:6px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.ga-opp .o .h{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.ga-opp .o .h b{font-size:14.5px}
+.ga-opp .o p{font-size:13.5px;color:var(--muted)}
+.ga-opp .o .act2{font-size:13.5px;color:var(--ink)}
+.ga-opp .tags{display:flex;flex-wrap:wrap;gap:6px}
+.pg-critical{background:var(--bad-bg)!important;color:var(--bad)!important;border-color:transparent!important}
+.pg-high{background:var(--warn-bg)!important;color:var(--warn)!important;border-color:transparent!important}
+.ga-cat{margin-top:14px}
+.ga-cat>h4{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;gap:8px}
+.ga-cat>h4 span{color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.ga-m{border:1px solid var(--line);border-radius:11px;background:var(--surface);margin-top:6px}
+.ga-m summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;font-size:13.5px}
+.ga-m summary::-webkit-details-marker{display:none}
+.ga-m summary .sc{font-weight:800;font-variant-numeric:tabular-nums;text-align:center;color:var(--gc)}
+.ga-m[open] summary{border-bottom:1px solid var(--line)}
+.ga-m .b{padding:12px 14px;display:grid;gap:10px;font-size:13.5px}
+.ga-m .b ul{display:grid;gap:6px;padding-left:16px}
+.ga-m .b li{color:var(--muted);overflow-wrap:anywhere}
+.ga-m .b li b{color:var(--ink);font-weight:600}
+.ga-m .rub{font-size:12px;color:var(--subtle)}
+.st-chip{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.st-chip.MEASURED{background:var(--good-bg);color:var(--good);border-color:transparent}
+.st-chip.ESTIMATED{background:var(--warn-bg);color:var(--warn);border-color:transparent}
+.st-chip.FAILED{background:var(--bad-bg);color:var(--bad);border-color:transparent}
+.ga-rv{display:grid;grid-template-columns:90px minmax(0,1fr) auto;gap:8px;align-items:center}
+@media(max-width:520px){.ga-rv{grid-template-columns:1fr}}
+.ga-prog{height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;margin-top:12px}
+.ga-prog i{display:block;height:100%;background:var(--ink);transition:width .4s}
+.ga-shot{display:block;width:100%;max-width:220px;border-radius:10px;border:1px solid var(--line)}
+.ga-acts{display:flex;flex-wrap:wrap;gap:8px}
+.ga-acts .btn[disabled]{opacity:.5;cursor:not-allowed}
+
+/* ---- Harita görünümü ---- */
+.viewseg{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px}
+.viewseg button{height:28px;padding:0 12px;border:0;border-radius:7px;background:none;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.viewseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);outline:1px solid var(--line-2);outline-offset:-1px}
+.mapwrap{position:relative;z-index:0;isolation:isolate;margin:6px 0 48px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+#map{height:min(70vh,680px);width:100%}
+.map-legend{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.map-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--c);margin-right:5px;vertical-align:-1px}
+.map-legend .approx i{background:none;border:2px dashed var(--muted)}
+.map-note{position:absolute;z-index:500;top:10px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.leaflet-container{font-family:inherit;background:var(--surface-2)}
+/* Küme rengi nötrdür: yeşil/sarı küme renkleri durum lejantıyla karışmasın (renk yalnızca durumu anlatır). */
+.marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{background:color-mix(in srgb,var(--ink) 18%,transparent)!important}
+.marker-cluster-small div,.marker-cluster-medium div,.marker-cluster-large div{background:var(--ink)!important;color:var(--bg)!important;font-weight:700}
+.leaflet-popup-content{margin:10px 12px;font-size:13px;line-height:1.4}
+.leaflet-popup-content b{display:block;font-size:14px}
+.leaflet-popup-content button{margin-top:8px;height:30px;padding:0 10px;border-radius:8px;border:1px solid #d8d3c9;background:#fff;font-weight:600;cursor:pointer}
+:root[data-theme="dark"] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.9) contrast(.9)}}
+
+/* ---- Satış zekâsı ---- */
+.ga-link{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin-top:10px}
+.ga-link input{font-size:13px}
+.ga-links{display:grid;gap:8px;margin-top:12px;font-size:13px}
+.ga-links .lr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px solid var(--line)}
+.ga-links .lr span{color:var(--muted)}
+.ga-draft{display:grid;gap:8px}
+.ga-draft textarea.field{height:auto;min-height:260px;padding:10px 12px;font-family:inherit;line-height:1.5;font-size:14px}
+.ga-opp select.field{height:32px;font-size:12.5px;width:auto;padding:0 30px 0 10px}
+.brief{border:1px solid var(--line);border-radius:12px;background:var(--surface-2)}
+.brief summary{list-style:none;cursor:pointer;padding:10px 12px;font-size:13.5px;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.brief summary::-webkit-details-marker{display:none}
+.brief .bb{padding:0 12px 12px;display:grid;gap:8px;font-size:13.5px}
+.brief .bb .k{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle)}
+.brief .bb ul{padding-left:16px;display:grid;gap:4px;color:var(--muted)}
+.brief textarea.field{min-height:64px}
+
 /* ---- tema anahtarı ---- */
 .themeseg{display:inline-flex;gap:2px;padding:3px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px}
 .themeseg button{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:32px;min-width:34px;padding:0 9px;border:0;border-radius:8px;background:none;color:var(--muted);font-weight:600;font-size:13.5px;cursor:pointer}
@@ -464,7 +596,7 @@ select.field.sm{height:40px;font-size:14px}
     <span>Growth Audit</span>
   </a>
   </div>
-  <nav class="topnav only-d" id="topnav" aria-label="Bölümler"><button data-view="firmalar">Firmalar</button><a href="/crm">Müşteriler</a><button data-view="ads">Google Ads</button><button data-view="mail">Gönderim</button><button data-view="calls">Aranacaklar</button></nav>
+  <nav class="topnav only-d" id="topnav" aria-label="Bölümler"><button data-view="firmalar">Firmalar</button><button data-view="mail">Gönderim</button><button data-view="calls">Aranacaklar</button><a href="/yonetim">Yönetim paneli →</a></nav>
   <div class="hd-r only-d"><div class="themeseg" role="group" aria-label="Görünüm"><button data-theme-set="system" title="Sistem" aria-label="Sistem teması"><svg><use href="#i-sys"/></svg></button><button data-theme-set="light" title="Açık" aria-label="Açık tema"><svg><use href="#i-sun"/></svg></button><button data-theme-set="dark" title="Koyu" aria-label="Koyu tema"><svg><use href="#i-moon"/></svg></button></div>
   <button class="icon-btn" id="logout" aria-label="Çıkış yap"><svg><use href="#i-out"/></svg><span class="hide-xs">Çıkış</span></button></div>
 </div></header>
@@ -474,19 +606,23 @@ select.field.sm{height:40px;font-size:14px}
   <div class="head"><div><h1>Bulunan firmalar</h1><p id="sub">Yükleniyor…</p></div><button class="btn dark" id="addLead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Firma ekle</button></div>
   <div class="toolbar" id="toolbar">
     <div class="tb">
-      <label class="search"><span class="sr">Ara</span><svg><use href="#i-search"/></svg><input class="field" id="q" type="search" placeholder="Firma, ilçe, sektör ara" autocomplete="off" enterkeyhint="search"></label>
+      <div class="search"><label class="sr" for="q">Firma radarı</label><svg><use href="#i-search"/></svg><input class="field" id="q" type="search" placeholder="Firma türü veya sektör yazın" autocomplete="off" enterkeyhint="search"><button class="radar-go" id="radarSearch"><svg><use href="#i-search"/></svg><span>Radarda ara</span></button></div>
       <button class="fbtn only-m" id="openFilters" aria-label="Filtreler"><svg><use href="#i-filter"/></svg>Filtre<span class="b" id="fBadge" hidden></span></button>
-      <select class="field only-d" data-f="city" aria-label="Şehir"></select>
-      <select class="field only-d" data-f="sector" aria-label="Sektör"></select>
-      <select class="field only-d" data-f="service" aria-label="Hizmet"></select>
-      <select class="field only-d" data-f="work" aria-label="Yapılan işlem"></select>
+      <button class="radar-filter only-d" data-radar="city" aria-haspopup="listbox">Tüm şehirler</button>
+      <button class="radar-filter only-d" data-radar="sector" aria-haspopup="listbox">Tüm sektörler</button>
+      <button class="radar-filter only-d" data-radar="service" aria-haspopup="listbox">Tüm hizmetler</button>
+      <button class="radar-filter only-d" data-radar="work" aria-haspopup="listbox">Tüm işlemler</button>
+      <button class="radar-filter only-d" data-radar="contact" aria-haspopup="listbox">Tüm yetkililer</button>
+      <button class="radar-filter only-d" data-radar="growth" aria-haspopup="listbox">Growth Score</button>
     </div>
+    <div class="active-filters" id="activeFilters" hidden></div>
     <div class="chips" id="stageChips" role="group" aria-label="Durum"></div>
-    <div class="meta"><span id="count"></span><span style="display:flex;gap:14px;align-items:center"><select class="field only-d" data-f="sort" aria-label="Sıralama" style="width:auto;height:34px;font-size:13.5px"></select><button class="link-btn" id="clear" hidden>Filtreleri temizle</button></span></div>
+    <div class="meta"><span style="display:flex;gap:12px;align-items:center"><span class="viewseg" role="group" aria-label="Görünüm"><button data-mode="list" aria-pressed="true">Liste</button><button data-mode="map" aria-pressed="false">Harita</button></span><span id="count"></span></span><span style="display:flex;gap:14px;align-items:center"><select class="field only-d" data-f="sort" aria-label="Sıralama" style="width:auto;height:34px;font-size:13.5px"></select><button class="link-btn" id="clear" hidden>Filtreleri temizle</button></span></div>
   </div>
   <div class="list" id="list" aria-live="polite">
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
   </div>
+  <div class="mapwrap" id="mapWrap" hidden><div id="map" aria-label="Firma haritası"></div><div class="map-note" id="mapNote" hidden></div><div class="map-legend" id="mapLegend"></div></div>
   </div>
   <div id="viewCalls" hidden>
     <div class="head"><div><h1>Aranacaklar</h1><p id="callSub">Yükleniyor…</p></div></div>
@@ -516,7 +652,7 @@ select.field.sm{height:40px;font-size:14px}
 <aside class="drawer" id="drawer" aria-label="Menü" aria-hidden="true">
   <div class="dr-h"><a class="brand" href="/"><img class="logo-light" src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing"><img class="logo-dark" src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing"></a><button class="icon-btn" id="drClose" aria-label="Menüyü kapat"><svg><use href="#i-x"/></svg></button></div>
   <div class="dr-b">
-    <h4>Bölümler</h4><div class="dr-st" id="drNav"><button data-view="firmalar"><span>Firmalar</span></button><button data-view="ads"><span>Google Ads</span></button><button data-view="mail"><span>Gönderim</span></button><button data-view="calls"><span>Aranacaklar</span></button></div>
+    <h4>Bölümler</h4><div class="dr-st" id="drNav"><button data-view="firmalar"><span>Firmalar</span></button><button data-view="mail"><span>Gönderim</span></button><button data-view="calls"><span>Aranacaklar</span></button><a href="/yonetim" class="drlink"><span>Yönetim paneli →</span></a></div>
     <h4>Görünüm</h4><div class="themeseg wide" role="group" aria-label="Görünüm"><button data-theme-set="system"><svg><use href="#i-sys"/></svg>Sistem</button><button data-theme-set="light"><svg><use href="#i-sun"/></svg>Açık</button><button data-theme-set="dark"><svg><use href="#i-moon"/></svg>Koyu</button></div>
     <div id="drFirms">
     <h4>Durum</h4><div class="dr-st" id="drStages"></div>
@@ -525,6 +661,8 @@ select.field.sm{height:40px;font-size:14px}
     <select class="field" data-f="sector" aria-label="Sektör"></select>
     <select class="field" data-f="service" aria-label="Hizmet"></select>
     <select class="field" data-f="work" aria-label="Yapılan işlem"></select>
+    <select class="field" data-f="contact" aria-label="Yetkili"></select>
+    <select class="field" data-f="growth" aria-label="Growth Score"></select>
     <select class="field" data-f="sort" aria-label="Sıralama"></select>
     </div>
   </div>
@@ -534,9 +672,18 @@ select.field.sm{height:40px;font-size:14px}
 <div class="modal" id="modal" role="dialog" aria-modal="true"><h3></h3><p></p><input class="field" type="text" hidden maxlength="120"><div class="mb"><button class="btn" data-cancel>Vazgeç</button><button class="btn dark" data-ok>Tamam</button></div></div>
 <div class="modal lf" id="lfModal" role="dialog" aria-modal="true" aria-labelledby="lfTitle"></div>
 <div class="toast" id="toast" role="status"></div>
+<div class="radar-pop" id="radarPop" hidden></div>
 
 <script>
 const $ = (id) => document.getElementById(id);
+// Bu statik panel iki adreste çalışır: /growth-audit (müşteri adayları) ve /yonetim/google-ads (yönetim paneli).
+const ADMIN_ADS = location.pathname.startsWith("/yonetim");
+if (ADMIN_ADS) {
+  const nav = '<a href="/yonetim/musteriler">Müşteriler</a><a href="/yonetim/growth-manager">AI Growth Manager</a><button data-view="ads">Google Ads</button><a href="/growth-audit">Growth Audit →</a>';
+  document.getElementById("topnav").innerHTML = nav;
+  document.getElementById("drNav").innerHTML = nav.replace(/<a href="([^"]+)">([^<]+)<\/a>/g, '<a href="$1" class="drlink"><span>$2</span></a>').replace('<button data-view="ads">Google Ads</button>', '<button data-view="ads"><span>Google Ads</span></button>');
+  document.title = "Google Ads · Yönetim paneli · istanbul.marketing";
+}
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const nz = (s) => String(s ?? "").toLocaleLowerCase("tr").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/ı/g, "i");
 const SUNUM = "https://customer.istanbul.marketing/sunum/";
@@ -558,7 +705,9 @@ const ST = Object.fromEntries(STAGES);
 const WORK = [["mail", "Mail atıldı"], ["dm", "Instagram DM atıldı"], ["wp", "WhatsApp'tan yazıldı"], ["arandi", "Arandı"], ["cevap", "Cevap bekleniyor"], ["teklif", "Teklif gönderildi"], ["toplanti", "Toplantı ayarlandı"]];
 const WK = { ...Object.fromEntries(WORK), bakilacak: "Bakılacak", bekle: "Beklemede", ilgisiz: "İlgilenmiyor" };
 const CONTACT_KEYS = ["mail", "dm", "wp", "arandi"];
-const S = { leads: [], q: "", city: "", sector: "", service: "", work: "", stage: "", sort: "score", open: null, tab: "mail" };
+const CITY_CATALOG = "Adana,Adıyaman,Afyonkarahisar,Ağrı,Aksaray,Amasya,Ankara,Antalya,Ardahan,Artvin,Aydın,Balıkesir,Bartın,Batman,Bayburt,Bilecik,Bingöl,Bitlis,Bolu,Burdur,Bursa,Çanakkale,Çankırı,Çorum,Denizli,Diyarbakır,Düzce,Edirne,Elazığ,Erzincan,Erzurum,Eskişehir,Gaziantep,Giresun,Gümüşhane,Hakkâri,Hatay,Iğdır,Isparta,İstanbul,İzmir,Kahramanmaraş,Karabük,Karaman,Kars,Kastamonu,Kayseri,Kilis,Kırıkkale,Kırklareli,Kırşehir,Kocaeli,Konya,Kütahya,Malatya,Manisa,Mardin,Mersin,Muğla,Muş,Nevşehir,Niğde,Ordu,Osmaniye,Rize,Sakarya,Samsun,Siirt,Sinop,Sivas,Şanlıurfa,Şırnak,Tekirdağ,Tokat,Trabzon,Tunceli,Uşak,Van,Yalova,Yozgat,Zonguldak".split(",");
+const SECTOR_CATALOG = ["Ağız ve Diş Sağlığı","Ambalaj","Eğitim","Emlak","Enerji","Ev Tekstili","Gıda","Güzellik ve Bakım","Hukuk","İnşaat","Kafe ve Restoran","Kuaför","Lojistik","Makine ve Üretim","Mobilya","Otomotiv","Pastane","Sağlık","Sigorta","Tekstil","Turizm","Yazılım","Diğer"];
+const S = { leads: [], q: "", city: "", sector: "", service: "", work: "", contact: "", growth: "", stage: "", sort: "score", open: null, tab: "mail", radar: null, radarQuery: "", filterOptions: {} };
 
 const cityOf = (l) => (l.city || "").trim() || "İstanbul";
 const status = (l) => (ST[l.status] ? l.status : "yeni");
@@ -591,6 +740,8 @@ async function load() {
     const d = await r.json();
     S.leads = (d.leads || []).filter((l) => l && l.id && l.name);
     fillFilters(); render(); updCallBadge(); routeFromHash();
+    gaLoadSummary();
+    try { if (localStorage.getItem("im.view") === "map") setMode("map"); } catch {}
   } catch (e) {
     $("list").innerHTML = `<div class="empty"><b>Firmalar yüklenemedi</b>Bağlantınızı kontrol edip sayfayı yenileyin.</div>`;
     $("sub").textContent = "";
@@ -638,33 +789,80 @@ function fillSel(el, label, items, cur, plain) {
 }
 function fillFilters() {
   const L = S.leads;
-  const city = countBy(L, cityOf).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "tr"));
-  const sector = countBy(L, sectorOf).sort((a, b) => a[0].localeCompare(b[0], "tr"));
-  const service = countBy(L, (l) => (l.services || []).filter((s) => SERVICES.includes(s))).sort((a, b) => SERVICES.indexOf(a[0]) - SERVICES.indexOf(b[0]));
+  const unionCounts = (counts, catalog) => { const m = new Map(catalog.map((x) => [x, 0])); counts.forEach(([k, n]) => m.set(k, n)); return [...m.entries()]; };
+  const city = unionCounts(countBy(L, cityOf), CITY_CATALOG).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "tr"));
+  const sector = unionCounts(countBy(L, sectorOf), SECTOR_CATALOG).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "tr"));
+  const service = unionCounts(countBy(L, (l) => (l.services || []).filter((s) => SERVICES.includes(s))), SERVICES).sort((a, b) => SERVICES.indexOf(a[0]) - SERVICES.indexOf(b[0]));
   const work = [["_none", L.filter((l) => !wl(l).length).length, "Hiç işlem yapılmamış"], ...WORK.map(([k, t]) => [k, L.filter((l) => wl(l).includes(k)).length, t])];
+  const withContact = L.filter((l) => l.contactName).length;
+  const contact = [["var", withContact, "Yetkili bulunan"], ["yok", L.length - withContact, "Yetkili bilinmeyen"]];
+  const growth = GS_BUCKETS.map(([k, t]) => [k, L.filter((l) => gsBucket(l) === k).length, t]);
+  S.filterOptions = { city, sector, service, work, contact, growth };
   document.querySelectorAll("[data-f]").forEach((el) => {
     const f = el.dataset.f;
     if (f === "city") fillSel(el, "Tüm şehirler", city, S.city);
     if (f === "sector") fillSel(el, "Tüm sektörler", sector, S.sector);
     if (f === "service") fillSel(el, "Tüm hizmetler", service, S.service);
+    if (f === "growth") fillSel(el, "Growth Score: tümü", growth, S.growth);
+    if (f === "contact") { const y = L.filter((l) => l.contactName).length; el.innerHTML = `<option value="">Tüm yetkililer</option><option value="var"${S.contact === "var" ? " selected" : ""}>Yetkili bulunan (${y})</option><option value="yok"${S.contact === "yok" ? " selected" : ""}>Yetkili bilinmeyen (${L.length - y})</option>`; el.classList.toggle("on", !!S.contact); }
     if (f === "work") { el.innerHTML = `<option value="">Tüm işlemler</option>` + work.map(([k, n, t]) => `<option value="${k}"${k === S.work ? " selected" : ""}>${esc(t)} (${n})</option>`).join(""); el.classList.toggle("on", !!S.work); }
-    if (f === "sort") { el.innerHTML = [["score", "Sırala: Puan"], ["new", "Sırala: En yeni"], ["name", "Sırala: Ad (A–Z)"]].map(([k, t]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${t}</option>`).join(""); }
+    if (f === "sort") { el.innerHTML = [["score", "Sırala: Satış puanı"], ["growth", "Sırala: Growth Score"], ["new", "Sırala: En yeni"], ["name", "Sırala: Ad (A–Z)"]].map(([k, t]) => `<option value="${k}"${k === S.sort ? " selected" : ""}>${t}</option>`).join(""); }
+  });
+  const labels = { city: "Tüm şehirler", sector: "Tüm sektörler", service: "Tüm hizmetler", work: "Tüm işlemler", contact: "Tüm yetkililer", growth: "Growth Score" };
+  document.querySelectorAll("[data-radar]").forEach((el) => {
+    const k = el.dataset.radar, value = S[k], item = (S.filterOptions[k] || []).find(([v]) => v === value);
+    el.innerHTML = value ? `${esc(item?.[2] || value)} <small>${item?.[1] ?? 0}</small>` : labels[k];
+    el.classList.toggle("on", !!value); el.setAttribute("aria-expanded", String(S.radar === k));
   });
   $("sub").textContent = `${L.length} firma · ${new Set(L.map(cityOf)).size} şehir`;
 }
 function filtered(skipStage) {
-  const q = nz(S.q);
+  const words = nz(S.q).split(/\s+/).filter(Boolean);
   const out = S.leads.filter((l) =>
     (skipStage || !S.stage || status(l) === S.stage) &&
     (!S.city || cityOf(l) === S.city) &&
     (!S.sector || sectorOf(l) === S.sector) &&
     (!S.service || (l.services || []).includes(S.service)) &&
+    (!S.contact || (S.contact === "var" ? !!l.contactName : !l.contactName)) &&
+    (!S.growth || gsBucket(l) === S.growth) &&
     (!S.work || (S.work === "_none" ? !wl(l).length : wl(l).includes(S.work))) &&
-    (!q || nz([l.name, l.sector, l.district, cityOf(l), l.capacity].join(" ")).includes(q)));
-  const by = { score: (a, b) => sc(b) - sc(a) || a.name.localeCompare(b.name, "tr"), new: (a, b) => String(b.foundAt || "").localeCompare(String(a.foundAt || "")) || (b.score || 0) - (a.score || 0), name: (a, b) => a.name.localeCompare(b.name, "tr") };
-  return out.sort(by[S.sort]);
+    (!words.length || words.every((q) => nz([l.name, l.sector, l.district, cityOf(l), l.capacity, l.contactName, l.phone, l.email, l.instagram, l.website, ...(l.services || []), ...(l.issues || []), l.notes].join(" ")).includes(q))));
+  const by = { score: (a, b) => sc(b) - sc(a) || a.name.localeCompare(b.name, "tr"), new: (a, b) => String(b.foundAt || "").localeCompare(String(a.foundAt || "")) || (b.score || 0) - (a.score || 0), name: (a, b) => a.name.localeCompare(b.name, "tr"), growth: (a, b) => (gsScore(b) ?? -1) - (gsScore(a) ?? -1) || sc(b) - sc(a) };
+  return out.sort(by[S.sort] || by.score);
 }
-const activeCount = () => [S.city, S.sector, S.service, S.work].filter(Boolean).length;
+const activeCount = () => [S.city, S.sector, S.service, S.work, S.contact, S.growth].filter(Boolean).length;
+// Growth Score grupları (Growth Audit özetinden); satış puanından bağımsızdır.
+const GS_BUCKETS = [["80", "80 ve üzeri"], ["60", "60–79"], ["40", "40–59"], ["0", "40'ın altı"], ["none", "Audit yapılmamış"], ["nosite", "Doğrulanmış site yok"]];
+const gsScore = (l) => { const g = S.gaSum.get(l.id); return g && g.status === "completed" && g.score != null ? g.score : null; };
+function gsBucket(l) {
+  const g = S.gaSum.get(l.id); if (!g) return "none";
+  if (g.status === "no_verified_website") return "nosite";
+  const v = gsScore(l); if (v == null) return "none";
+  return v >= 80 ? "80" : v >= 60 ? "60" : v >= 40 ? "40" : "0";
+}
+
+const RADAR_META = {
+  city: ["Şehir", "Şehir ara"], sector: ["Sektör", "Sektör ara"], service: ["Hizmet", "Hizmet ara"], work: ["Yapılan işlem", "İşlem ara"], contact: ["Yetkili", "Yetkili durumu ara"], growth: ["Growth Score", "Grup ara"]
+};
+function closeRadar() { S.radar = null; S.radarQuery = ""; $("radarPop").hidden = true; document.querySelectorAll("[data-radar]").forEach((b) => b.setAttribute("aria-expanded", "false")); }
+function radarOptions() {
+  const k = S.radar, q = nz(S.radarQuery), options = S.filterOptions[k] || [];
+  return options.filter(([v,, t]) => !q || nz(t || v).includes(q));
+}
+function renderRadar(anchor) {
+  const k = S.radar, pop = $("radarPop"), [label, placeholder] = RADAR_META[k], options = radarOptions();
+  pop.innerHTML = `<div class="radar-search"><svg><use href="#i-search"/></svg><input class="field" id="radarQ" type="search" placeholder="${placeholder}" autocomplete="off" value="${esc(S.radarQuery)}"></div><div class="radar-options" role="listbox" aria-label="${label}"><button class="radar-option" data-radar-value="" aria-selected="${!S[k]}"><span class="check"><svg><use href="#i-check"/></svg></span><b>Tümü</b><span class="num">${S.leads.length}</span></button>${options.map(([v,n,t]) => `<button class="radar-option" data-radar-value="${esc(v)}" aria-selected="${S[k] === v}"><span class="check"><svg><use href="#i-check"/></svg></span><span>${esc(t || v)}</span><span class="num">${n}</span></button>`).join("") || `<div class="radar-empty">Eşleşen seçenek bulunamadı</div>`}</div>`;
+  pop.hidden = false;
+  const r = anchor.getBoundingClientRect(), w = Math.min(340, innerWidth - 24);
+  pop.style.width = w + "px"; pop.style.left = Math.max(12, Math.min(r.left, innerWidth - w - 12)) + "px"; pop.style.top = Math.min(r.bottom + 7, innerHeight - pop.offsetHeight - 12) + "px";
+  requestAnimationFrame(() => $("radarQ")?.focus());
+}
+function openRadar(anchor) { const k = anchor.dataset.radar; if (S.radar === k) { closeRadar(); return; } S.radar = k; S.radarQuery = ""; fillFilters(); renderRadar(anchor); }
+function renderActiveFilters() {
+  const box = $("activeFilters"), names = { city: "Şehir", sector: "Sektör", service: "Hizmet", work: "İşlem", contact: "Yetkili", growth: "Growth Score" };
+  const items = ["city","sector","service","work","contact","growth"].filter((k) => S[k]).map((k) => { const opt = (S.filterOptions[k] || []).find(([v]) => v === S[k]); return `<button class="active-filter" data-clear-filter="${k}" title="Bu filtreyi kaldır"><span>${names[k]}: ${esc(opt?.[2] || S[k])}</span><svg><use href="#i-x"/></svg></button>`; });
+  box.innerHTML = items.join(""); box.hidden = !items.length;
+}
 
 /* ---------- liste ---------- */
 function row(l) {
@@ -677,7 +875,7 @@ function row(l) {
     <span class="r-foot">
       <span class="tag stgt st-${st}"><i class="dot"></i>${esc(ST[st])}</span>
       ${works.slice(0, 2).map((k) => `<span class="tag wk">${esc(WK[k])}</span>`).join("")}${works.length > 2 ? `<span class="tag wk">+${works.length - 2}</span>` : ""}
-      ${l.callList ? `<span class="tag" style="background:var(--warn-bg);color:var(--warn);border-color:transparent">Aranacak</span>` : ""}${l.manual ? `<span class="tag">Elle eklendi</span>` : ""}${l.ads === "yok" ? `<span class="tag web-yok">Ads yok</span>` : ""}${w ? `<span class="tag ${w[1]}">${w[0]}</span>` : ""}
+      ${l.callList ? `<span class="tag" style="background:var(--warn-bg);color:var(--warn);border-color:transparent">Aranacak</span>` : ""}${gaListTag(l)}${l.contactName ? `<span class="tag" title="Yetkili">${esc(l.contactName)}</span>` : ""}${l.manual ? `<span class="tag">Elle eklendi</span>` : ""}${l.ads === "yok" ? `<span class="tag web-yok">Ads yok</span>` : ""}${w ? `<span class="tag ${w[1]}">${w[0]}</span>` : ""}
       <span class="ch" aria-label="İletişim kanalları">
         <i class="${ph ? "on" : ""}"><svg><use href="#i-phone"/></svg></i><i class="${em ? "on" : ""}"><svg><use href="#i-mail"/></svg></i><i class="${ig ? "on" : ""}"><svg><use href="#i-ig"/></svg></i>
       </span>
@@ -694,8 +892,10 @@ function render() {
   $("drStages").innerHTML = `<button data-stage="" aria-pressed="${!S.stage}">Tümü <span class="n">${base.length}</span></button>` + STAGES.map(([k, t]) => `<button data-stage="${k}" aria-pressed="${S.stage === k}"><i class="dot st-${k}"></i>${t} <span class="n">${cnt(k)}</span></button>`).join("");
   const b = $("fBadge"); b.hidden = !activeCount(); b.textContent = activeCount();
   $("drShow").textContent = `${rows.length} firmayı göster`;
+  renderActiveFilters();
   document.querySelectorAll("[data-f]").forEach((el) => { const f = el.dataset.f; if (f !== "sort") el.classList.toggle("on", !!S[f]); });
-  $("list").innerHTML = rows.length ? rows.map(row).join("") : `<div class="empty"><b>Sonuç yok</b>Filtreleri değiştirip tekrar deneyin.</div>`;
+  if (S.mode === "map") { mapFitted = false; renderMap(); }
+  $("list").innerHTML = rows.length ? rows.map(row).join("") : `<div class="empty"><b>${S.leads.length ? "Bu kriterlerde firma bulunamadı" : "Radar veri bekliyor"}</b>${S.leads.length ? "Bir filtreyi kaldırın veya arama ifadenizi sadeleştirin." : "Firma eklediğinizde şehir, sektör, hizmet ve işlem sayaçları otomatik oluşacak."}</div>`;
 }
 function refresh() {
   render(); updCallBadge(); if (S.view === "calls") renderCalls();
@@ -754,10 +954,14 @@ function detail(l) {
   const loc = [l.district, cityOf(l)].filter(Boolean).join(", ");
   const maps = l.mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(l.name + " " + loc)}`;
   const issues = (l.issues || []).filter(Boolean);
-  return `
-    <div class="d-head"><span class="score ${scCls(l)}">${scTxt(l)}</span>
+  const g = S.gaSum.get(l.id);
+  const head = `
+    <div class="d-head"><span class="score ${scCls(l)}" title="Satış potansiyeli puanı">${scTxt(l)}</span>
       <div style="min-width:0"><h2 id="dTitle">${esc(l.name)}</h2><p>${esc(l.sector || "")}</p><p>${esc(loc)}</p></div></div>
     ${flagsHtml(l)}
+    <div class="tabs dtabs" role="tablist" aria-label="Firma detayı"><button role="tab" data-dtab="info" aria-selected="${S.dtab !== "audit"}">Firma</button><button role="tab" data-dtab="audit" aria-selected="${S.dtab === "audit"}">Growth Audit${g?.score != null ? `<span class="gs-pill">${Math.round(g.score)}</span>` : ""}</button></div>`;
+  if (S.dtab === "audit") return head + auditHtml(l);
+  return `${head}
     <div class="d-tags">${(l.services || []).map((s) => `<span class="tag svc">${esc(s)}</span>`).join("")}</div>
     <div class="acts">
       ${act(ph[0] ? "tel:+90" + ph[0] : "", "i-phone", "Ara", { primary: true })}
@@ -778,6 +982,11 @@ function detail(l) {
       ${l.rating ? `<dt>Değerlendirme</dt><dd>${esc(l.rating)} ★${l.reviews ? ` · ${esc(l.reviews)} yorum` : ""}</dd>` : ""}
       <dt>Konum</dt><dd>${esc(loc)}</dd>
     </dl></div></div>
+    <div class="sec"><h3>Yetkili</h3><div class="card"><div class="ctg">
+      <div><label class="l" for="cf-n">Ad soyad</label><input class="field" id="cf-n" data-cf="contactName" maxlength="80" value="${esc(l.contactName || "")}" placeholder="Örn. Ahmet Yılmaz"></div>
+      <div><label class="l" for="cf-t">Görevi</label><input class="field" id="cf-t" data-cf="contactTitle" maxlength="80" value="${esc(l.contactTitle || "")}" placeholder="Örn. Kurucu, Genel Müdür"></div>
+      <div><label class="l" for="cf-p">Doğrudan hat / dahili</label><input class="field" id="cf-p" data-cf="contactLine" maxlength="40" value="${esc(l.contactLine || "")}" placeholder="Firmanın yayımladığı hat"></div>
+    </div>${l.contactSource ? `<p class="mini" style="margin-top:10px">Kaynak: ${/^https?:/.test(l.contactSource) ? `<a href="${esc(l.contactSource)}" target="_blank" rel="noopener">${esc(l.contactSource.replace(/^https?:\/\//, "").slice(0, 70))}</a>` : esc(l.contactSource)}</p>` : ""}${l.contactConf === "teyit" ? `<p class="mini" style="margin-top:6px;color:var(--warn)">Kaynak eski ya da dolaylı; aramada resepsiyonda teyit edin.</p>` : ""}<p class="mini" style="margin-top:6px">Yalnızca firmanın herkese açık yayımladığı bilgileri girin; kişisel cep numarası yazmayın.</p></div></div>
     ${statusHtml(l)}
     ${l.capacity ? `<div class="sec"><h3>Neden uygun</h3><div class="card" style="font-size:14.5px">${esc(l.capacity)}</div></div>` : ""}
     ${issues.length ? `<div class="sec"><h3>Tespitler</h3><div class="card"><ul class="issues">${issues.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>` : ""}
@@ -791,7 +1000,7 @@ let lastFocus = null;
 function openLead(id, push = true) {
   const l = S.leads.find((x) => x.id === id); if (!l) return;
   closeDrawer(true);
-  if (S.open !== id) { S.tab = "mail"; S.editMsg = null; S.pop = null; }
+  if (S.open !== id) { S.tab = "mail"; S.editMsg = null; S.pop = null; S.dtab = "info"; S.gaOpen.clear(); S.gaReview = null; S.gaAllOpps = false; }
   S.open = id; lastFocus = document.activeElement;
   $("dTop").textContent = l.name;
   $("dBody").innerHTML = detail(l); $("dBody").scrollTop = 0;
@@ -825,12 +1034,368 @@ async function copyText(t) {
   toast("Kopyalandı");
 }
 async function logout() { try { await fetch("/api/logout", { method: "POST" }); } catch {} location.href = "/login"; }
-function clearAll() { Object.assign(S, { q: "", city: "", sector: "", service: "", work: "", stage: "" }); $("q").value = ""; fillFilters(); render(); }
+function clearAll() { closeRadar(); Object.assign(S, { q: "", city: "", sector: "", service: "", work: "", contact: "", growth: "", stage: "" }); $("q").value = ""; fillFilters(); render(); }
+
+async function runRadar() {
+  const button = $("radarSearch"), query = $("q").value.trim(), sector = S.sector || query;
+  if (!S.city) { toast("Önce şehir seçin"); const cityButton = document.querySelector('[data-radar="city"]'); if (cityButton && getComputedStyle(cityButton).display !== "none") openRadar(cityButton); else openDrawer(); return; }
+  if (!sector) { toast("Firma türü veya sektör yazın"); $("q").focus(); return; }
+  button.disabled = true; button.querySelector("span").textContent = "Taranıyor…";
+  try {
+    const response = await fetch("/api/radar", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ city: S.city, sector, service: S.service, limit: 30 }) });
+    if (response.status === 401) { location.href = "/login"; return; }
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "Radar araması tamamlanamadı");
+    await load();
+    toast(data.found ? `${data.found} firma bulundu · ${data.added} yeni` : "Bu aramada firma bulunamadı");
+  } catch (error) { toast(error.message || "Radar bağlantısı kurulamadı"); }
+  finally { button.disabled = false; button.querySelector("span").textContent = "Radarda ara"; }
+}
+
+/* ---------- Harita görünümü ---------- */
+// Leaflet yalnızca harita ilk açıldığında yüklenir. Konumlar /api/geo'dan gelir; ilçe/şehir merkezine
+// düşen (yaklaşık) konumlar kesik çizgiyle gösterilir. Filtreler liste ile aynıdır.
+S.mode = "list"; S.geo = {}; S.geoStatus = null;
+const STAGE_COLOR = { yeni: "#8a909a", iletisim: "#e0a100", cevap: "#f08a24", toplanti: "#3b82f6", musteri: "#1f8a4c", red: "#b0b5bd" };
+const GEO_LABEL = { source: "Harita kaydı", address: "Adres", district: "Yaklaşık (ilçe merkezi)", city: "Yaklaşık (şehir merkezi)" };
+let mapObj = null, mapLayer = null, mapFitted = false, geoTimer = null;
+function loadAsset(tag, attrs) { return new Promise((ok, no) => { const el = document.createElement(tag); Object.assign(el, attrs); el.onload = ok; el.onerror = no; document.head.appendChild(el); }); }
+async function ensureLeaflet() {
+  if (window.L && window.L.markerClusterGroup) return;
+  await Promise.all([
+    loadAsset("link", { rel: "stylesheet", href: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", crossOrigin: "" }),
+    loadAsset("link", { rel: "stylesheet", href: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" }),
+    loadAsset("link", { rel: "stylesheet", href: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" }),
+  ]);
+  await loadAsset("script", { src: "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", crossOrigin: "" });
+  await loadAsset("script", { src: "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" });
+}
+async function loadGeo() {
+  try {
+    const r = await fetch("/api/geo/points", { credentials: "same-origin" }); if (r.status === 401) { location.href = "/login"; return; }
+    const d = await r.json(); S.geo = d.points || {}; S.geoStatus = d.status;
+    if (d.status && d.status.missing > 0 && !d.status.running) fetch("/api/geo/run", { method: "POST", credentials: "same-origin" }).catch(() => {});
+    clearTimeout(geoTimer);
+    if (S.mode === "map" && d.status && (d.status.running || d.status.missing > 0)) geoTimer = setTimeout(loadGeo, 8000);
+  } catch { /* konumlar yüklenemezse harita boş kalır */ }
+  if (S.mode === "map") renderMap();
+}
+function pointOf(l) {
+  const g = S.geo[l.id]; if (g && g.precision !== "none" && g.lat) return g;
+  const loc = l.location; return loc && loc.lat ? { lat: Number(loc.lat), lon: Number(loc.lon), precision: "source" } : null;
+}
+// Aynı ilçe merkezine düşen firmalar üst üste binmesin diye küçük, deterministik bir kaydırma (yalnızca yaklaşık konumlarda).
+function spread(id, p) {
+  if (p.precision !== "district" && p.precision !== "city") return [p.lat, p.lon];
+  let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  const a = (h % 360) * Math.PI / 180, r = 0.004 + ((h >>> 9) % 100) / 100 * (p.precision === "city" ? 0.03 : 0.008);
+  return [p.lat + Math.sin(a) * r, p.lon + Math.cos(a) * r];
+}
+async function setMode(mode) {
+  S.mode = mode;
+  document.querySelectorAll("[data-mode]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.mode === mode));
+  $("list").hidden = mode === "map"; $("mapWrap").hidden = mode !== "map";
+  try { localStorage.setItem("im.view", mode); } catch {}
+  if (mode !== "map") return;
+  try { await ensureLeaflet(); } catch { $("mapNote").hidden = false; $("mapNote").textContent = "Harita kitaplığı yüklenemedi; bağlantınızı kontrol edin."; return; }
+  if (!mapObj) {
+    mapObj = L.map("map", { zoomControl: true, preferCanvas: true }).setView([39.0, 35.2], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> katkıcıları' }).addTo(mapObj);
+    mapLayer = L.markerClusterGroup({ showCoverageOnHover: false, maxClusterRadius: 45 }).addTo(mapObj);
+    $("map").addEventListener("click", (e) => { const b = e.target.closest("[data-mapopen]"); if (b) openLead(b.dataset.mapopen); });
+  }
+  setTimeout(() => mapObj.invalidateSize(), 50);
+  await loadGeo();
+}
+function renderMap() {
+  if (!mapObj || !mapLayer) return;
+  const rows = filtered(); let shown = 0, approx = 0; const pts = [];
+  mapLayer.clearLayers();
+  for (const l of rows) {
+    const p = pointOf(l); if (!p) continue;
+    const st = status(l), ap = p.precision === "district" || p.precision === "city", ll = spread(l.id, p);
+    const m = L.circleMarker(ll, { radius: 8, color: ap ? "#5d6470" : "#fff", weight: ap ? 1.5 : 2, dashArray: ap ? "3 3" : null, fillColor: STAGE_COLOR[st] || STAGE_COLOR.yeni, fillOpacity: ap ? 0.55 : 0.95 });
+    const g = S.gaSum.get(l.id);
+    m.bindPopup(`<b>${esc(l.name)}</b>${esc(sectorOf(l))} · ${esc([l.district, cityOf(l)].filter(Boolean).join(", "))}<br>${esc(ST[st])}${l.score != null ? ` · satış puanı ${esc(l.score)}` : ""}${g?.score != null ? ` · GS ${Math.round(g.score)}` : ""}<br><span style="color:#8a909a">Konum: ${esc(GEO_LABEL[p.precision] || "")}</span><br><button data-mapopen="${esc(l.id)}">Firmayı aç</button>`);
+    mapLayer.addLayer(m); pts.push(ll); shown++; if (ap) approx++;
+  }
+  if (pts.length && !mapFitted) { mapObj.fitBounds(pts, { padding: [30, 30], maxZoom: 13 }); mapFitted = true; }
+  const st = S.geoStatus, missing = rows.length - shown;
+  $("mapNote").hidden = !(st && st.running);
+  if (st && st.running) $("mapNote").textContent = `Konumlar hesaplanıyor… ${st.progress.done}/${st.progress.total}`;
+  $("mapLegend").innerHTML = STAGES.map(([k, t]) => `<span style="--c:${STAGE_COLOR[k]}"><i></i>${t}</span>`).join("")
+    + `<span class="approx"><i></i>Yaklaşık konum</span><span style="margin-left:auto">${shown} firma haritada${approx ? ` · ${approx} yaklaşık` : ""}${missing > 0 ? ` · ${missing} firmanın konumu yok` : ""}</span>`;
+}
+
+/* ---------- Growth Audit™ ---------- */
+// Firma detayındaki Growth Audit sekmesi. Growth Score (dijital olgunluk) satış puanından (lead score) ayrıdır.
+const GA_STATE = { MEASURED: "Ölçüldü", ESTIMATED: "Tahmini", UNKNOWN: "Bilinmiyor", NOT_APPLICABLE: "Uygulanamaz", FAILED: "Başarısız" };
+const GA_STATUS = { queued: "Sırada", running: "Taranıyor", completed: "Tamamlandı", failed: "Başarısız", no_verified_website: "Doğrulanmış site yok", cancelled: "İptal" };
+const GA_PG = { critical: "Kritik", high: "Yüksek etki", medium: "Orta", low: "Düşük" };
+const GA_IMPACT = { high: "Yüksek", medium: "Orta", low: "Düşük" };
+const GA_DIFF = { easy: "Kolay", medium: "Orta", hard: "Zor" };
+const GA_SHORT = { brand: "Marka", experience: "Deneyim", technology: "Teknoloji", search: "Arama", conversion: "Dönüşüm", trust: "Güven" };
+const gaBand = (s) => (s == null ? "unknown" : s >= 80 ? "strong" : s >= 60 ? "fair" : s >= 40 ? "weak" : "critical");
+const gaPct = (v) => (v == null ? "–" : `%${Math.round(v * 100)}`);
+const gaNum = (v) => (v == null ? "–" : Math.round(v));
+const gaWhen = (d) => (d ? new Date(d).toLocaleString("tr-TR", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "");
+S.dtab = "info"; S.ga = {}; S.gaSum = new Map(); S.gaOpen = new Set(); S.gaReview = null; S.gaAllOpps = false;
+S.gaX = {}; S.gaNewLink = null; S.briefs = new Map(); S.briefsLoaded = false; S.briefOpen = new Set();
+const OPP_STATUS = [["open", "Açık"], ["accepted", "Kabul edildi"], ["in_progress", "Devam ediyor"], ["done", "Yapıldı"], ["dismissed", "Gizle"]];
+const LINK_STATE = { active: "Aktif", expired: "Süresi doldu", revoked: "İptal edildi" };
+
+async function gaApi(method, path, body) {
+  const r = await fetch("/api/growth-audit" + path, { method, credentials: "same-origin", headers: { Accept: "application/json", ...(body ? { "Content-Type": "application/json" } : {}) }, body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 401) { location.href = "/login"; throw new Error("Giriş gerekli"); }
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(d.error || "İşlem tamamlanamadı"), { status: r.status, data: d });
+  return d;
+}
+async function gaLoadSummary() {
+  try { const rows = await gaApi("GET", "/summary"); S.gaSum = new Map(rows.map((x) => [x.leadId, x])); fillFilters(); render(); } catch { /* özet yüklenemezse liste etkilenmez */ }
+}
+function gaRedraw() {
+  if (!S.open) return; const l = S.leads.find((x) => x.id === S.open); if (!l) return;
+  const b = $("dBody"), y = b.scrollTop; b.innerHTML = detail(l); b.scrollTop = y;
+}
+async function gaFetch(leadId) {
+  const cur = S.ga[leadId] || {};
+  S.ga[leadId] = { ...cur, loading: !cur.data };
+  try { S.ga[leadId] = { data: await gaApi("GET", `/leads/${encodeURIComponent(leadId)}`), view: cur.view && cur.data?.active ? null : cur.view }; }
+  catch (e) { S.ga[leadId] = { ...cur, loading: false, error: e.message }; }
+  if (S.open === leadId) gaRedraw();
+  const active = S.ga[leadId].data?.active;
+  clearTimeout(gaFetch._t);
+  if (active && S.open === leadId && S.dtab === "audit") gaFetch._t = setTimeout(() => gaFetch(leadId), 2500);
+  else if (cur.data?.active && !active) { gaLoadSummary(); toast("Growth Audit tamamlandı"); }
+}
+async function gaStart(leadId) {
+  try { await gaApi("POST", `/leads/${encodeURIComponent(leadId)}`); toast("Growth Audit başlatıldı"); }
+  catch (e) { if (e.status !== 409) { toast(e.message); return; } }
+  S.ga[leadId] = { ...(S.ga[leadId] || {}), view: null };
+  gaFetch(leadId); gaLoadSummary();
+}
+async function gaShowAudit(leadId, auditId) {
+  try { const a = await gaApi("GET", `/audits/${auditId}`); S.ga[leadId] = { ...(S.ga[leadId] || {}), view: a }; S.gaOpen.clear(); gaRedraw(); $("dBody").scrollTop = 0; }
+  catch (e) { toast(e.message); }
+}
+async function gaSaveReview(form) {
+  const st = S.ga[S.open]; const a = st?.view || st?.data?.latest; if (!a) return;
+  const raw = form.querySelector("[name=score]").value.trim(), reason = form.querySelector("[name=reason]").value.trim();
+  if (!reason) { toast("Gerekçe yazın"); return; }
+  try {
+    const updated = await gaApi("POST", `/audits/${a.id}/metrics/${encodeURIComponent(form.dataset.metric)}/review`, { score: raw === "" ? null : Number(raw), reason });
+    if (st.view) st.view = updated; else st.data.latest = updated;
+    S.gaReview = null; gaRedraw(); gaLoadSummary(); toast("İnceleme kaydedildi; puan yeniden hesaplandı");
+  } catch (e) { toast(e.message); }
+}
+
+// Rapor bağlantıları ve satış taslakları (Growth Audit sekmesi açılınca yüklenir)
+async function gaLoadExtras(leadId) {
+  try {
+    const [links, drafts] = await Promise.all([gaApi("GET", `/leads/${encodeURIComponent(leadId)}/reports`), gaApi("GET", `/leads/${encodeURIComponent(leadId)}/drafts`)]);
+    S.gaX[leadId] = { links, drafts };
+  } catch (e) { S.gaX[leadId] = { error: e.message }; }
+  if (S.open === leadId && S.dtab === "audit") gaRedraw();
+}
+async function gaCreateLink(auditId) {
+  const days = Number(($("gaDays") || {}).value || 30);
+  try { const r = await gaApi("POST", `/audits/${auditId}/reports`, { days }); S.gaNewLink = { leadId: S.open, url: r.url }; await gaLoadExtras(S.open); toast("Güvenli rapor bağlantısı oluşturuldu"); }
+  catch (e) { toast(e.message); }
+}
+async function gaRevoke(id) {
+  const ok = await dialog({ title: "Bağlantı iptal edilsin mi?", text: "Müşteri bu bağlantıyla raporu artık açamaz. Gerekirse yeni bağlantı oluşturabilirsiniz.", ok: "İptal et", danger: true });
+  if (!ok) return;
+  try { await gaApi("POST", `/reports/${id}/revoke`); if (S.gaNewLink?.leadId === S.open) S.gaNewLink = null; await gaLoadExtras(S.open); toast("Bağlantı iptal edildi"); } catch (e) { toast(e.message); }
+}
+async function gaDraft(kind, id = S.open) {
+  toast(kind === "email" ? "Mail taslağı hazırlanıyor…" : "Arama brifi hazırlanıyor…");
+  try {
+    const d = await gaApi("POST", `/leads/${encodeURIComponent(id)}/drafts/${kind === "email" ? "email" : "call"}`);
+    if (d.note) toast(d.note);
+    if (kind === "call") { S.briefs.set(id, d); if (S.view === "calls") renderCalls(); }
+    if (S.open === id) await gaLoadExtras(id);
+  } catch (e) { toast(e.message); }
+}
+async function gaSaveDraft(applyAfter) {
+  const x = S.gaX[S.open], d = x?.drafts?.email; if (!d) return;
+  const subject = $("gaSubj").value.trim(), body = $("gaBody").value.trim();
+  try {
+    await gaApi("PATCH", `/drafts/${d.id}`, { content: { subject, body } });
+    if (applyAfter) {
+      const ok = await dialog({ title: "Hazır metne aktarılsın mı?", text: "Bu taslak firmanın 'İlk e-posta' hazır metninin yerine geçer. Gönderilmez; gönderim Gönderim ekranından onayınızla ve günlük limitle yapılır.", ok: "Aktar" });
+      if (!ok) { await gaLoadExtras(S.open); return; }
+      const r = await gaApi("POST", `/drafts/${d.id}/apply`);
+      const l = S.leads.find((q) => q.id === S.open); if (l && r.lead) l.outreach = r.lead.outreach;
+      toast("Hazır metne aktarıldı — Gönderim ekranından gönderebilirsiniz");
+    } else toast("Taslak kaydedildi");
+    await gaLoadExtras(S.open);
+  } catch (e) { toast(e.message); }
+}
+async function gaDiscardDraft(id) {
+  try { await gaApi("POST", `/drafts/${id}/discard`); await gaLoadExtras(S.open); toast("Taslak silindi"); } catch (e) { toast(e.message); }
+}
+async function gaOppStatus(id, status) {
+  try {
+    await gaApi("PATCH", `/opportunities/${id}`, { status });
+    const st = S.ga[S.open], a = st?.view || st?.data?.latest; const o = a?.opportunities?.find((x) => x.id === id); if (o) o.status = status;
+    gaRedraw(); gaLoadSummary(); toast("Fırsat durumu güncellendi");
+  } catch (e) { toast(e.message); }
+}
+function gaShareHtml(a) {
+  const x = S.gaX[a.leadId] || {}, links = x.links || [], fresh = S.gaNewLink?.leadId === a.leadId ? S.gaNewLink.url : null;
+  return `<div class="sec"><h3>Müşteri raporu</h3><div class="card">
+    <div class="ga-acts"><a class="btn" href="/api/growth-audit/audits/${esc(a.id)}/report.html" target="_blank" rel="noopener">Rapor önizle</a><a class="btn" href="/api/growth-audit/audits/${esc(a.id)}/report.pdf">PDF indir</a>
+      <span style="display:flex;gap:6px"><select class="field" id="gaDays" aria-label="Bağlantı süresi" style="width:auto;height:40px"><option value="7">7 gün</option><option value="30" selected>30 gün</option><option value="90">90 gün</option></select><button class="btn dark" data-ga-link="${esc(a.id)}">Güvenli link oluştur</button></span></div>
+    ${fresh ? `<div class="ga-link"><input class="field" readonly value="${esc(fresh)}" aria-label="Rapor bağlantısı" id="gaLinkUrl"><button class="btn" data-ga-copylink>Kopyala</button></div><p class="mini" style="margin-top:6px;color:var(--warn)">Bu bağlantı yalnızca şimdi gösterilir; güvenlik için saklanmaz. Kopyalayıp müşteriye iletin.</p>` : ""}
+    <p class="mini" style="margin-top:8px">Rapor; satış puanı, notlar, aşama ve arama kayıtları gibi iç bilgileri içermez. Bağlantılar tahmin edilemez, süreli ve iptal edilebilir.</p>
+    ${links.length ? `<div class="ga-links">${links.map((k) => `<div class="lr"><span><b style="color:var(--ink)">…${esc(k.tokenHint)}</b> · ${esc(fShort(k.createdAt))} · bitiş ${esc(fShort(k.expiresAt))} · ${k.viewCount} görüntüleme</span><span style="display:flex;gap:8px;align-items:center"><span class="tag ${k.state === "active" ? "ok" : ""}">${esc(LINK_STATE[k.state] || k.state)}</span>${k.state === "active" ? `<button class="link-btn" data-ga-revoke="${esc(k.id)}">İptal et</button>` : ""}</span></div>`).join("")}</div>` : ""}
+  </div></div>`;
+}
+function gaMailHtml(a) {
+  const x = S.gaX[a.leadId] || {}, d = x.drafts?.email;
+  const intro = `<p class="mini">Kanıtlı bulgulardan kişiselleştirilmiş ilk temas e-postası. Otomatik gönderilmez: "Hazır metne aktar" ile firmanın ilk e-postası olur, gönderim Gönderim ekranından onayınızla ve günlük limitle yapılır.</p>`;
+  if (!d) return `<div class="sec"><h3>AI mail taslağı</h3><div class="card">${intro}<button class="btn dark" style="margin-top:10px" data-ga-draft="email">AI mail oluştur</button></div></div>`;
+  const c = d.content || {};
+  return `<div class="sec"><h3>AI mail taslağı <span class="tag" style="text-transform:none;letter-spacing:0;margin-left:6px">${d.source === "ai" ? "AI" : "Şablon"}${d.edited ? " · düzenlendi" : ""}${d.status === "applied" ? " · aktarıldı" : ""}</span></h3><div class="card ga-draft">${intro}
+    ${d.usage?.note ? `<p class="mini" style="color:var(--warn)">${esc(d.usage.note)}</p>` : ""}
+    <input class="field" id="gaSubj" maxlength="200" value="${esc(c.subject || "")}" aria-label="Konu">
+    <textarea class="field" id="gaBody" aria-label="E-posta metni">${esc(c.body || "")}</textarea>
+    <div class="ga-acts"><button class="btn dark" data-ga-apply>Hazır metne aktar</button><button class="btn" data-ga-savedraft>Kaydet</button><button class="btn" data-ga-draft="email">Yeniden oluştur</button><button class="btn bad" data-ga-discard="${esc(d.id)}">Sil</button></div>
+    <p class="mini">${esc(fShort(d.createdAt))}${d.model ? ` · ${esc(d.model)}` : ""}</p></div></div>`;
+}
+function gaGauge(score) {
+  const v = score == null ? 0 : Math.max(0, Math.min(100, score)), a = Math.PI * (1 - v / 100);
+  const x = 100 + 80 * Math.cos(a), y = 100 - 80 * Math.sin(a);
+  return `<div class="ga-gauge gs-${gaBand(score)}" role="img" aria-label="Growth Score ${score == null ? "hesaplanamadı" : Math.round(score)} / 100">
+    <svg viewBox="0 0 200 112"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/>
+    ${score == null ? "" : `<path d="M20 100 A80 80 0 0 1 ${x.toFixed(2)} ${y.toFixed(2)}" fill="none" stroke="var(--gc)" stroke-width="14" stroke-linecap="round"/>`}</svg>
+    <div class="v"><b>${score == null ? "–" : Math.round(score)}</b><span>Growth Score™ / 100</span></div></div>`;
+}
+function gaRadar(cats) {
+  const cx = 120, cy = 112, R = 78, n = cats.length;
+  const pt = (i, r) => { const ang = -Math.PI / 2 + (2 * Math.PI * i) / n; return [cx + r * Math.cos(ang), cy + r * Math.sin(ang)]; };
+  const ring = (f) => cats.map((_, i) => pt(i, R * f).map((v) => v.toFixed(1)).join(",")).join(" ");
+  const poly = cats.map((c, i) => pt(i, R * ((c.score ?? 0) / 100)).map((v) => v.toFixed(1)).join(",")).join(" ");
+  const labels = cats.map((c, i) => { const [x, y] = pt(i, R + 16); return `<text x="${x.toFixed(1)}" y="${(y + 3).toFixed(1)}" text-anchor="${Math.abs(x - cx) < 5 ? "middle" : x > cx ? "start" : "end"}">${esc(GA_SHORT[c.id] || c.name)} ${c.score == null ? "–" : Math.round(c.score)}</text>`; }).join("");
+  return `<div class="ga-radar"><svg viewBox="0 0 240 224" role="img" aria-label="Kategori radar grafiği">
+    ${[0.25, 0.5, 0.75, 1].map((f) => `<polygon points="${ring(f)}" fill="none" stroke="var(--line)" stroke-width="1"/>`).join("")}
+    ${cats.map((_, i) => { const [x, y] = pt(i, R); return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--line)"/>`; }).join("")}
+    <polygon points="${poly}" fill="color-mix(in srgb,var(--accent) 22%,transparent)" stroke="var(--accent)" stroke-width="1.8"/>${labels}</svg></div>`;
+}
+function gaOpps(all) {
+  const list = all.filter((o) => o.status !== "dismissed" && o.status !== "done"), closed = all.length - list.length;
+  if (!list.length && closed) return `<p class="mini">Açık fırsat kalmadı (${closed} fırsat yapıldı veya gizlendi).</p>`;
+  if (!list.length) return `<p class="mini">Puanı 70'in altında olan ve kanıtla desteklenen bir metrik yok; öncelikli fırsat üretilmedi.</p>`;
+  const shown = S.gaAllOpps ? list : list.slice(0, 3);
+  return `<div class="ga-opp">${shown.map((o) => `<div class="o"><div class="h"><b>${esc(o.title)}</b><span class="tag pg-${esc(o.priorityGroup)}">${esc(GA_PG[o.priorityGroup] || o.priorityGroup)} · ${o.priorityScore}</span></div>
+      <p>${esc(o.problem)}</p><div class="act2"><b>Öneri:</b> ${esc(o.action)}</div>
+      <div class="tags"><select class="field" data-opp-status="${esc(o.id)}" aria-label="Fırsat durumu">${OPP_STATUS.map(([k, t]) => `<option value="${k}"${(o.status || "open") === k ? " selected" : ""}>${t}</option>`).join("")}</select><span class="tag">Etki: ${esc(GA_IMPACT[o.impact] || o.impact)}</span><span class="tag">Güven: ${gaPct(o.confidence)}</span><span class="tag">Zorluk: ${esc(GA_DIFF[o.difficulty] || o.difficulty)}</span><span class="tag">${o.basis === "observed" ? "Gözlenen bulgu" : "Hipotez"}</span>${o.service ? `<span class="tag svc">${esc(o.service)}</span>` : ""}</div></div>`).join("")}</div>
+    ${list.length > 3 ? `<button class="link-btn" data-ga-allopps style="margin-top:8px">${S.gaAllOpps ? "Yalnızca ilk 3'ü göster" : `Tüm fırsatlar (${list.length})`}</button>` : ""}
+    <p class="mini" style="margin-top:8px">Öncelik = Etki × Güven × Kolaylık (0-100). Finansal etki tahmin edilmez.${closed ? ` ${closed} fırsat yapıldı/gizlendi.` : ""}</p>`;
+}
+function gaEvidenceItem(e) {
+  const src = /^https?:/.test(e.source) ? `<a href="${esc(e.source)}" target="_blank" rel="noopener noreferrer">${esc(e.source.replace(/^https?:\/\//, "").slice(0, 60))}</a>` : esc(e.source);
+  return `<li><b>${src}</b> — ${esc(e.observation)}</li>`;
+}
+function gaMetric(m, auditId) {
+  const open = S.gaOpen.has(m.metricId), rv = S.gaReview === m.metricId;
+  return `<details class="ga-m gs-${gaBand(m.finalScore)}" data-ga-metric="${esc(m.metricId)}"${open ? " open" : ""}>
+    <summary><span class="sc">${m.finalScore == null ? "–" : Math.round(m.finalScore)}</span><span>${esc(m.name)}${m.reviewerScore != null ? ` <span class="tag" style="height:20px;font-size:11px">İncelendi</span>` : ""}</span><span class="st-chip ${esc(m.state)}">${esc(GA_STATE[m.state] || m.state)}</span></summary>
+    ${open ? `<div class="b">
+      ${m.reason ? `<div>${esc(m.reason)}</div>` : ""}
+      ${(m.evidence || []).length ? `<ul>${m.evidence.map(gaEvidenceItem).join("")}</ul>` : `<div class="mini">Kanıt yok.</div>`}
+      ${m.recommendation ? `<div><b>Öneri:</b> ${esc(m.recommendation)}</div>` : ""}
+      <div class="rub">Rubrik: ${esc(m.rubric)}</div>
+      <div class="rub">Yöntem: ${m.method === "ai" ? "AI değerlendirmesi" : m.method === "pagespeed" ? "Google Lighthouse" : "Kural tabanlı ölçüm"} · Ağırlık ${m.weight} · Güven ${gaPct(m.confidence)}${m.originalScore != null && m.reviewerScore != null ? ` · Özgün puan ${Math.round(m.originalScore)}` : ""}${m.modelVersion ? ` · Model ${esc(m.modelVersion)} (${esc(m.promptVersion || "")})` : ""} · ${esc(m.rubricVersion)}</div>
+      ${m.reviewReason ? `<div class="rub">İnceleme gerekçesi: ${esc(m.reviewReason)}</div>` : ""}
+      ${m.state === "NOT_APPLICABLE" ? "" : rv ? `<form class="ga-rv" data-ga-reviewform data-metric="${esc(m.metricId)}"><input class="field" name="score" type="number" min="0" max="100" inputmode="numeric" placeholder="0-100" value="${m.reviewerScore ?? ""}" aria-label="İnceleme puanı (boş bırakılırsa geçersiz kılma kaldırılır)"><input class="field" name="reason" maxlength="500" placeholder="Gerekçe (zorunlu)" aria-label="Gerekçe"><span style="display:flex;gap:6px"><button class="btn dark">Kaydet</button><button class="btn" type="button" data-ga-reviewcancel>Vazgeç</button></span></form>`
+        : `<div><button class="btn" data-ga-review="${esc(m.metricId)}">Puanı incele / düzelt</button></div>`}
+    </div>` : ""}</details>`;
+}
+function gaReport(a, st) {
+  const cats = Array.isArray(a.categoryScores) ? a.categoryScores : [];
+  const pages = (a.evidence || []).filter((e) => e.kind === "page");
+  const shot = (a.evidence || []).find((e) => e.kind === "screenshot" && /^data:image\//.test(e.data?.dataUri || ""));
+  const ps = (a.evidence || []).filter((e) => e.kind === "pagespeed");
+  const hist = st.data?.history || [];
+  const viewingOld = st.view && st.data?.latest && st.view.id !== st.data.latest.id;
+  const s = a.summary;
+  const counts = (a.metrics || []).reduce((acc, m) => { acc[m.state] = (acc[m.state] || 0) + 1; return acc; }, {});
+  return `
+    ${viewingOld ? `<div class="card" style="margin-top:16px;border-color:var(--warn)"><b>Geçmiş denetim görüntüleniyor</b> · ${esc(gaWhen(a.finishedAt || a.createdAt))} <button class="link-btn" data-ga-latest>En güncele dön</button></div>` : ""}
+    <div class="sec"><div class="card ga-hero">${gaGauge(a.overallScore)}
+      <div class="ga-meta">
+        <div class="row2"><span>Veri kapsamı</span><b>${gaPct(a.coverage)}</b></div>
+        <div class="row2"><span>Güven</span><b>${gaPct(a.confidence)}</b></div>
+        <div class="row2"><span>Metrikler</span><b>${counts.MEASURED || 0} ölçüldü · ${counts.ESTIMATED || 0} tahmini · ${(counts.UNKNOWN || 0) + (counts.FAILED || 0)} eksik</b></div>
+        <div class="row2"><span>Denetim</span><b>${esc(gaWhen(a.finishedAt || a.createdAt))}</b></div>
+        <div class="row2"><span>Site</span><b>${a.finalUrl ? `<a href="${esc(a.finalUrl)}" target="_blank" rel="noopener noreferrer">${esc(a.finalUrl.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a>` : "–"}</b></div>
+      </div></div>
+      ${a.coverage != null && a.coverage < 0.6 ? `<p class="mini" style="margin-top:8px;color:var(--warn)">Kapsam düşük: puan yalnızca ölçülebilen metriklerden hesaplandı. Eksik metrikler sıfır sayılmadı.</p>` : ""}
+      <p class="mini" style="margin-top:8px">Growth Score dijital olgunluğu ölçer; listedeki satış puanından (${esc(scTxt(S.leads.find((x) => x.id === a.leadId) || {}))}) bağımsızdır.</p></div>
+    <div class="sec"><h3>Kategori puanları</h3><div class="card ga-cats"><div>${cats.map((c) => `<div class="ga-bar gs-${gaBand(c.score)}"><div class="h"><span>${esc(c.name)} <small>%${c.weight}</small></span><b>${c.score == null ? "–" : Math.round(c.score)}</b></div><div class="t"><i style="width:${c.score == null ? 0 : Math.max(2, c.score)}%"></i></div><small>Kapsam ${gaPct(c.coverage)} · ${c.evaluated}/${c.applicable} metrik</small></div>`).join("")}</div>${gaRadar(cats)}</div></div>
+    <div class="sec"><h3>Öncelikli büyüme fırsatları</h3>${gaOpps(a.opportunities || [])}</div>
+    ${viewingOld ? "" : gaShareHtml(a) + gaMailHtml(a)}
+    <div class="sec"><h3>AI yönetici özeti</h3><div class="card">${s ? `<b>${esc(s.headline)}</b><p style="margin-top:6px;font-size:14px">${esc(s.narrative)}</p>
+      ${(s.strengths || []).length ? `<p class="mini" style="margin-top:10px"><b>Güçlü yönler:</b> ${s.strengths.map(esc).join(" · ")}</p>` : ""}${(s.weaknesses || []).length ? `<p class="mini" style="margin-top:6px"><b>Zayıf yönler:</b> ${s.weaknesses.map(esc).join(" · ")}</p>` : ""}
+      <p class="mini" style="margin-top:8px">${esc(a.aiModel || "")} · ${esc(a.promptVersion || "")} · Yalnızca toplanan kanıta dayanır.</p>`
+      : `<p class="mini">${a.status === "no_verified_website" ? "Doğrulanmış web sitesi olmadığı için AI analizi yapılmadı." : a.usage?.ai == null ? "AI analisti yapılandırılmadığı için özet ve öznel metrikler oluşturulmadı (sunucuda ANTHROPIC_API_KEY gerekli)." : "AI özeti oluşturulamadı."}</p>`}</div></div>
+    <div class="sec"><h3>Kanıt ve metrikler</h3>
+      ${cats.map((c) => `<div class="ga-cat"><h4>${esc(c.name)}<span>${c.score == null ? "–" : Math.round(c.score)}</span></h4>${(a.metrics || []).filter((m) => m.category === c.id).map((m) => gaMetric(m, a.id)).join("")}</div>`).join("")}
+      ${pages.length ? `<div class="card" style="margin-top:14px"><b style="font-size:13.5px">Taranan sayfalar (${pages.length})</b><ul class="hist" style="margin-top:10px">${pages.map((p) => `<li><span>${esc(p.data?.role || "")}</span><b style="overflow-wrap:anywhere"><a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(String(p.sourceUrl).replace(/^https?:\/\//, "").slice(0, 70))}</a></b></li>`).join("")}</ul></div>` : ""}
+      ${ps.length ? `<p class="mini" style="margin-top:10px">PageSpeed: ${ps.map((p) => `${esc(p.title)} ${p.data?.ok ? "ölçüldü" : `alınamadı (${esc(String(p.data?.error || "").slice(0, 80))})`}`).join(" · ")}</p>` : ""}
+      ${shot ? `<div style="margin-top:12px"><p class="mini" style="margin-bottom:6px">${esc(shot.title)}</p><img class="ga-shot" src="${esc(shot.data.dataUri)}" alt="Sitenin ekran görüntüsü"></div>` : ""}
+    </div>
+    <div class="sec"><h3>Audit geçmişi</h3><div class="card">${hist.length ? `<ul class="hist">${hist.map((h) => `<li><span>${esc(fShort(h.createdAt))}</span><b>${h.status === "completed" || h.status === "no_verified_website" ? `<button class="link-btn" data-ga-show="${esc(h.id)}" style="padding:0">${h.overallScore == null ? "Puan yok" : "Skor " + Math.round(h.overallScore)}</button>` : ""} ${esc(GA_STATUS[h.status] || h.status)}${h.opportunityCount ? ` · ${h.opportunityCount} fırsat` : ""}${h.id === a.id ? " · görüntüleniyor" : ""}</b></li>`).join("")}</ul>` : `<p class="mini">Geçmiş yok.</p>`}</div></div>`;
+}
+function auditHtml(l) {
+  const st = S.ga[l.id];
+  if (!st || (st.loading && !st.data)) return `<div class="sec"><div class="card mini">Growth Audit yükleniyor…</div></div>`;
+  if (st.error && !st.data) return `<div class="sec"><div class="card"><b>Yüklenemedi</b><p class="mini">${esc(st.error)}</p><button class="btn" style="margin-top:10px" data-ga-reload>Tekrar dene</button></div></div>`;
+  const { active, latest } = st.data, a = st.view || latest;
+  const busy = !!active;
+  const actions = `<div class="sec"><div class="ga-acts">
+    <button class="btn dark" data-ga-start ${busy ? "disabled" : ""}><svg><use href="#i-search"/></svg>${latest ? "Audit yenile" : "Growth Audit başlat"}</button>
+  </div>${!webUrl(l) ? `<p class="mini" style="margin-top:8px">Bu firmanın kaydında web sitesi yok; denetim "doğrulanmış site yok" sonucuyla biter. Önce "Bilgileri düzenle" ile web sitesi ekleyebilirsiniz.</p>` : ""}</div>`;
+  const progress = active ? `<div class="sec"><div class="card"><b>${esc(GA_STATUS[active.status] || active.status)}</b> · <span class="mini">${esc(active.stage || "")}</span>
+    <div class="ga-prog"><i style="width:${Math.max(3, active.progress || 0)}%"></i></div>${active.error ? `<p class="mini" style="margin-top:8px;color:var(--warn)">Önceki deneme: ${esc(active.error)}</p>` : ""}
+    <p class="mini" style="margin-top:8px">Tarama robots.txt kurallarına uyar; birkaç dakika sürebilir. Bu sekme açıkken ilerleme otomatik güncellenir.</p></div></div>` : "";
+  const failed = !active && st.data.history?.[0]?.status === "failed" ? `<div class="sec"><div class="card" style="border-color:var(--bad)"><b>Son denetim başarısız</b><p class="mini">${esc(st.data.history[0].error || "")}</p></div></div>` : "";
+  if (!a) return actions + progress + failed + (active ? "" : `<div class="sec"><div class="card"><b>Henüz denetim yok</b><p class="mini" style="margin-top:6px">Growth Audit; web sitesini tarar, Google Lighthouse ile ölçer, 33 metriği kanıtla puanlar ve öncelikli büyüme fırsatlarını çıkarır.</p></div></div>`);
+  if (a.status === "no_verified_website") return actions + progress + failed + `<div class="sec"><div class="card"><b>Doğrulanmış web sitesi yok</b><p class="mini" style="margin-top:6px">${esc(a.error || "")}</p><p class="mini" style="margin-top:6px">Site denetimi uydurulmadı; Growth Score hesaplanmadı. ${esc(gaWhen(a.finishedAt))}</p></div></div>`
+    + `<div class="sec"><h3>Audit geçmişi</h3><div class="card"><ul class="hist">${(st.data.history || []).map((h) => `<li><span>${esc(fShort(h.createdAt))}</span><b>${esc(GA_STATUS[h.status] || h.status)}${h.overallScore != null ? " · Skor " + Math.round(h.overallScore) : ""}</b></li>`).join("")}</ul></div></div>`;
+  return actions + progress + failed + gaReport(a, st);
+}
+function gaListTag(l) {
+  const g = S.gaSum.get(l.id); if (!g) return "";
+  if (g.status === "queued" || g.status === "running") return `<span class="tag">Audit sürüyor</span>`;
+  if (g.status === "no_verified_website") return `<span class="tag" title="Growth Audit: doğrulanmış site yok">GS –</span>`;
+  if (g.score == null) return "";
+  return `<span class="tag gs gs-${gaBand(g.score)}" title="Growth Score™ (kapsam ${gaPct(g.coverage)}${g.opportunityCount ? `, ${g.opportunityCount} fırsat` : ""})">GS ${Math.round(g.score)}</span>`;
+}
 
 /* ---------- olaylar ---------- */
 $("addLead").addEventListener("click", () => leadForm());
+document.querySelectorAll("[data-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
 $("list").addEventListener("click", (e) => { const r = e.target.closest(".row"); if (r) openLead(r.dataset.id); });
 $("dBody").addEventListener("click", (e) => {
+  const dt = e.target.closest("[data-dtab]");
+  if (dt) { S.dtab = dt.dataset.dtab; gaRedraw(); if (S.dtab === "audit" && S.open) { gaFetch(S.open); gaLoadExtras(S.open); } return; }
+  const gl = e.target.closest("[data-ga-link]"); if (gl) { gaCreateLink(gl.dataset.gaLink); return; }
+  if (e.target.closest("[data-ga-copylink]")) { copyText($("gaLinkUrl").value); return; }
+  const rv = e.target.closest("[data-ga-revoke]"); if (rv) { gaRevoke(rv.dataset.gaRevoke); return; }
+  const gd = e.target.closest("[data-ga-draft]"); if (gd) { gaDraft(gd.dataset.gaDraft); return; }
+  if (e.target.closest("[data-ga-apply]")) { gaSaveDraft(true); return; }
+  if (e.target.closest("[data-ga-savedraft]")) { gaSaveDraft(false); return; }
+  const dd = e.target.closest("[data-ga-discard]"); if (dd) { gaDiscardDraft(dd.dataset.gaDiscard); return; }
+  if (e.target.closest("[data-ga-start]")) { if (S.open) gaStart(S.open); return; }
+  if (e.target.closest("[data-ga-reload]")) { if (S.open) gaFetch(S.open); return; }
+  const gs = e.target.closest("[data-ga-show]"); if (gs) { gaShowAudit(S.open, gs.dataset.gaShow); return; }
+  if (e.target.closest("[data-ga-latest]")) { S.ga[S.open].view = null; gaRedraw(); return; }
+  if (e.target.closest("[data-ga-allopps]")) { S.gaAllOpps = !S.gaAllOpps; gaRedraw(); return; }
+  const gr = e.target.closest("[data-ga-review]"); if (gr) { e.preventDefault(); S.gaReview = gr.dataset.gaReview; gaRedraw(); return; }
+  if (e.target.closest("[data-ga-reviewcancel]")) { S.gaReview = null; gaRedraw(); return; }
   const pp = e.target.closest("[data-pop]");
   if (pp) { S.pop = S.pop === pp.dataset.pop ? null : pp.dataset.pop; refresh(); return; }
   if (S.pop && !e.target.closest(".pop")) { S.pop = null; refresh(); }
@@ -850,12 +1415,38 @@ $("dBody").addEventListener("click", (e) => {
   if (e.target.closest("[data-dellead]")) { delLead(); }
 });
 $("dBody").addEventListener("focusout", (e) => { if (e.target.id === "noteBox") saveNote(e.target.value.trim()); });
+// <details> açık/kapalı durumu yeniden çizimlerde korunur (toggle olayı kabarcıklanmaz; yakalama aşamasında dinlenir)
+$("dBody").addEventListener("toggle", (e) => {
+  const d = e.target.closest && e.target.closest("[data-ga-metric]"); if (!d || d !== e.target) return;
+  const id = d.dataset.gaMetric, was = S.gaOpen.has(id);
+  if (d.open === was) return;
+  if (d.open) S.gaOpen.add(id); else S.gaOpen.delete(id);
+  if (d.open) gaRedraw();
+}, true);
+// Arama brifinin açık/kapalı durumu yeniden çizimlerde korunur; içerik açılınca çizilir.
+$("callList").addEventListener("toggle", (e) => {
+  const d = e.target; if (!d.dataset || !d.dataset.brief) return;
+  const id = d.dataset.brief, was = S.briefOpen.has(id); if (d.open === was) return;
+  if (d.open) { S.briefOpen.add(id); renderCalls(); } else S.briefOpen.delete(id);
+}, true);
+$("dBody").addEventListener("change", (e) => { const sel = e.target.closest("[data-opp-status]"); if (sel) gaOppStatus(sel.dataset.oppStatus, sel.value); });
+$("dBody").addEventListener("submit", (e) => { const f = e.target.closest("[data-ga-reviewform]"); if (!f) return; e.preventDefault(); gaSaveReview(f); });
 $("dBody").addEventListener("input", (e) => { if (e.target.id === "noteBox") $("noteSv").textContent = "Kaydedilmedi"; });
 function stageClick(e) { const b = e.target.closest("[data-stage]"); if (!b) return; S.stage = b.dataset.stage; render(); }
 $("stageChips").addEventListener("click", stageClick);
 $("drStages").addEventListener("click", stageClick);
 document.addEventListener("input", (e) => { if (e.target.id === "callQ") renderCallRes(); });
 document.addEventListener("focusout", (e) => {
+  if (e.target.dataset && e.target.dataset.briefedit) { briefSave(e.target); return; }
+  const cf = e.target.dataset && e.target.dataset.cf;
+  if (cf && S.open) {
+    const l = S.leads.find((x) => x.id === S.open), v = e.target.value.trim(); if (!l || (l[cf] || "") === v) return;
+    const old = l[cf]; l[cf] = v;
+    fetch("/api/leads", { method: "PATCH", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: l.id, patch: { [cf]: v } }) })
+      .then((r) => { if (!r.ok) throw 0; toast("Yetkili bilgisi kaydedildi"); render(); if (S.view === "calls") renderCalls(); })
+      .catch(() => { l[cf] = old; toast("Kaydedilemedi"); });
+    return;
+  }
   const id = e.target.dataset && e.target.dataset.callnote; if (!id) return;
   const l = S.leads.find((x) => x.id === id); const v = e.target.value.trim();
   if (l && (l.callNote || "") !== v) { l.callNote = v; fetch("/api/leads", { method: "PATCH", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, patch: { callNote: v } }) }).then((r) => { if (!r.ok) toast("Not kaydedilemedi"); else toast("Not kaydedildi"); }).catch(() => toast("Not kaydedilemedi")); }
@@ -872,6 +1463,14 @@ $("scrim2").addEventListener("click", () => closeDrawer());
 $("drShow").addEventListener("click", () => { closeDrawer(); window.scrollTo({ top: 0 }); });
 $("drClear").addEventListener("click", clearAll);
 $("clear").addEventListener("click", clearAll);
+$("radarSearch").addEventListener("click", runRadar);
+document.querySelectorAll("[data-radar]").forEach((b) => b.addEventListener("click", () => openRadar(b)));
+$("radarPop").addEventListener("input", (e) => { if (e.target.id !== "radarQ") return; S.radarQuery = e.target.value; const anchor = document.querySelector(`[data-radar="${S.radar}"]`); if (anchor) renderRadar(anchor); });
+$("radarPop").addEventListener("click", (e) => { const option = e.target.closest("[data-radar-value]"); if (!option || !S.radar) return; const key = S.radar; S[key] = option.dataset.radarValue; closeRadar(); fillFilters(); render(); });
+$("activeFilters").addEventListener("click", (e) => { const b = e.target.closest("[data-clear-filter]"); if (!b) return; S[b.dataset.clearFilter] = ""; fillFilters(); render(); });
+document.addEventListener("pointerdown", (e) => { if (S.radar && !e.target.closest("#radarPop") && !e.target.closest("[data-radar]")) closeRadar(); });
+window.addEventListener("resize", closeRadar);
+window.addEventListener("scroll", closeRadar, { passive: true });
 $("logout").addEventListener("click", logout);
 $("logoutM").addEventListener("click", logout);
 $("close").addEventListener("click", () => closeLead());
@@ -882,6 +1481,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "/" && !S.open && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $("q").focus(); }
 });
 let qT; $("q").addEventListener("input", (e) => { clearTimeout(qT); qT = setTimeout(() => { S.q = e.target.value.trim(); render(); }, 120); });
+$("q").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); clearTimeout(qT); S.q = e.target.value.trim(); runRadar(); } });
 /* ================= Google Ads: müşteriler, form, kampanya planı ================= */
 const FORM_BASE = ["localhost", "127.0.0.1"].includes(location.hostname) ? location.origin : "https://customer.istanbul.marketing";
 const formUrl = (c) => `${FORM_BASE}/form?k=${c.token}`;
@@ -936,11 +1536,37 @@ async function callResult(id, key) {
   if (key === "tekrar" && (!l.callDay || l.callDay <= t0)) { const d = new Date(); d.setDate(d.getDate() + 1); patch.callDay = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
   await save(id, patch, "Kaydedildi: " + CR[key]);
 }
+async function loadBriefs() {
+  try { const rows = await gaApi("GET", "/call-briefs"); S.briefs = new Map(rows.map((b) => [b.leadId, b])); S.briefsLoaded = true; if (S.view === "calls") renderCalls(); } catch { /* brif yüklenemezse liste çalışmaya devam eder */ }
+}
+function briefHtml(l) {
+  const b = S.briefs.get(l.id), g = S.gaSum.get(l.id), open = S.briefOpen.has(l.id);
+  if (!b) {
+    if (g?.status === "completed") return `<div class="brief"><div class="bb" style="padding-top:12px"><span class="mini">Growth Audit hazır (skor ${g.score == null ? "–" : Math.round(g.score)}). Arama öncesi kısa brif oluşturabilirsiniz.</span><span><button class="btn" data-brief-new="${esc(l.id)}">Arama brifi oluştur</button></span></div></div>`;
+    return `<div class="mini">Arama brifi için önce firmada Growth Audit çalıştırın.</div>`;
+  }
+  const c = b.content || {};
+  return `<details class="brief" data-brief="${esc(l.id)}"${open ? " open" : ""}><summary><span>Arama brifi</span><span class="mini" style="font-weight:600">${b.source === "ai" ? "AI" : "Şablon"}${b.edited ? " · düzenlendi" : ""} · ${esc(fShort(b.createdAt))}</span></summary>${open ? `<div class="bb">
+    <div><div class="k">Growth Score</div>${esc(c.scoreSummary)}</div>
+    ${(c.topIssues || []).length ? `<div><div class="k">Doğrulanmış sorunlar</div><ul>${c.topIssues.map((x) => `<li><b style="color:var(--ink)">${esc(x.title)}:</b> ${esc(x.detail)}</li>`).join("")}</ul></div>` : ""}
+    <div><div class="k">Arama nedeni</div>${esc(c.reason)}</div>
+    ${c.recommendedService ? `<div><div class="k">Önerilen hizmet</div>${esc(c.recommendedService)}</div>` : ""}
+    <div><div class="k">Açılış cümlesi</div><textarea class="field" data-briefedit="${esc(b.id)}:opening" maxlength="1000">${esc(c.opening)}</textarea></div>
+    <div><div class="k">Önceki iletişim</div>${esc(c.historySummary)}</div>
+    <div><div class="k">Sonraki adım</div><textarea class="field" data-briefedit="${esc(b.id)}:nextAction" maxlength="1000">${esc(c.nextAction)}</textarea></div>
+    <div><button class="lnk" data-brief-new="${esc(l.id)}">Brifi yenile</button></div>
+  </div>` : ""}</details>`;
+}
+async function briefSave(el) {
+  const [id, field] = el.dataset.briefedit.split(":"), v = el.value.trim();
+  const b = [...S.briefs.values()].find((x) => x.id === id); if (!b || (b.content?.[field] || "") === v) return;
+  try { const r = await gaApi("PATCH", `/drafts/${id}`, { content: { [field]: v } }); b.content = r.content; b.edited = true; toast("Brif kaydedildi"); } catch (e) { toast(e.message); }
+}
 function callCard(l, i) {
   const ph = phones(l), mob = ph.find((d) => d.startsWith("5")), tel = ph[0], log = l.callLog || [], last = log[log.length - 1];
   const lastTxt = last ? `Son: ${CR[last.r] || ""} · ${new Date(last.at).toLocaleString("tr-TR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · ${log.length} deneme` : "";
   return `<div class="crow" data-cid2="${esc(l.id)}">
-    <div class="top"><div style="min-width:0;display:flex;gap:12px;align-items:flex-start"><span class="cn2">${i}</span><div style="min-width:0"><div class="nm">${esc(l.name)}</div><div class="mt">${esc(sectorOf(l))} · ${esc(cityOf(l))}${l.score != null ? ` · puan ${l.score}` : ""}</div>${lastTxt ? `<div class="mt" style="margin-top:2px">${esc(lastTxt)}</div>` : ""}</div></div>${l.callDay ? `<span class="tag" style="flex:none;${l.callDay <= today() ? "background:var(--warn-bg);color:var(--warn);border-color:transparent" : ""}">${esc(dayLabel(l.callDay))}</span>` : ""}</div>
+    <div class="top"><div style="min-width:0;display:flex;gap:12px;align-items:flex-start"><span class="cn2">${i}</span><div style="min-width:0"><div class="nm">${esc(l.name)}</div><div class="mt">${esc(sectorOf(l))} · ${esc(cityOf(l))}${l.score != null ? ` · puan ${l.score}` : ""}</div>${l.contactName ? `<div class="who">Yetkili: <b>${esc(l.contactName)}</b>${l.contactTitle ? ` · ${esc(l.contactTitle)}` : ""}${l.contactLine ? ` · <a href="tel:${esc(String(l.contactLine).replace(/[^\d+]/g, ""))}">${esc(l.contactLine)}</a>` : ""}${l.contactConf === "teyit" ? ` <span class="tag" style="margin-left:4px">teyit edin</span>` : ""}</div>` : `<div class="who none">Yetkili bilinmiyor — sekreterden adını isteyin</div>`}${lastTxt ? `<div class="mt" style="margin-top:2px">${esc(lastTxt)}</div>` : ""}</div></div>${l.callDay ? `<span class="tag" style="flex:none;${l.callDay <= today() ? "background:var(--warn-bg);color:var(--warn);border-color:transparent" : ""}">${esc(dayLabel(l.callDay))}</span>` : ""}</div>
     <div class="ph">${l.phone ? `<a href="${tel ? "tel:+90" + tel : "#"}" style="color:inherit;text-decoration:none">${esc(l.phone)}</a>` : '<span class="mt">Telefon numarası yok</span>'}</div>
     <textarea class="field" data-callnote="${esc(l.id)}" rows="2" maxlength="600" placeholder="Not (örn. sekreter yönlendirdi, perşembe tekrar ara)">${esc(l.callNote || "")}</textarea>
     <div class="acts2">
@@ -948,10 +1574,12 @@ function callCard(l, i) {
       ${mob ? `<a class="btn" href="https://wa.me/90${mob}" target="_blank" rel="noopener"><svg width="16" height="16"><use href="#i-wa"/></svg>WhatsApp</a>` : ""}
       <label class="dayl"><span>Arama günü</span><input type="date" class="field" data-callday="${esc(l.id)}" value="${esc(l.callDay || "")}"></label>
     </div>
+    ${briefHtml(l)}
     <div class="foot">
       <div class="pickwrap" style="flex:none"><button class="btn" data-callpop="${esc(l.id)}" aria-haspopup="true" aria-expanded="${S.callPop === l.id}">Arama sonucu<svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>${S.callPop === l.id ? `<div class="pop" role="menu" style="left:0;right:auto;min-width:270px">${Object.entries(CR).map(([k, t]) => `<button class="opt" role="menuitem" data-callres="${esc(l.id)}:${k}"><b>${t}</b><small>${esc(CR_HINT[k])}</small></button>`).join("")}</div>` : ""}</div>
       <div><button class="lnk" data-callopen="${esc(l.id)}">Firmayı aç</button><button class="lnk bad" data-calloff="${esc(l.id)}">Listeden çıkar</button></div>
-    </div</div></div>`;
+    </div>
+  </div>`;
 }
 function renderCalls() {
   const G = callGroups(), n = G.due.length + G.none.length + G.later.length; let i = 0;
@@ -1024,7 +1652,7 @@ function renderMail() {
   $("mailSub").textContent = c.configured ? `Bugün ${M.sentToday} / ${c.limit} mail gönderildi` : "Mail hesabı bağlı değil";
   if (M.running) return renderMailRun();
   const status = !M.cfg ? `<div class="mcard mwarn">Gönderim durumu alınamadı. Sayfayı yenileyin.</div>`
-    : !c.configured ? `<div class="mcard mwarn"><b>Mail hesabı henüz bağlı değil</b><ol><li>Vercel → proje → Settings → Environment Variables</li><li>Şunları ekleyin: <code>SMTP_HOST</code> <code>SMTP_PORT</code> <code>SMTP_USER</code> <code>SMTP_PASS</code> <code>SMTP_FROM</code> <code>SMTP_FROM_NAME</code></li><li>İsteğe bağlı: <code>SEND_DAILY_LIMIT</code> (varsayılan 25)</li><li>Yeniden yayınlayın. Şifreyi kimseyle paylaşmayın.</li></ol></div>`
+    : !c.configured ? `<div class="mcard mwarn"><b>Mail hesabı henüz bağlı değil</b><ol><li>Sunucudaki backend klasöründe <code>.env</code> dosyasını açın</li><li>Şunları doldurun: <code>SMTP_HOST</code> <code>SMTP_PORT</code> <code>SMTP_USER</code> <code>SMTP_PASS</code> <code>SMTP_FROM</code> <code>SMTP_FROM_NAME</code></li><li>İsteğe bağlı: <code>SEND_DAILY_LIMIT</code> (varsayılan 25)</li><li>Backend'i yeniden başlatın, ardından buradan “Test maili gönder” ile deneyin. Şifreyi kimseyle paylaşmayın.</li></ol></div>`
     : `<div class="mcard"><div class="mstat"><div><small>Gönderen</small><b style="font-size:16px">${esc(c.fromName || "")} &lt;${esc(c.from || "")}&gt;</b></div><div><small>Bugün kalan hak</small><b>${left} / ${c.limit}</b></div><div><small>Zamanı gelen</small><b>${q.first.length + q.fu.length}</b></div><button class="btn" data-mtest>Test maili gönder</button></div>${c.dryRun ? '<p class="mini" style="margin-top:10px"><b>Kuru çalışma kipi:</b> gerçek mail gönderilmez.</p>' : ""}</div>`;
   const tabs = `<div class="tabs" role="tablist" style="margin-top:16px"><button role="tab" data-mtab="first" aria-selected="${M.tab === "first"}">İlk mail (${q.first.length})</button><button role="tab" data-mtab="fu" aria-selected="${M.tab === "fu"}">Takipler (${q.fu.length})</button><button role="tab" data-mtab="log" aria-selected="${M.tab === "log"}">Geçmiş</button></div>`;
   let body = "";
@@ -1375,10 +2003,18 @@ function setView(v, writeHash = true) {
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.view === v));
   $("drFirms").hidden = v !== "firmalar"; $("drShow").hidden = v !== "firmalar"; $("drClear").hidden = v !== "firmalar";
   if (writeHash) history.replaceState(null, "", v === "ads" ? "#ads" : v === "mail" ? "#mail" : v === "calls" ? "#calls" : location.pathname);
-  if (v === "ads") loadAds(); else if (v === "mail") { window.scrollTo({ top: 0 }); loadMail(); } else if (v === "calls") { window.scrollTo({ top: 0 }); renderCalls(); } else window.scrollTo({ top: 0 });
+  if (v === "ads") loadAds(); else if (v === "mail") { window.scrollTo({ top: 0 }); loadMail(); } else if (v === "calls") { window.scrollTo({ top: 0 }); renderCalls(); if (!S.briefsLoaded) loadBriefs(); } else window.scrollTo({ top: 0 });
 }
 function route() {
   const h = decodeURIComponent(location.hash.slice(1));
+  // Google Ads müşterileri yönetim panelindedir; Growth Audit tarafında yalnızca firma akışları kalır.
+  if (!ADMIN_ADS && (h === "ads" || h.startsWith("ads/"))) { location.replace("/yonetim/google-ads" + location.hash); return; }
+  if (ADMIN_ADS) {
+    setView("ads", false);
+    const id = h.startsWith("ads/") ? h.slice(4) : "";
+    if (id) { if (S.adsLoaded && cl(id)) openClient(id, false); } else if (S.client || S.open) closeLead(true);
+    return;
+  }
   if (h === "mail") { setView("mail", false); return; }
   if (h === "calls") { setView("calls", false); return; }
   if (h === "ads" || h.startsWith("ads/")) {
@@ -1401,6 +2037,7 @@ document.addEventListener("click", async (e) => {
     if (S.callPop && !g(".pop")) { S.callPop = null; renderCalls(); }
     if (g("[data-callres]")) { const [id, k] = g("[data-callres]").dataset.callres.split(":"); callResult(id, k); return; }
     if (g("[data-callopen]")) { const id = g("[data-callopen]").dataset.callopen; setView("firmalar"); openLead(id); return; }
+    if (g("[data-brief-new]")) { const id = g("[data-brief-new]").dataset.briefNew; S.briefOpen.add(id); await gaDraft("call", id); return; }
   }
   if (e.target.closest("#viewMail")) {
     const M = S.mail, g = (s) => e.target.closest(s);

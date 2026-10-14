@@ -6,3 +6,5 @@ out/
 .env.*.local
 *.log
 .DS_Store
+.next-prod/
+*.tsbuildinfo
