@@ -421,6 +421,19 @@ select.field.sm{height:40px;font-size:14px}
 @media(max-width:760px){.cgrid{grid-template-columns:1fr}}
 .cgrid h4{font-size:13px;font-weight:800;margin-bottom:6px}
 .cst{width:100%;border-collapse:collapse;font-size:13.5px}
+/* Gelen talepler (ücretsiz dijital analiz formu) */
+.inrow{display:block;width:100%;text-align:left;cursor:pointer;margin-bottom:10px}
+.inrow:hover{border-color:var(--ink)}
+.inrow .in-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.inrow .in-name{font-weight:700;font-size:15.5px}
+.inrow .in-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.inrow .in-tags{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.inrow .in-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:13.5px}
+.inrow .in-links a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;word-break:break-all}
+.inrow .in-msg{margin-top:8px;font-size:13.5px;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
+.inrow .in-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.tag.src-ig{background:color-mix(in srgb,#c13584 14%,transparent);color:color-mix(in srgb,#c13584 70%,var(--ink));border-color:transparent}
+.tag.src-web{background:var(--surface-2)}
 .cst th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:4px 6px 6px 0;border-bottom:1px solid var(--line)}
 .cst td{padding:6px 6px 6px 0;border-bottom:1px solid var(--line)}.cst th:not(:first-child),.cst td:not(:first-child){text-align:right}
 
@@ -596,7 +609,7 @@ select.field.sm{height:40px;font-size:14px}
     <span>Growth Audit</span>
   </a>
   </div>
-  <nav class="topnav only-d" id="topnav" aria-label="Bölümler"><button data-view="firmalar">Firmalar</button><button data-view="mail">Gönderim</button><button data-view="calls">Aranacaklar</button><a href="/yonetim">Yönetim paneli →</a></nav>
+  <nav class="topnav only-d" id="topnav" aria-label="Bölümler"><button data-view="firmalar">Firmalar</button><button data-view="inbound">Gelen Talepler</button><button data-view="mail">Gönderim</button><button data-view="calls">Aranacaklar</button><a href="/yonetim">Yönetim paneli →</a></nav>
   <div class="hd-r only-d"><div class="themeseg" role="group" aria-label="Görünüm"><button data-theme-set="system" title="Sistem" aria-label="Sistem teması"><svg><use href="#i-sys"/></svg></button><button data-theme-set="light" title="Açık" aria-label="Açık tema"><svg><use href="#i-sun"/></svg></button><button data-theme-set="dark" title="Koyu" aria-label="Koyu tema"><svg><use href="#i-moon"/></svg></button></div>
   <button class="icon-btn" id="logout" aria-label="Çıkış yap"><svg><use href="#i-out"/></svg><span class="hide-xs">Çıkış</span></button></div>
 </div></header>
@@ -623,6 +636,11 @@ select.field.sm{height:40px;font-size:14px}
     <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
   </div>
   <div class="mapwrap" id="mapWrap" hidden><div id="map" aria-label="Firma haritası"></div><div class="map-note" id="mapNote" hidden></div><div class="map-legend" id="mapLegend"></div></div>
+  </div>
+  <div id="viewInbound" hidden>
+    <div class="head"><div><h1>Gelen Talepler</h1><p id="inSub">Yükleniyor…</p></div></div>
+    <div class="chips" id="inChips" role="group" aria-label="Kaynak"></div>
+    <div id="inList" style="margin-top:14px" aria-live="polite"></div>
   </div>
   <div id="viewCalls" hidden>
     <div class="head"><div><h1>Aranacaklar</h1><p id="callSub">Yükleniyor…</p></div></div>
@@ -652,7 +670,7 @@ select.field.sm{height:40px;font-size:14px}
 <aside class="drawer" id="drawer" aria-label="Menü" aria-hidden="true">
   <div class="dr-h"><a class="brand" href="/"><img class="logo-light" src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing"><img class="logo-dark" src="/brand/logo-wordmark-on-dark.png" alt="istanbul.marketing"></a><button class="icon-btn" id="drClose" aria-label="Menüyü kapat"><svg><use href="#i-x"/></svg></button></div>
   <div class="dr-b">
-    <h4>Bölümler</h4><div class="dr-st" id="drNav"><button data-view="firmalar"><span>Firmalar</span></button><button data-view="mail"><span>Gönderim</span></button><button data-view="calls"><span>Aranacaklar</span></button><a href="/yonetim" class="drlink"><span>Yönetim paneli →</span></a></div>
+    <h4>Bölümler</h4><div class="dr-st" id="drNav"><button data-view="firmalar"><span>Firmalar</span></button><button data-view="inbound"><span>Gelen Talepler</span></button><button data-view="mail"><span>Gönderim</span></button><button data-view="calls"><span>Aranacaklar</span></button><a href="/yonetim" class="drlink"><span>Yönetim paneli →</span></a></div>
     <h4>Görünüm</h4><div class="themeseg wide" role="group" aria-label="Görünüm"><button data-theme-set="system"><svg><use href="#i-sys"/></svg>Sistem</button><button data-theme-set="light"><svg><use href="#i-sun"/></svg>Açık</button><button data-theme-set="dark"><svg><use href="#i-moon"/></svg>Koyu</button></div>
     <div id="drFirms">
     <h4>Durum</h4><div class="dr-st" id="drStages"></div>
@@ -739,7 +757,7 @@ async function load() {
     if (!r.ok) throw new Error(r.status);
     const d = await r.json();
     S.leads = (d.leads || []).filter((l) => l && l.id && l.name);
-    fillFilters(); render(); updCallBadge(); routeFromHash();
+    fillFilters(); render(); updCallBadge(); updInboundBadge(); routeFromHash();
     gaLoadSummary();
     try { if (localStorage.getItem("im.view") === "map") setMode("map"); } catch {}
   } catch (e) {
@@ -898,7 +916,7 @@ function render() {
   $("list").innerHTML = rows.length ? rows.map(row).join("") : `<div class="empty"><b>${S.leads.length ? "Bu kriterlerde firma bulunamadı" : "Radar veri bekliyor"}</b>${S.leads.length ? "Bir filtreyi kaldırın veya arama ifadenizi sadeleştirin." : "Firma eklediğinizde şehir, sektör, hizmet ve işlem sayaçları otomatik oluşacak."}</div>`;
 }
 function refresh() {
-  render(); updCallBadge(); if (S.view === "calls") renderCalls();
+  render(); updCallBadge(); updInboundBadge(); if (S.view === "calls") renderCalls(); if (S.view === "inbound") renderInbound();
   if (S.open) { const l = S.leads.find((x) => x.id === S.open); if (l) { const b = $("dBody"), y = b.scrollTop; b.innerHTML = detail(l); b.scrollTop = y; } }
 }
 
@@ -1152,7 +1170,7 @@ async function gaApi(method, path, body) {
   return d;
 }
 async function gaLoadSummary() {
-  try { const rows = await gaApi("GET", "/summary"); S.gaSum = new Map(rows.map((x) => [x.leadId, x])); fillFilters(); render(); } catch { /* özet yüklenemezse liste etkilenmez */ }
+  try { const rows = await gaApi("GET", "/summary"); S.gaSum = new Map(rows.map((x) => [x.leadId, x])); fillFilters(); render(); if (S.view === "inbound") renderInbound(); } catch { /* özet yüklenemezse liste etkilenmez */ }
 }
 function gaRedraw() {
   if (!S.open) return; const l = S.leads.find((x) => x.id === S.open); if (!l) return;
@@ -1477,6 +1495,7 @@ $("close").addEventListener("click", () => closeLead());
 $("scrim").addEventListener("click", () => closeLead());
 window.addEventListener("popstate", () => route());
 document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && document.activeElement?.dataset?.inopen) { e.preventDefault(); openLead(document.activeElement.dataset.inopen); return; }
   if (e.key === "Escape") { if (S.callPop) { S.callPop = null; renderCalls(); } else if (S.pop) { S.pop = null; refresh(); } else if ($("drawer").classList.contains("on")) closeDrawer(); else if (S.open || S.client) closeLead(); }
   if (e.key === "/" && !S.open && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $("q").focus(); }
 });
@@ -1580,6 +1599,44 @@ function callCard(l, i) {
       <div><button class="lnk" data-callopen="${esc(l.id)}">Firmayı aç</button><button class="lnk bad" data-calloff="${esc(l.id)}">Listeden çıkar</button></div>
     </div>
   </div>`;
+}
+/* ---------- gelen talepler (ücretsiz dijital analiz formu) ---------- */
+const IN_SRC = [["", "Tümü"], ["web", "Web sitesi"], ["instagram", "Instagram"]];
+const inboundLeads = () => S.leads.filter((l) => l.inbound).sort((a, b) => String(b.inboundAt || "").localeCompare(String(a.inboundAt || "")));
+const telHref = (p) => String(p || "").replace(/[^0-9+]/g, "");
+// WhatsApp için uluslararası biçim: 0 ile başlayan Türkiye numarası 90 önekine çevrilir.
+const waHref = (p) => { let d = String(p || "").replace(/\D/g, ""); if (d.startsWith("0")) d = "9" + d; else if (d.length === 10) d = "90" + d; return d.length >= 11 ? "https://wa.me/" + d : ""; };
+const inDate = (iso) => { const d = new Date(iso); return isNaN(d) ? "" : d.toLocaleString("tr-TR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }); };
+function updInboundBadge() {
+  const n = S.leads.filter((l) => l.inbound && status(l) === "yeni").length;
+  document.querySelectorAll('[data-view="inbound"]').forEach((b) => { const s = b.querySelector("span"); (s || b).innerHTML = "Gelen Talepler" + (n ? ` <i class="cnt">${n}</i>` : ""); });
+}
+function inboundCard(l) {
+  const src = l.inboundSource === "instagram" ? `<span class="tag src-ig">Instagram</span>` : `<span class="tag src-web">Web sitesi</span>`;
+  const g = S.gaSum && S.gaSum.get(l.id), audit = g ? (g.status === "completed" ? gaListTag(l) : `<span class="tag">${esc(GA_STATUS[g.status] || g.status)}</span>`) : `<span class="tag">Audit yok</span>`;
+  const st = status(l), wa = waHref(l.phone);
+  const links = [
+    l.phone && `<a href="tel:${esc(telHref(l.phone))}" data-inlink>${esc(l.phone)}</a>`,
+    wa && `<a href="${esc(wa)}" target="_blank" rel="noopener" data-inlink>WhatsApp</a>`,
+    l.email && `<a href="mailto:${esc(l.email)}" data-inlink>${esc(l.email)}</a>`,
+    l.website && /^https?:\/\//i.test(l.website) && `<a href="${esc(l.website)}" target="_blank" rel="noopener noreferrer" data-inlink>${esc(l.website.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, ""))}</a>`,
+    l.instagram && `<a href="https://instagram.com/${esc(encodeURIComponent(l.instagram))}" target="_blank" rel="noopener" data-inlink>@${esc(l.instagram)}</a>`,
+  ].filter(Boolean).join("");
+  return `<div class="mcard inrow" role="button" tabindex="0" data-inopen="${esc(l.id)}">
+    <div class="in-top"><div><div class="in-name">${esc(l.name)}</div><div class="in-sub">${esc(l.contactName || "")}${l.sector ? " · " + esc(l.sector) : ""} · ${esc(inDate(l.inboundAt))}</div></div>
+    <div class="in-tags">${src}${audit}<span class="tag stgt" style="--c:${st === "yeni" ? "var(--warn)" : "var(--good)"}">${esc(ST[st] || st)}</span></div></div>
+    ${links ? `<div class="in-links">${links}</div>` : ""}
+    ${l.inboundMessage ? `<div class="in-msg">${esc(l.inboundMessage)}</div>` : ""}
+    <div class="in-foot"><span class="mini">${(l.inboundHistory || []).length > 1 ? `${l.inboundHistory.length} talep` : ""}</span>${st === "yeni" ? `<button class="btn" data-incontacted="${esc(l.id)}">İletişime geçildi</button>` : ""}</div>
+  </div>`;
+}
+function renderInbound() {
+  const all = inboundLeads(), src = S.inSrc || "", list = src ? all.filter((l) => (l.inboundSource || "web") === src) : all;
+  const fresh = all.filter((l) => status(l) === "yeni").length;
+  $("inSub").textContent = all.length ? `${all.length} talep${fresh ? ` · ${fresh} tanesi yeni` : ""}` : "Henüz gelen talep yok";
+  $("inChips").innerHTML = IN_SRC.map(([k, t]) => `<button class="chip" data-insrc="${k}" aria-pressed="${src === k}">${t} <span class="n">${k ? all.filter((l) => (l.inboundSource || "web") === k).length : all.length}</span></button>`).join("");
+  $("inList").innerHTML = list.length ? list.map(inboundCard).join("")
+    : `<div class="empty"><b>Gelen talep yok</b>Web sitesindeki ve Instagram'daki "Ücretsiz dijital analiz" formunu dolduranlar burada görünür.</div>`;
 }
 function renderCalls() {
   const G = callGroups(), n = G.due.length + G.none.length + G.later.length; let i = 0;
@@ -1999,11 +2056,12 @@ function importToPlan() {
 /* ---- görünüm ve yönlendirme ---- */
 function setView(v, writeHash = true) {
   S.view = v;
-  $("viewFirms").hidden = v !== "firmalar"; $("viewAds").hidden = v !== "ads"; $("viewMail").hidden = v !== "mail"; $("viewCalls").hidden = v !== "calls";
+  $("viewFirms").hidden = v !== "firmalar"; $("viewAds").hidden = v !== "ads"; $("viewMail").hidden = v !== "mail"; $("viewCalls").hidden = v !== "calls"; $("viewInbound").hidden = v !== "inbound";
   document.querySelectorAll("[data-view]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.view === v));
   $("drFirms").hidden = v !== "firmalar"; $("drShow").hidden = v !== "firmalar"; $("drClear").hidden = v !== "firmalar";
-  if (writeHash) history.replaceState(null, "", v === "ads" ? "#ads" : v === "mail" ? "#mail" : v === "calls" ? "#calls" : location.pathname);
-  if (v === "ads") loadAds(); else if (v === "mail") { window.scrollTo({ top: 0 }); loadMail(); } else if (v === "calls") { window.scrollTo({ top: 0 }); renderCalls(); if (!S.briefsLoaded) loadBriefs(); } else window.scrollTo({ top: 0 });
+  if (writeHash) history.replaceState(null, "", v === "ads" ? "#ads" : v === "mail" ? "#mail" : v === "calls" ? "#calls" : v === "inbound" ? "#gelen" : location.pathname);
+  if (v === "inbound") { window.scrollTo({ top: 0 }); renderInbound(); }
+  else if (v === "ads") loadAds(); else if (v === "mail") { window.scrollTo({ top: 0 }); loadMail(); } else if (v === "calls") { window.scrollTo({ top: 0 }); renderCalls(); if (!S.briefsLoaded) loadBriefs(); } else window.scrollTo({ top: 0 });
 }
 function route() {
   const h = decodeURIComponent(location.hash.slice(1));
@@ -2017,6 +2075,7 @@ function route() {
   }
   if (h === "mail") { setView("mail", false); return; }
   if (h === "calls") { setView("calls", false); return; }
+  if (h === "gelen") { setView("inbound", false); return; }
   if (h === "ads" || h.startsWith("ads/")) {
     setView("ads", false);
     const id = h.slice(4);
@@ -2029,6 +2088,13 @@ function route() {
 
 /* ---- olaylar ---- */
 document.addEventListener("click", async (e) => {
+  if (e.target.closest("#viewInbound")) {
+    const g = (s) => e.target.closest(s);
+    if (g("[data-inlink]")) return; // tel:, mailto:, WhatsApp bağlantıları kendi davranışını sürdürür
+    if (g("[data-insrc]")) { S.inSrc = g("[data-insrc]").dataset.insrc; renderInbound(); return; }
+    if (g("[data-incontacted]")) { const l = S.leads.find((x) => x.id === g("[data-incontacted]").dataset.incontacted); if (l) save(l.id, { status: "iletisim", statusAt: new Date().toISOString(), seq: logEntry(l, "Aşama: " + ST.iletisim) }, "Aşama: " + ST.iletisim); return; }
+    if (g("[data-inopen]")) { openLead(g("[data-inopen]").dataset.inopen); return; }
+  }
   if (e.target.closest("#viewCalls")) {
     const g = (s) => e.target.closest(s);
     if (g("[data-calladd]")) { callSet(g("[data-calladd]").dataset.calladd, true); $("callQ").value = ""; return; }
