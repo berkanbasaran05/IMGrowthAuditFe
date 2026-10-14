@@ -1623,7 +1623,7 @@ function inboundCard(l) {
     l.instagram && `<a href="https://instagram.com/${esc(encodeURIComponent(l.instagram))}" target="_blank" rel="noopener" data-inlink>@${esc(l.instagram)}</a>`,
   ].filter(Boolean).join("");
   return `<div class="mcard inrow" role="button" tabindex="0" data-inopen="${esc(l.id)}">
-    <div class="in-top"><div><div class="in-name">${esc(l.name)}</div><div class="in-sub">${esc(l.contactName || "")}${l.sector ? " · " + esc(l.sector) : ""} · ${esc(inDate(l.inboundAt))}</div></div>
+    <div class="in-top"><div><div class="in-name">${esc(l.name)}</div><div class="in-sub">${[l.contactName || (l.phone || l.email ? "" : "İletişim bilgisi bırakılmadı"), l.sector, inDate(l.inboundAt)].filter(Boolean).map(esc).join(" · ")}</div></div>
     <div class="in-tags">${src}${audit}<span class="tag stgt" style="--c:${st === "yeni" ? "var(--warn)" : "var(--good)"}">${esc(ST[st] || st)}</span></div></div>
     ${links ? `<div class="in-links">${links}</div>` : ""}
     ${l.inboundMessage ? `<div class="in-msg">${esc(l.inboundMessage)}</div>` : ""}
