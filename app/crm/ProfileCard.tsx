@@ -34,15 +34,13 @@ export default function ProfileCard({ customer, payments, onEdit }: { customer: 
       <div className={styles.sec}><h4>Hizmet ve tahsilat</h4>
         <div className={styles.hot}>{late ? "Gecikmiş ödeme" : "Sonraki ödeme"}<b>{next ? fmt(next) : "Belirtilmedi"}</b></div>
         <Line label="Alınan hizmet" value={(customer.services || []).join(", ")} />
-        <Line label="Paket" value={customer.packageName} />
         <Line label="Site bedeli" value={tl(customer.siteFee)} />
         <Line label="Reklam hizmeti" value={customer.adServiceFee ? `${tl(customer.adServiceFee)} / ay` : ""} />
         <Line label="Günlük bütçe" value={customer.dailyAdBudget ? `${tl(customer.dailyAdBudget)} / gün (Google Ads)` : ""} />
         <Line label="Ödeme günü" value={customer.billingDay ? `Her ayın ${customer.billingDay}. günü` : ""} />
         <Line label="Hizmet başlangıcı" value={fmt(customer.serviceStart)} />
-        <Line label="Reklam başlangıcı" value={fmt(customer.adStart)} />
-        <Line label="Aylık bütçe" value={customer.adBudget ? `${tl(customer.adBudget)} / ay` : ""} />
-        {!customer.billingDay && !customer.serviceStart && !customer.adStart && <p className={styles.none}>Tarih eklenmemiş — Düzenle’den girin.</p>}
+        <Line label="İlk ay notu" value={customer.firstMonthNote} />
+        {!customer.billingDay && !customer.serviceStart && <p className={styles.none}>Tarih eklenmemiş — Düzenle’den girin.</p>}
       </div>
       <div className={styles.sec}><h4>İletişim ve firma</h4>
         <Line label="Yetkili" value={customer.contactName} />
@@ -66,7 +64,7 @@ export default function ProfileCard({ customer, payments, onEdit }: { customer: 
 export function ProfileEditor({ customer, onClose, onSave }: { customer: Row; onClose: () => void; onSave: (patch: any) => Promise<void> }) {
   const [f, setF] = useState<any>(() => ({
     name: customer.name || "", contactName: customer.contactName || "", phone: customer.phone || "", email: customer.email || "", sector: customer.sector || "", status: customer.status || "onboarding",
-    website: customer.website || "", address: customer.address || "", taxOffice: customer.taxOffice || "", taxNo: customer.taxNo || "", notes: customer.notes || "",
+    website: customer.website || "", address: customer.address || "", taxOffice: customer.taxOffice || "", taxNo: customer.taxNo || "", notes: customer.notes || "", firstMonthNote: customer.firstMonthNote || "",
     serviceStart: customer.serviceStart?.slice(0, 10) || "", adStart: customer.adStart?.slice(0, 10) || "", adBudget: customer.adBudget || "", billingDay: customer.billingDay || "", nextPaymentDate: customer.nextPaymentDate?.slice(0, 10) || "",
     services: [...(customer.services || [])], packageName: customer.packageName || "", siteFee: customer.siteFee ?? "", adServiceFee: customer.adServiceFee ?? "", dailyAdBudget: customer.dailyAdBudget ?? "", logo: customer.logo || "",
     social: { ...(customer.social || {}) }, contacts: [...(customer.contacts || [])], accounts: [...(customer.accounts || [])],
@@ -74,7 +72,7 @@ export function ProfileEditor({ customer, onClose, onSave }: { customer: Row; on
   const [busy, setBusy] = useState(false);
   const set = (k: string, v: any) => setF((p: any) => ({ ...p, [k]: v }));
   const setItem = (key: "contacts" | "accounts", i: number, k: string, v: string) => set(key, f[key].map((x: Row, n: number) => n === i ? { ...x, [k]: v } : x));
-  const inp = (k: string, label: string, type = "text", wide = false) => <label className={wide ? styles.w : ""}><span>{label}</span>{k === "notes" || k === "address" ? <textarea value={f[k]} onChange={(e) => set(k, e.target.value)} rows={2} /> : <input type={type} value={f[k]} onChange={(e) => set(k, e.target.value)} />}</label>;
+  const inp = (k: string, label: string, type = "text", wide = false) => <label className={wide ? styles.w : ""}><span>{label}</span>{k === "notes" || k === "address" || k === "firstMonthNote" ? <textarea value={f[k]} onChange={(e) => set(k, e.target.value)} rows={2} /> : <input type={type} value={f[k]} onChange={(e) => set(k, e.target.value)} />}</label>;
   function pickLogo(file?: File) {
     if (!file) return;
     const img = new Image(); const url = URL.createObjectURL(file);
@@ -91,11 +89,10 @@ export function ProfileEditor({ customer, onClose, onSave }: { customer: Row; on
         <h4>Alınan hizmet ve paket</h4>
         <div className={styles.checks}>{SERVICES.map((x) => <label key={x}><input type="checkbox" checked={f.services.includes(x)} onChange={(e) => set("services", e.target.checked ? [...f.services, x] : f.services.filter((y: string) => y !== x))} />{x}</label>)}</div>
         <div className={styles.g} style={{ marginTop: 12 }}>
-          <label><span>Paket</span><input list="im-packages" value={f.packageName} onChange={(e) => set("packageName", e.target.value)} placeholder="Seçin veya yazın" /><datalist id="im-packages">{PACKAGES.map((x) => <option key={x} value={x} />)}</datalist></label>
           {inp("siteFee", "Web sitesi bedeli (₺)", "number")}{inp("adServiceFee", "Aylık reklam hizmet bedeli (₺)", "number")}{inp("dailyAdBudget", "Google Ads günlük bütçe (₺)", "number")}
         </div>
         <h4>Hizmet ve tahsilat</h4>
-        <div className={styles.g}>{inp("serviceStart", "Hizmet başlangıcı", "date")}{inp("adStart", "Reklam başlangıcı", "date")}{inp("adBudget", "Aylık reklam bütçesi (₺)", "number")}{inp("billingDay", "Aylık ödeme günü (1-31)", "number")}{inp("nextPaymentDate", "Sonraki ödeme tarihi", "date")}
+        <div className={styles.g}>{inp("serviceStart", "Hizmet başlangıcı", "date")}{inp("billingDay", "Aylık ödeme günü (1-31)", "number")}{inp("nextPaymentDate", "Sonraki ödeme tarihi", "date")}{inp("firstMonthNote", "İlk ay notu", "text", true)}
           <label><span>Durum</span><select value={f.status} onChange={(e) => set("status", e.target.value)}><option value="onboarding">Başlangıç</option><option value="active">Aktif</option><option value="paused">Beklemede</option><option value="completed">Tamamlandı</option><option value="lost">Kaybedildi</option></select></label></div>
         <h4>Firma ve iletişim</h4>
         <div className={styles.g}>{inp("name", "Firma adı")}{inp("sector", "Sektör")}{inp("contactName", "Yetkili kişi")}{inp("phone", "Telefon")}{inp("email", "E-posta", "email")}{inp("website", "Web sitesi")}{inp("taxOffice", "Vergi dairesi")}{inp("taxNo", "Vergi no")}{inp("address", "Adres", "text", true)}{inp("notes", "Notlar", "text", true)}</div>

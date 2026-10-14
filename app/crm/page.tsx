@@ -29,6 +29,7 @@ export default function CrmPage() {
   const [error, setError] = useState("");
   const [payLink, setPayLink] = useState<Row | null>(null);
   const [editing, setEditing] = useState(false);
+  const [editPayment, setEditPayment] = useState<Row | null>(null);
 
   const load = async () => { try { setData(await api("/api/crm")); } catch (e: any) { setError(e.message); } finally { setBusy(false); } };
   useEffect(() => { load(); }, []);
@@ -51,6 +52,13 @@ export default function CrmPage() {
     catch (e: any) { setError(e.message); }
   }
 
+  async function savePayment(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); setError("");
+    const body = Object.fromEntries(new FormData(event.currentTarget).entries());
+    try { await api(`/api/crm/payments/${editPayment?.id}`, { method: "PATCH", body: JSON.stringify(body) }); setEditPayment(null); await load(); }
+    catch (e: any) { setError(e.message); }
+  }
+
   async function update(kind: string, id: string, status: string) {
     try { await api(`/api/crm/${kind}/${id}`, { method: "PATCH", body: JSON.stringify({ status }) }); await load(); }
     catch (e: any) { setError(e.message); }
@@ -64,9 +72,9 @@ export default function CrmPage() {
       {error && <div className={styles.error}>{error}<button onClick={() => setError("")}>×</button></div>}
       <div className={styles.metrics}>
         <Metric label="Aktif müşteri" value={String(data.summary.activeCustomers || 0)} note={`${data.summary.customers || 0} toplam müşteri`} />
-        <Metric label="Sözleşme toplamı" value={money(data.summary.contracted)} note="İmzalanan sözleşmeler" />
-        <Metric label="Tahsil edilen" value={money(data.summary.collected)} note={`${money(data.summary.outstanding)} kalan`} />
-        <Metric label="Aylık düzenli gelir" value={money(data.summary.monthly)} note={`${data.summary.openTasks || 0} açık görev`} />
+        <Metric label="Aylık düzenli gelir" value={money(data.summary.monthly)} note={`Yıllık ${money(data.summary.yearly)}`} />
+        <Metric label="Site bedelleri toplamı" value={money(data.summary.siteTotal)} note="Tüm müşteriler" />
+        <Metric label="Tahsil edilen" value={money(data.summary.collected)} note={`${money(data.summary.pending)} bekleyen${data.summary.overduePayments ? ` · ${data.summary.overduePayments} gecikmiş` : ""}`} />
       </div>
 
       <div className={styles.workspace}>
@@ -83,7 +91,7 @@ export default function CrmPage() {
             <ProfileCard customer={customer} payments={related("payments")} onEdit={() => setEditing(true)} />
             <div className={styles.grid}>
               <Panel title="Sözleşmeler" count={related("contracts").length}>{related("contracts").length ? related("contracts").map((x) => <RecordRow key={x.id} title={x.title} meta={`${money(x.value, x.currency)} · ${labels[x.billing] || x.billing}`} status={x.status} onStatus={(s) => update("contracts", x.id, s)} options={["draft","sent","signed","active","completed","cancelled"]}/>) : <Empty text="Sözleşme kaydı yok"/>}</Panel>
-              <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={x.dueDate ? `Vade: ${x.dueDate}` : "Vade belirtilmedi"} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]} action={x.status === "planned" || x.status === "invoiced" ? <button onClick={() => setPayLink(x)}>Ödeme linki</button> : undefined}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
+              <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={[x.dueDate ? `Vade: ${new Date(String(x.dueDate).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR")}` : "Vade belirtilmedi", x.paidAt && x.status === "paid" ? `Ödendi: ${new Date(String(x.paidAt).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR")}` : "", x.invoiceNo ? `Fatura ${x.invoiceNo}` : ""].filter(Boolean).join(" · ")} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]} action={<><button onClick={() => setEditPayment(x)}>Düzenle</button>{(x.status === "planned" || x.status === "invoiced") && <button onClick={() => setPayLink(x)}>Ödeme linki</button>}</>}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
               <Panel title="Görevler" count={related("tasks").filter((x) => x.status !== "done").length}>{related("tasks").length ? related("tasks").map((x) => <RecordRow key={x.id} title={x.title} meta={[x.assignee, x.dueDate].filter(Boolean).join(" · ") || "Tarih belirtilmedi"} status={x.status} onStatus={(s) => update("tasks", x.id, s)} options={["todo","doing","done"]}/>) : <Empty text="Görev kaydı yok"/>}</Panel>
               <Panel title="Geçmiş" count={related("activities").length}>{related("activities").length ? related("activities").slice(0, 10).map((x) => <div className={styles.timeline} key={x.id}><i/><div><b>{x.summary}</b><small>{new Date(x.at).toLocaleString("tr-TR")}</small></div></div>) : <Empty text="Henüz aktivite yok"/>}</Panel>
             </div>
@@ -92,6 +100,11 @@ export default function CrmPage() {
       </div>
     </section>
     {editing && customer && <ProfileEditor key={customer.id} customer={customer} onClose={() => setEditing(false)} onSave={saveProfile} />}
+    {editPayment && <form className={styles.backdrop} onSubmit={savePayment} onMouseDown={(e) => e.target === e.currentTarget && setEditPayment(null)}><div className={styles.modal}><header><div><small>{customer?.name}</small><h2>Ödemeyi düzenle</h2></div><button type="button" onClick={() => setEditPayment(null)}>×</button></header><div className={styles.fields}>
+      <Field name="amount" label="Tutar" type="number" required d={editPayment}/><Select name="currency" label="Para birimi" values={["TRY","USD","EUR","GBP"]} d={editPayment}/>
+      <Select name="status" label="Durum" values={["planned","invoiced","paid","cancelled"]} d={editPayment}/><Field name="dueDate" label="Vade tarihi" type="date" d={editPayment}/>
+      <Field name="paidAt" label="Ödeme tarihi" type="date" d={editPayment}/><Field name="invoiceNo" label="Fatura numarası" d={editPayment}/><Field name="notes" label="Not" wide d={editPayment}/>
+    </div><footer><button type="button" onClick={() => setEditPayment(null)}>Vazgeç</button><button className={styles.primary}>Kaydet</button></footer></div></form>}
     {modal && <Modal type={modal} customer={customer} onClose={() => setModal("")} onSubmit={submit}/>} 
     {payLink && <PaymentLinks payment={{ id: payLink.id, amount: payLink.amount, currency: payLink.currency, status: payLink.status }} customerName={customer?.name || ""} onClose={() => { setPayLink(null); load(); }} />}
   </main>;
@@ -113,5 +126,5 @@ function Modal({ type, customer, onClose, onSubmit }: { type: string; customer?:
     {type === "activity" && <><Select name="type" label="Aktivite" values={["note","call","meeting","email","delivery"]}/><Field name="summary" label="Açıklama" required wide/></>}
   </div><footer><button type="button" onClick={onClose}>Vazgeç</button><button className={styles.primary}>Kaydet</button></footer></form></div>;
 }
-function Field({ name, label, type = "text", required, wide }: { name: string; label: string; type?: string; required?: boolean; wide?: boolean }) { return <label className={wide ? styles.wide : ""}><span>{label}</span>{wide && name !== "documentUrl" && type === "text" ? <textarea name={name} required={required}/> : <input name={name} type={type} required={required}/>}</label>; }
-function Select({ name, label, values }: { name: string; label: string; values: string[] }) { return <label><span>{label}</span><select name={name}>{values.map((x) => <option value={x} key={x}>{labels[x] || ({one_time:"Tek sefer",monthly:"Aylık",quarterly:"3 aylık",annual:"Yıllık"} as any)[x] || x}</option>)}</select></label>; }
+function Field({ name, label, type = "text", required, wide, d }: { name: string; label: string; type?: string; required?: boolean; wide?: boolean; d?: Row }) { const v = d?.[name]; const dv = v == null ? undefined : type === "date" ? String(v).slice(0, 10) : String(v); return <label className={wide ? styles.wide : ""}><span>{label}</span>{wide && name !== "documentUrl" && type === "text" ? <textarea name={name} required={required} defaultValue={dv}/> : <input name={name} type={type} required={required} defaultValue={dv} step={type === "number" ? "any" : undefined}/>}</label>; }
+function Select({ name, label, values, d }: { name: string; label: string; values: string[]; d?: Row }) { return <label><span>{label}</span><select name={name} defaultValue={d?.[name]}>{values.map((x) => <option value={x} key={x}>{labels[x] || ({one_time:"Tek sefer",monthly:"Aylık",quarterly:"3 aylık",annual:"Yıllık"} as any)[x] || x}</option>)}</select></label>; }

@@ -4,3 +4,4 @@
 .recordAction{margin-left:auto}.recordAction button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 9px;font:inherit;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
 
 .modal .fields button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.modal .fields button.primary{border:0;background:var(--ink);color:#fff}.modal .fields textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit;font-size:13px;resize:vertical}
+.recordAction{display:flex;gap:6px}
