@@ -28,3 +28,4 @@
 .foot .pri{border:0;background:#07111f;color:#fff}
 .warn{font-size:11px;color:#8a6100;margin:0 0 4px}
 @media(max-width:900px){.body{grid-template-columns:1fr}.sec{border-right:0;border-bottom:1px solid #e5e7eb}.item{grid-template-columns:1fr 1fr}.g{grid-template-columns:1fr}}
+.logoRow{display:flex;align-items:center;gap:12px}.logoRow img{width:56px;height:56px;object-fit:contain;border:1px solid #e5e7eb;border-radius:10px;background:#fff}.logoRow i{width:56px;height:56px;border:1px dashed #cfd4dc;border-radius:10px;display:grid;place-items:center;font-size:10px;color:#98a1b0;font-style:normal;text-align:center}.checks{display:flex;flex-wrap:wrap;gap:8px 16px}.checks label{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600}
