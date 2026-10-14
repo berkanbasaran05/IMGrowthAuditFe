@@ -12,11 +12,21 @@ const tl = (n?: number | null) => n || n === 0 ? `${Number(n).toLocaleString("tr
 const fmt = (d?: string | null) => d ? new Date(String(d).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }) : "";
 const link = (key: string, v: string) => /^https?:\/\//.test(v) ? v : key === "whatsapp" ? `https://wa.me/${v.replace(/\D/g, "")}` : key === "instagram" ? `https://instagram.com/${v.replace(/^@/, "")}` : key === "x" ? `https://x.com/${v.replace(/^@/, "")}` : key === "tiktok" ? `https://tiktok.com/@${v.replace(/^@/, "")}` : "";
 
+const iso = (y: number, m: number, d: number) => `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+// Sonraki ödeme: bekleyen en yakın ödeme kaydı; yoksa aylık ödeme gününden otomatik hesaplanır (ay kısaysa ayın son günü).
 export function nextPayment(customer: Row, payments: Row[]) {
-  const today = new Date().toISOString().slice(0, 10);
+  const now = new Date(); const today = iso(now.getFullYear(), now.getMonth(), now.getDate());
   const open = payments.filter((p) => p.status !== "paid" && p.status !== "cancelled" && p.dueDate).sort((a, b) => String(a.dueDate).localeCompare(String(b.dueDate)))[0];
-  const date: string = open?.dueDate?.slice(0, 10) || customer.nextPaymentDate?.slice(0, 10) || "";
-  return { date, late: !!date && date < today, label: date ? fmt(date) : "" };
+  let date: string = open?.dueDate?.slice(0, 10) || "";
+  let auto = false;
+  const day = Number(customer.billingDay);
+  if (!date && day >= 1 && day <= 31) {
+    const start: string = customer.serviceStart?.slice(0, 10) || "";
+    const at = (offset: number) => { const d = new Date(now.getFullYear(), now.getMonth() + offset, 1); const last = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate(); return iso(d.getFullYear(), d.getMonth(), Math.min(day, last)); };
+    let k = 0; while (k < 14 && (at(k) < today || at(k) <= start)) k++;
+    date = at(k); auto = true;
+  }
+  return { date, late: !!date && date < today, label: date ? fmt(date) : "", auto };
 }
 export { tl, fmt };
 
@@ -99,7 +109,7 @@ export function ProfileEditor({ customer, onClose, onSave }: { customer: Row; on
           {inp("siteFee", "Web sitesi bedeli (₺)", "number")}{inp("adServiceFee", "Aylık reklam hizmet bedeli (₺)", "number")}{inp("dailyAdBudget", "Google Ads günlük bütçe (₺)", "number")}
         </div>
         <h4>Hizmet ve tahsilat</h4>
-        <div className={styles.g}>{inp("serviceStart", "Hizmet başlangıcı", "date")}{inp("billingDay", "Aylık ödeme günü (1-31)", "number")}{inp("nextPaymentDate", "Sonraki ödeme tarihi", "date")}{inp("firstMonthNote", "İlk ay notu", "text", true)}
+        <div className={styles.g}>{inp("serviceStart", "Hizmet başlangıcı", "date")}{inp("billingDay", "Aylık ödeme günü (1-31) — sonraki ödeme buna göre hesaplanır", "number")}{inp("firstMonthNote", "İlk ay notu", "text", true)}
           <label><span>Durum</span><select value={f.status} onChange={(e) => set("status", e.target.value)}><option value="onboarding">Başlangıç</option><option value="active">Aktif</option><option value="paused">Beklemede</option><option value="completed">Tamamlandı</option><option value="lost">Kaybedildi</option></select></label></div>
         <h4>Firma ve iletişim</h4>
         <div className={styles.g}>{inp("name", "Firma adı")}{inp("sector", "Sektör")}{inp("contactName", "Yetkili kişi")}{inp("phone", "Telefon")}{inp("email", "E-posta", "email")}{inp("website", "Web sitesi")}{inp("taxOffice", "Vergi dairesi")}{inp("taxNo", "Vergi no")}{inp("address", "Adres", "text", true)}{inp("notes", "Notlar", "text", true)}</div>

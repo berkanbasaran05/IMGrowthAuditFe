@@ -107,7 +107,7 @@ export default function CrmPage() {
                 <dl className={hero.kpis}>
                   <div><dt>Aylık hizmet bedeli</dt><dd>{customer.adServiceFee ? tl(customer.adServiceFee) : "—"}</dd></div>
                   <div><dt>Google Ads günlük bütçe</dt><dd>{customer.dailyAdBudget ? tl(customer.dailyAdBudget) : "—"}</dd></div>
-                  <div className={np.late ? hero.late : ""}><dt>{np.late ? "Gecikmiş ödeme" : "Sonraki ödeme"}</dt><dd>{np.label || "—"}</dd></div>
+                  <div className={np.late ? hero.late : ""}><dt>{np.late ? "Gecikmiş ödeme" : "Sonraki ödeme"}</dt><dd>{np.label || "—"}{np.auto && <small> · her ayın {customer.billingDay}’i</small>}</dd></div>
                   <div><dt>Müşteri süresi</dt><dd>{days == null ? "—" : days < 31 ? `${days} gün` : `${Math.floor(days / 30)} ay`}<small>{customer.serviceStart ? ` · ${fmt(customer.serviceStart)}` : ""}</small></dd></div>
                 </dl>
               </header>; })()}
