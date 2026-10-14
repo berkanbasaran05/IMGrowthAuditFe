@@ -4,7 +4,8 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "./crm.module.css";
 import AdminHeader from "../yonetim/AdminHeader";
 import PaymentLinks from "./PaymentLinks";
-import ProfileCard, { ProfileEditor } from "./ProfileCard";
+import ProfileCard, { ProfileEditor, nextPayment, tl, fmt } from "./ProfileCard";
+import hero from "./profile.module.css";
 
 type Row = Record<string, any> & { id: string; customerId?: string };
 type Data = { customers: Row[]; contracts: Row[]; payments: Row[]; activities: Row[]; tasks: Row[]; summary: Record<string, number> };
@@ -86,8 +87,30 @@ export default function CrmPage() {
 
         <section className={styles.detail}>
           {!customer ? <div className={styles.blank}><b>İlk müşterinizi ekleyin</b><p>Sözleşme, ödeme ve iş takibini buradan yönetin.</p><button className={styles.primary} onClick={() => setModal("customer")}>Müşteri ekle</button></div> : <>
-            <div className={styles.customerHead}><div className={styles.avatar} style={customer.logo ? { background: "#fff", border: "1px solid #e5e7eb", padding: 4 } : undefined}>{customer.logo ? <img src={customer.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : customer.name.slice(0, 2).toLocaleUpperCase("tr")}</div><div><h2>{customer.name}</h2><p>{[customer.contactName, customer.phone, customer.email].filter(Boolean).join(" · ") || "İletişim bilgisi eklenmemiş"}</p></div><Status value={customer.status}/></div>
-            <div className={styles.actions}><button onClick={() => setModal("contract")}>Sözleşme ekle</button><button onClick={() => setModal("payment")}>Ödeme ekle</button><button onClick={() => setModal("task")}>Görev ekle</button><button onClick={() => setModal("activity")}>Not ekle</button></div>
+            {(() => { const np = nextPayment(customer, related("payments")); const site = customer.website ? String(customer.website).replace(/^https?:\/\//, "").replace(/\/$/, "") : "";
+              const days = customer.serviceStart ? Math.max(0, Math.floor((Date.now() - new Date(String(customer.serviceStart).slice(0, 10) + "T00:00:00").getTime()) / 86400000)) : null;
+              return <header className={hero.hero}>
+                <div className={hero.top}>
+                  <div className={hero.logo}>{customer.logo ? <img src={customer.logo} alt="" /> : <b>{customer.name.slice(0, 2).toLocaleUpperCase("tr")}</b>}</div>
+                  <div className={hero.id}>
+                    <div className={hero.nameRow}><h2>{customer.name}</h2><Status value={customer.status}/></div>
+                    <div className={hero.meta}>
+                      {customer.sector && <span>{customer.sector}</span>}
+                      {site && <a href={/^https?:/.test(customer.website) ? customer.website : `https://${customer.website}`} target="_blank" rel="noreferrer">{site}</a>}
+                      {customer.contactName && <span>{customer.contactName}</span>}
+                      {customer.phone && <a href={`tel:${customer.phone}`}>{customer.phone}</a>}
+                      {customer.email && <a href={`mailto:${customer.email}`}>{customer.email}</a>}
+                    </div>
+                  </div>
+                  <div className={hero.actions}><button onClick={() => setModal("payment")}>Ödeme ekle</button><button onClick={() => setModal("contract")}>Sözleşme</button><button onClick={() => setModal("task")}>Görev</button><button onClick={() => setModal("activity")}>Not</button></div>
+                </div>
+                <dl className={hero.kpis}>
+                  <div><dt>Aylık hizmet bedeli</dt><dd>{customer.adServiceFee ? tl(customer.adServiceFee) : "—"}</dd></div>
+                  <div><dt>Google Ads günlük bütçe</dt><dd>{customer.dailyAdBudget ? tl(customer.dailyAdBudget) : "—"}</dd></div>
+                  <div className={np.late ? hero.late : ""}><dt>{np.late ? "Gecikmiş ödeme" : "Sonraki ödeme"}</dt><dd>{np.label || "—"}</dd></div>
+                  <div><dt>Müşteri süresi</dt><dd>{days == null ? "—" : days < 31 ? `${days} gün` : `${Math.floor(days / 30)} ay`}<small>{customer.serviceStart ? ` · ${fmt(customer.serviceStart)}` : ""}</small></dd></div>
+                </dl>
+              </header>; })()}
             <ProfileCard customer={customer} payments={related("payments")} onEdit={() => setEditing(true)} />
             <div className={styles.grid}>
               <Panel title="Sözleşmeler" count={related("contracts").length}>{related("contracts").length ? related("contracts").map((x) => <RecordRow key={x.id} title={x.title} meta={`${money(x.value, x.currency)} · ${labels[x.billing] || x.billing}`} status={x.status} onStatus={(s) => update("contracts", x.id, s)} options={["draft","sent","signed","active","completed","cancelled"]}/>) : <Empty text="Sözleşme kaydı yok"/>}</Panel>

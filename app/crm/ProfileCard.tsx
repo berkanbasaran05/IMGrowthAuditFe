@@ -12,6 +12,14 @@ const tl = (n?: number | null) => n || n === 0 ? `${Number(n).toLocaleString("tr
 const fmt = (d?: string | null) => d ? new Date(String(d).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" }) : "";
 const link = (key: string, v: string) => /^https?:\/\//.test(v) ? v : key === "whatsapp" ? `https://wa.me/${v.replace(/\D/g, "")}` : key === "instagram" ? `https://instagram.com/${v.replace(/^@/, "")}` : key === "x" ? `https://x.com/${v.replace(/^@/, "")}` : key === "tiktok" ? `https://tiktok.com/@${v.replace(/^@/, "")}` : "";
 
+export function nextPayment(customer: Row, payments: Row[]) {
+  const today = new Date().toISOString().slice(0, 10);
+  const open = payments.filter((p) => p.status !== "paid" && p.status !== "cancelled" && p.dueDate).sort((a, b) => String(a.dueDate).localeCompare(String(b.dueDate)))[0];
+  const date: string = open?.dueDate?.slice(0, 10) || customer.nextPaymentDate?.slice(0, 10) || "";
+  return { date, late: !!date && date < today, label: date ? fmt(date) : "" };
+}
+export { tl, fmt };
+
 function Line({ label, value, href }: { label: string; value?: string | null; href?: string }) {
   if (!value) return null;
   return <div className={styles.row}><span>{label}</span><b>{href ? <a href={href} target="_blank" rel="noreferrer">{value}</a> : value}</b><i /></div>;
@@ -32,7 +40,6 @@ export default function ProfileCard({ customer, payments, onEdit }: { customer: 
     <header><h3 style={{ display: "flex", alignItems: "center", gap: 10 }}>{customer.logo && <img src={customer.logo} alt="" style={{ width: 28, height: 28, borderRadius: 6, objectFit: "contain" }} />}Firma bilgileri</h3><button onClick={onEdit}>Düzenle</button></header>
     <div className={styles.body}>
       <div className={styles.sec}><h4>Hizmet ve tahsilat</h4>
-        <div className={styles.hot}>{late ? "Gecikmiş ödeme" : "Sonraki ödeme"}<b>{next ? fmt(next) : "Belirtilmedi"}</b></div>
         <Line label="Alınan hizmet" value={(customer.services || []).join(", ")} />
         <Line label="Site bedeli" value={tl(customer.siteFee)} />
         <Line label="Reklam hizmeti" value={customer.adServiceFee ? `${tl(customer.adServiceFee)} / ay` : ""} />
