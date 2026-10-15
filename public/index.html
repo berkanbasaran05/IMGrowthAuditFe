@@ -881,6 +881,27 @@ select.field.sm{height:40px;font-size:14px}
 .nav-pop button,.nav-pop a{display:flex;align-items:center;justify-content:space-between;gap:10px;height:40px;padding:0 12px;border:0;border-radius:8px;background:none;font:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap}
 .nav-pop button:hover,.nav-pop a:hover{background:var(--surface-2)}
 .nav-pop button[aria-pressed="true"]{background:var(--surface-2)}
+/* İçerik önizleyici */
+#igv{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(7,17,31,.82);backdrop-filter:blur(6px)}
+#igv.on{display:flex}
+.igv-box{display:flex;gap:28px;align-items:center;max-width:min(980px,94vw);max-height:92vh}
+.igv-st{position:relative;flex:none;height:min(84vh,780px);display:flex;align-items:center;justify-content:center}
+.igv-st.r916{aspect-ratio:9/16}.igv-st.r45{aspect-ratio:4/5}.igv-st.r11{aspect-ratio:1/1}
+.igv-st img,.igv-st video{width:100%;height:100%;object-fit:contain;background:#000;border-radius:18px;display:block}
+.igv-st .bars{position:absolute;left:12px;right:12px;top:10px;display:flex;gap:4px;z-index:2}.igv-st .bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.35)}.igv-st .bars i.on{background:#fff}
+.igv-nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#07111f;display:grid;place-items:center;cursor:pointer;z-index:2;font-size:20px}
+.igv-nav.p{left:-50px}.igv-nav.n{right:-50px}
+.igv-side{width:300px;color:#fff;align-self:stretch;display:flex;flex-direction:column;gap:12px;padding-top:6px;overflow:auto}
+.igv-side .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+.igv-side .t{font-size:15px;opacity:.85}
+.igv-side .cap{font-size:14px;line-height:1.55;white-space:pre-wrap;opacity:.92;max-height:44vh;overflow:auto}
+.igv-side .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
+.igv-side .acts a,.igv-side .acts button{font:inherit;font-size:13px;padding:9px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:none;color:#fff;cursor:pointer;text-decoration:none}
+.igv-side .acts .pri{background:#fff;color:#07111f;border-color:#fff}
+.igv-x{position:fixed;top:18px;right:22px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}
+.igv-empty{color:#fff;opacity:.7;font-size:14px;text-align:center;padding:20px}
+@media (max-width:760px){.igv-box{flex-direction:column;gap:14px}.igv-st{height:62vh}.igv-side{width:min(92vw,420px)}.igv-nav.p{left:6px}.igv-nav.n{right:6px}}
+[data-igview]{cursor:zoom-in}
 </style>
 </head>
 <body>
@@ -2521,7 +2542,7 @@ function igRow(x) {
     x.permalink ? `<a class="ig-lk" href="${esc(x.permalink)}" target="_blank" rel="noopener noreferrer">Instagram'da gör ↗</a>` : "",
     x.status === "failed" ? `<button class="btn sm" data-igdo="retry" data-id="${esc(x.id)}">${IG_ICO.redo}Tekrar dene</button>` : ""].join("");
   return `<div class="ig-row">
-    <span class="ig-time">${esc(igHm(x.scheduledAt))}</span>${igThumb(x)}
+    <span class="ig-time">${esc(igHm(x.scheduledAt))}</span><button type="button" data-igview="q:${esc(x.id)}" aria-label="Önizle" style="border:0;background:none;padding:0">${igThumb(x)}</button>
     <div class="ig-main"><div class="ig-l1"><span class="tm">${esc(igHm(x.scheduledAt))}</span><span class="ig-type">${IG_KICO[x.kind] || ""}${esc(IG_KIND[x.kind] || x.kind)}</span>${meta.length ? `<span class="mt">${esc(meta.join(" · "))}</span>` : ""}</div>${cap}${err}</div>
     <div class="ig-side">${side}</div>
     <button class="ig-more" data-igmenu="${esc(x.id)}" aria-label="İşlemler: ${esc(IG_KIND[x.kind] || "")} ${esc(igTime(x.scheduledAt))}" aria-haspopup="menu" aria-expanded="false" ${igActions(x).length ? "" : "disabled"}>${IG_ICO.more}</button>
@@ -2576,7 +2597,7 @@ function igGridHtml() {
   if (!m.connected) return `<div class="ig-empty"><b>Instagram bağlı değil</b>Profil görünümü için Instagram bağlantısı gerekir.</div>`;
   const stories = (m.stories || []).map((s) => {
     const img = s.thumb ? `<img src="${esc(s.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : `<div class="ph"></div>`;
-    return `<a class="ig-st" ${s.permalink ? `href="${esc(s.permalink)}" target="_blank" rel="noopener noreferrer"` : ""} title="${esc(igTime(s.timestamp))}"><span class="ring">${img}</span>${esc(igHm(s.timestamp))}</a>`;
+    return `<button type="button" class="ig-st" data-igview="s:${esc(s.id)}" style="border:0;background:none;font:inherit;color:inherit" title="${esc(igTime(s.timestamp))}"><span class="ring">${img}</span>${esc(igHm(s.timestamp))}</button>`;
   }).join("");
   // Planlanan akış içerikleri profilin başında soluk olarak (paylaşım sırasıyla: en geç planlanan en üstte).
   const planned = ((I.queue && I.queue.items) || []).filter((x) => x.status === "queued" && x.kind !== "story").sort((a, b) => new Date(b.scheduledAt) - new Date(a.scheduledAt));
@@ -2588,9 +2609,9 @@ function igGridHtml() {
   const cells = (m.items || []).map((x) => {
     const icon = x.type === "CAROUSEL_ALBUM" ? IG_ICO.carousel : x.type === "VIDEO" || x.product === "REELS" ? IG_ICO.reel : "";
     const cap = x.caption ? x.caption.slice(0, 120) : "";
-    return `<a class="ig-cell" ${x.permalink ? `href="${esc(x.permalink)}" target="_blank" rel="noopener noreferrer"` : ""} title="${esc(cap || igTime(x.timestamp))}">
+    return `<button type="button" class="ig-cell" data-igview="m:${esc(x.id)}" style="border:0;padding:0;font:inherit" title="${esc(cap || igTime(x.timestamp))}">
       ${x.thumb ? `<img src="${esc(x.thumb)}" alt="${esc(cap)}" loading="lazy" referrerpolicy="no-referrer">` : `<span class="ph">${esc(cap || "Önizleme yok")}</span>`}${icon}
-      <span class="ov"><span>${IG_ICO.heart}${igNum(x.likes)}</span><span>${IG_ICO.cmt}${igNum(x.comments)}</span></span></a>`;
+      <span class="ov"><span>${IG_ICO.heart}${igNum(x.likes)}</span><span>${IG_ICO.cmt}${igNum(x.comments)}</span></span></button>`;
   }).join("");
   return `${stories ? `<div class="ig-stories" aria-label="Etkin hikâyeler">${stories}</div>` : `<p class="ig-note">Şu an etkin hikâye yok${m.storiesError ? ` (okunamadı: ${esc(m.storiesError)})` : ""}.</p>`}
     <div class="ig-gridh"><span>${planned.length ? `${planned.length} planlı içerik soluk gösteriliyor · ` : ""}son ${(m.items || []).length} gönderi</span></div>
@@ -2631,6 +2652,61 @@ function renderIg() {
     + `<div class="ig-pane" id="igPane" role="tabpanel" aria-labelledby="igt-${I.tab}">${I.tab === "act" ? igActivityHtml() : I.tab === "grid" ? igGridHtml() : igCalHtml()}</div>`;
   window.scrollTo({ top: y });
 }
+
+/* ---- içerik önizleyici: planlı (q), yayındaki gönderi (m), etkin hikâye (s) ---- */
+function igvSource(key) {
+  const [t, id] = [key.slice(0, 1), key.slice(2)], I = S.ig;
+  if (t === "q") {
+    const x = igItem(id); if (!x) return null;
+    const st = igStatus(x);
+    return { kind: x.kind, files: igFiles(x), caption: x.caption || "", when: igTime(x.scheduledAt), status: (IG_ST[st] || [st])[0], permalink: x.permalink, edit: x.status === "queued" && !x.processing ? x.id : null, cover: x.coverUrl };
+  }
+  const list = t === "s" ? (I.media && I.media.stories) || [] : (I.media && I.media.items) || [];
+  const m = list.find((y) => String(y.id) === id); if (!m) return null;
+  const vid = m.type === "VIDEO" || (m.url && /\.mp4|video/i.test(m.url) && m.type !== "IMAGE");
+  const kind = t === "s" ? "story" : m.product === "REELS" ? "reels" : m.type === "CAROUSEL_ALBUM" ? "carousel" : "image";
+  const files = m.url ? [{ url: m.url, type: vid ? "video" : "image" }] : m.thumb ? [{ url: m.thumb, type: "image" }] : [];
+  return { kind, files, caption: m.caption || "", when: igTime(m.timestamp), status: "Yayında", permalink: m.permalink, poster: m.thumb, likes: m.likes, comments: m.comments, albumNote: kind === "carousel" };
+}
+function igvOpen(key) {
+  const v = igvSource(key); if (!v) return;
+  S.igv = { v, i: 0, opener: document.activeElement }; igvRender();
+  const el = $("igv"); el.classList.add("on"); el.querySelector(".igv-x")?.focus();
+}
+function igvClose() {
+  const el = $("igv"); el.querySelectorAll("video").forEach((x) => x.pause()); el.classList.remove("on"); el.innerHTML = "";
+  const o = S.igv && S.igv.opener; S.igv = null; if (o && o.focus) o.focus();
+}
+function igvRender() {
+  const { v, i } = S.igv, f = v.files[i], n = v.files.length;
+  const ratio = v.kind === "story" || v.kind === "reels" ? "r916" : v.kind === "carousel" ? "r11" : "r45";
+  // Videolar sessiz başlar (oynatıcıdan sesi açılabilir).
+  const media = !f ? `<div class="igv-empty">Önizlenecek medya yok</div>` : f.type === "video"
+    ? `<video src="${esc(f.url)}" ${v.cover || v.poster ? `poster="${esc(v.cover || v.poster)}"` : ""} controls autoplay muted loop playsinline referrerpolicy="no-referrer"></video>`
+    : `<img src="${esc(f.url)}" alt="" referrerpolicy="no-referrer">`;
+  const bars = n > 1 ? `<div class="bars">${v.files.map((_, k) => `<i class="${k === i ? "on" : ""}"></i>`).join("")}</div>` : "";
+  const nav = n > 1 ? `${i > 0 ? `<button class="igv-nav p" data-igvgo="-1" aria-label="Önceki">‹</button>` : ""}${i < n - 1 ? `<button class="igv-nav n" data-igvgo="1" aria-label="Sonraki">›</button>` : ""}` : "";
+  const stats = v.likes != null ? `<div class="t">♥ ${igNum(v.likes)} · 💬 ${igNum(v.comments)}</div>` : "";
+  $("igv").innerHTML = `<button class="igv-x" data-igvclose aria-label="Kapat">×</button>
+    <div class="igv-box"><div class="igv-st ${ratio}">${bars}${media}${nav}</div>
+    <div class="igv-side"><div class="k">${esc(IG_KIND[v.kind] || v.kind)}${n > 1 ? ` · ${i + 1}/${n}` : ""}</div>
+      <div class="t">${esc(v.status)} · ${esc(v.when)}</div>${stats}
+      ${v.kind === "story" ? "" : `<div class="cap">${v.caption ? esc(v.caption) : '<span style="opacity:.6">Açıklama yok</span>'}</div>`}
+      ${v.albumNote ? `<div class="t" style="opacity:.6">Karuselin yalnızca kapak görseli gösteriliyor.</div>` : ""}
+      <div class="acts">${v.edit ? `<button class="pri" data-igvedit="${esc(v.edit)}">Düzenle</button>` : ""}${v.permalink ? `<a href="${esc(v.permalink)}" target="_blank" rel="noopener noreferrer">Instagram'da gör ↗</a>` : ""}</div></div></div>`;
+}
+document.addEventListener("click", (e) => {
+  if (!S.igv || !e.target.closest("#igv")) return;
+  const g = (q) => e.target.closest(q);
+  if (g("[data-igvclose]") || e.target.id === "igv") return igvClose();
+  if (g("[data-igvgo]")) { const d = +g("[data-igvgo]").dataset.igvgo; S.igv.i = Math.max(0, Math.min(S.igv.v.files.length - 1, S.igv.i + d)); return igvRender(); }
+  if (g("[data-igvedit]")) { const x = igItem(g("[data-igvedit]").dataset.igvedit); igvClose(); if (x) igOpenComposer({ edit: x }); }
+});
+document.addEventListener("keydown", (e) => {
+  if (!S.igv) return;
+  if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); igvClose(); }
+  else if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && S.igv.v.files.length > 1) { S.igv.i = Math.max(0, Math.min(S.igv.v.files.length - 1, S.igv.i + (e.key === "ArrowRight" ? 1 : -1))); igvRender(); }
+}, true);
 
 /* ---- satır işlemleri (menü) ---- */
 function igActions(x) {
@@ -3001,11 +3077,10 @@ $("viewInstagram").addEventListener("click", async (e) => {
   if (g("[data-igwk]")) { const d = +g("[data-igwk]").dataset.igwk, base = I.week || igMonday(igYmd(Date.now())); I.week = d ? igAddDays(base, 7 * d) : null; renderIg(); return; }
   if (g("[data-igplan]")) return igOpenComposer({ date: g("[data-igplan]").dataset.igplan });
   if (g("[data-igmenu]")) { const b = g("[data-igmenu]"); if (I.menu && I.menu.anchor === b) return igCloseMenu(); return igOpenMenu(b.dataset.igmenu, b); }
+  if (g("[data-igview]")) return igvOpen(g("[data-igview]").dataset.igview);
   if (g("[data-igcard]")) {
     const b = g("[data-igcard]"), x = igItem(b.dataset.igcard); if (!x) return;
-    if (x.status === "queued" && !x.processing) return igOpenComposer({ edit: x });
-    if (x.status === "published" && x.permalink) return window.open(x.permalink, "_blank", "noopener,noreferrer");
-    return igOpenMenu(x.id, b);
+    return igvOpen("q:" + x.id);   // önce önizleme; düzenleme önizlemedeki "Düzenle" ile
   }
   if (g("[data-igdo]")) { const b = g("[data-igdo]"); return igDo(b.dataset.igdo, b.dataset.id); }
   if (g("[data-iglead]")) { const id = g("[data-iglead]").dataset.iglead; setView("inbound"); openLead(id); }
@@ -3243,5 +3318,6 @@ fitNav();
 route();
 load();
 </script>
+<div id="igv" role="dialog" aria-modal="true" aria-label="İçerik önizlemesi"></div>
 </body>
 </html>
