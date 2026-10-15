@@ -15,6 +15,13 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
   poweredByHeader: false,
+  // /api/* vekili (rewrites) istek gövdesini middlewareClientMaxBodySize kadar iletir (varsayılan 10 MB; fazlası sessizce
+  // kesilir). Instagram panelinden Reels videosu 300 MB'a kadar yüklenebildiği için sınır 320 MB; vekil zaman aşımı
+  // (varsayılan 30 sn) yavaş bağlantıda büyük yüklemeyi kesmesin diye 10 dk.
+  experimental: {
+    middlewareClientMaxBodySize: "320mb",
+    proxyTimeout: 600_000,
+  },
   // Docker imajı için bağımsız çıktı (BUILD_STANDALONE=1). Üretim derlemesi ayrı klasöre alınabilir (NEXT_DIST_DIR),
   // böylece çalışan geliştirme sunucusunun .next önbelleği bozulmaz.
   ...(process.env.BUILD_STANDALONE === "1" ? { output: "standalone" as const } : {}),
