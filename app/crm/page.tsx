@@ -36,7 +36,7 @@ export default function CrmPage() {
   const load = async () => { try { setData(await api("/api/crm")); } catch (e: any) { setError(e.message); } finally { setBusy(false); } };
   useEffect(() => { load(); }, []);
   const customer = data.customers.find((x) => x.id === selected) || data.customers[0];
-  useEffect(() => { if (!selected && data.customers[0]) setSelected(data.customers[0].id); }, [data.customers, selected]);
+  useEffect(() => { if (selected || !data.customers.length) return; const q = new URLSearchParams(location.search).get("c"); setSelected(data.customers.find((x) => x.id === q)?.id || data.customers[0].id); }, [data.customers, selected]);
   const visible = useMemo(() => data.customers.filter((x) => `${x.name} ${x.contactName} ${x.sector}`.toLocaleLowerCase("tr").includes(query.toLocaleLowerCase("tr"))), [data.customers, query]);
   const related = (key: keyof Data) => (data[key] as Row[]).filter((x) => x.customerId === customer?.id);
 

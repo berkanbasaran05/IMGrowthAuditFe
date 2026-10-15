@@ -1,0 +1,24 @@
+.wrap{position:relative}
+.bell{position:relative;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:9px;background:none;color:#667080;cursor:pointer}
+.bell:hover{background:#f5f6f8;color:#07111f}
+.bell svg{width:19px;height:19px}
+.bell span{position:absolute;top:3px;right:2px;min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:#07111f;color:#fff;font-size:10px;font-weight:800;line-height:16px;text-align:center;border:2px solid #fff}
+.bell span.hot{background:#f04432}
+.pop{position:absolute;right:0;top:44px;width:min(380px,calc(100vw - 24px));background:#fff;border:1px solid #e5e7eb;border-radius:14px;box-shadow:0 18px 50px #07111f24;overflow:hidden;z-index:30;color:#07111f}
+.pop header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #eef0f3;font-size:14px}
+.pop header button{border:0;background:none;color:#667080;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.pop header button:hover{color:#07111f}
+.desk{display:block;width:calc(100% - 24px);margin:10px 12px 0;border:1px dashed #cfd4dc;border-radius:9px;background:#fafafa;padding:9px;font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.note{margin:10px 16px 0;font-size:11px;color:#8a6100}
+.list{max-height:420px;overflow:auto;padding:6px}
+.item{display:grid;grid-template-columns:10px 1fr;gap:10px;padding:11px 10px;border-radius:10px;text-decoration:none;color:inherit}
+.item:hover{background:#f6f7f9}
+.item>i{width:8px;height:8px;border-radius:50%;margin-top:5px;background:#98a1b0}
+.item>i.overdue{background:#f04432}.item>i.today{background:#e39400}.item>i.soon{background:#3b82f6}
+.item small{display:block;font-size:11px;color:#667080;font-weight:600}
+.item b{display:block;font-size:13px;margin:2px 0 3px;font-weight:700}
+.item em{font-style:normal;font-size:12px;font-weight:600}
+.item em.overdue{color:#b42318}.item em.today{color:#8a6100}.item em.soon{color:#667080}
+.item.read{opacity:.55}.item.read>i{background:#cfd4dc}
+.empty{text-align:center;color:#8a93a2;font-size:13px;padding:30px 12px}
+.pop footer{border-top:1px solid #eef0f3;padding:10px 16px;font-size:11px;color:#8a93a2}

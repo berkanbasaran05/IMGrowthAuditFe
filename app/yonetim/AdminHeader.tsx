@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./admin.module.css";
+import NotificationBell from "./NotificationBell";
 
 // Yönetim paneli üst menüsü: Müşteriler (CRM), AI Growth Manager, Google Ads ve Growth Audit'e geçiş.
 const ITEMS = [
@@ -15,6 +16,6 @@ export default function AdminHeader({ active, action }: { active: string; action
   return <header className={styles.header}>
     <a className={styles.brand} href="/"><img src="/brand/logo-wordmark-on-light.png" alt="istanbul.marketing" /><span>Yönetim paneli</span></a>
     <nav aria-label="Yönetim bölümleri">{ITEMS.map((i) => <a key={i.key} href={i.href} className={active === i.key ? styles.active : undefined} aria-current={active === i.key ? "page" : undefined}>{i.label}</a>)}</nav>
-    <div className={styles.right}>{action}<a className={styles.switch} href="/growth-audit">Growth Audit ↗</a><button className={styles.ghost} onClick={logout}>Çıkış</button></div>
+    <div className={styles.right}>{action}<NotificationBell /><a className={styles.switch} href="/growth-audit">Growth Audit ↗</a><button className={styles.ghost} onClick={logout}>Çıkış</button></div>
   </header>;
 }
