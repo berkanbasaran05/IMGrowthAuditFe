@@ -31,6 +31,7 @@ export default function CrmPage() {
   const [payLink, setPayLink] = useState<Row | null>(null);
   const [editing, setEditing] = useState(false);
   const [editPayment, setEditPayment] = useState<Row | null>(null);
+  const [editTask, setEditTask] = useState<Row | null>(null);
 
   const load = async () => { try { setData(await api("/api/crm")); } catch (e: any) { setError(e.message); } finally { setBusy(false); } };
   useEffect(() => { load(); }, []);
@@ -57,6 +58,13 @@ export default function CrmPage() {
     event.preventDefault(); setError("");
     const body = Object.fromEntries(new FormData(event.currentTarget).entries());
     try { await api(`/api/crm/payments/${editPayment?.id}`, { method: "PATCH", body: JSON.stringify(body) }); setEditPayment(null); await load(); }
+    catch (e: any) { setError(e.message); }
+  }
+
+  async function saveTask(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); setError("");
+    const body = Object.fromEntries(new FormData(event.currentTarget).entries());
+    try { await api(`/api/crm/tasks/${editTask?.id}`, { method: "PATCH", body: JSON.stringify(body) }); setEditTask(null); await load(); }
     catch (e: any) { setError(e.message); }
   }
 
@@ -115,7 +123,7 @@ export default function CrmPage() {
             <div className={styles.grid}>
               <Panel title="Sözleşmeler" count={related("contracts").length}>{related("contracts").length ? related("contracts").map((x) => <RecordRow key={x.id} title={x.title} meta={`${money(x.value, x.currency)} · ${labels[x.billing] || x.billing}`} status={x.status} onStatus={(s) => update("contracts", x.id, s)} options={["draft","sent","signed","active","completed","cancelled"]}/>) : <Empty text="Sözleşme kaydı yok"/>}</Panel>
               <Panel title="Ödemeler" count={related("payments").length}>{related("payments").length ? related("payments").map((x) => <RecordRow key={x.id} title={money(x.amount, x.currency)} meta={[x.dueDate ? `Vade: ${new Date(String(x.dueDate).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR")}` : "Vade belirtilmedi", x.paidAt && x.status === "paid" ? `Ödendi: ${new Date(String(x.paidAt).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR")}` : "", x.invoiceNo ? `Fatura ${x.invoiceNo}` : ""].filter(Boolean).join(" · ")} status={x.status} onStatus={(s) => update("payments", x.id, s)} options={["planned","invoiced","paid","cancelled"]} action={<><button onClick={() => setEditPayment(x)}>Düzenle</button>{(x.status === "planned" || x.status === "invoiced") && <button onClick={() => setPayLink(x)}>Ödeme linki</button>}</>}/>) : <Empty text="Ödeme kaydı yok"/>}</Panel>
-              <Panel title="Görevler" count={related("tasks").filter((x) => x.status !== "done").length}>{related("tasks").length ? related("tasks").map((x) => <RecordRow key={x.id} title={x.title} meta={[x.assignee, x.dueDate].filter(Boolean).join(" · ") || "Tarih belirtilmedi"} status={x.status} onStatus={(s) => update("tasks", x.id, s)} options={["todo","doing","done"]}/>) : <Empty text="Görev kaydı yok"/>}</Panel>
+              <Panel title="Görevler" count={related("tasks").filter((x) => x.status !== "done").length}>{related("tasks").length ? related("tasks").map((x) => <RecordRow key={x.id} title={x.title} meta={[x.assignee, x.dueDate ? new Date(String(x.dueDate).slice(0, 10) + "T00:00:00").toLocaleDateString("tr-TR") : ""].filter(Boolean).join(" · ") || "Tarih belirtilmedi"} status={x.status} onStatus={(s) => update("tasks", x.id, s)} options={["todo","doing","done"]} action={<button onClick={() => setEditTask(x)}>Düzenle</button>}/>) : <Empty text="Görev kaydı yok"/>}</Panel>
               <Panel title="Geçmiş" count={related("activities").length}>{related("activities").length ? related("activities").slice(0, 10).map((x) => <div className={styles.timeline} key={x.id}><i/><div><b>{x.summary}</b><small>{new Date(x.at).toLocaleString("tr-TR")}</small></div></div>) : <Empty text="Henüz aktivite yok"/>}</Panel>
             </div>
           </>}
@@ -128,6 +136,10 @@ export default function CrmPage() {
       <Select name="status" label="Durum" values={["planned","invoiced","paid","cancelled"]} d={editPayment}/><Field name="dueDate" label="Vade tarihi" type="date" d={editPayment}/>
       <Field name="paidAt" label="Ödeme tarihi" type="date" d={editPayment}/><Field name="invoiceNo" label="Fatura numarası" d={editPayment}/><Field name="notes" label="Not" wide d={editPayment}/>
     </div><footer><button type="button" onClick={() => setEditPayment(null)}>Vazgeç</button><button className={styles.primary}>Kaydet</button></footer></div></form>}
+    {editTask && <form className={styles.backdrop} onSubmit={saveTask} onMouseDown={(e) => e.target === e.currentTarget && setEditTask(null)}><div className={styles.modal}><header><div><small>{customer?.name}</small><h2>Görevi düzenle</h2></div><button type="button" onClick={() => setEditTask(null)}>×</button></header><div className={styles.fields}>
+      <Field name="title" label="Görev" required wide d={editTask}/><Field name="assignee" label="Sorumlu" d={editTask}/><Field name="dueDate" label="Teslim tarihi" type="date" d={editTask}/>
+      <Select name="status" label="Durum" values={["todo","doing","done"]} d={editTask}/><Field name="notes" label="Açıklama" wide d={editTask}/>
+    </div><footer><button type="button" onClick={() => setEditTask(null)}>Vazgeç</button><button className={styles.primary}>Kaydet</button></footer></div></form>}
     {modal && <Modal type={modal} customer={customer} onClose={() => setModal("")} onSubmit={submit}/>} 
     {payLink && <PaymentLinks payment={{ id: payLink.id, amount: payLink.amount, currency: payLink.currency, status: payLink.status }} customerName={customer?.name || ""} onClose={() => { setPayLink(null); load(); }} />}
   </main>;
